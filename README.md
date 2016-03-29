@@ -1,2 +1,29 @@
 # homebrew-biobakery
-Biobakery formulae for the Homebrew package manager
+Biobakery formulae for the Homebrew package manager.
+
+To install hutlab tools with HomeBrew, first tap the biobakery homebrew repository:
+
+`` $ homebrew tap biobakery/biobakery ``
+
+Now install the hutlab tools:
+
+1. HUMAnN2
+    * `` $ homebrew install humann2 ``
+    * OR `` $ pip install humann2 ``
+    * Demo databases are included with the install. To install the full databases, see the humann2 documentation: http://huttenhower.sph.harvard.edu/humann2
+2. KneadData
+    * `` $ homebrew install kneaddata ``
+    * Demo databases are included with the install. To install the full databases, see the kneaddata documentation: http://huttenhower.sph.harvard.edu/kneaddata
+3. Picrust
+    * TDB
+4. Metaphlan2
+    * TDB
+5. Maaslin
+    * TDB
+6. Graphlan
+    * TDB
+7. Lefse
+    * TDB
+8. Micropita
+    * TDB
+
