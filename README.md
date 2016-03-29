@@ -1,11 +1,11 @@
 # homebrew-biobakery
 Biobakery formulae for the Homebrew package manager.
 
-To install hutlab tools with HomeBrew, first tap the biobakery homebrew repository:
+To install biobakery tools with HomeBrew, first tap the biobakery homebrew repository:
 
 `` $ brew tap biobakery/biobakery ``
 
-Now install the hutlab tools:
+Now install the biobakery tools:
 
 1. HUMAnN2
     * `` $ brew install humann2 ``
