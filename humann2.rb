@@ -6,10 +6,18 @@ class Humann2 < Formula
   sha256 "fab0438ac037a2843d2d7ffa74a8f113e3a299144c6cfdc4a100cc16eebed274"
 
   def install
+    # set PYTHONPATH to location where package will be installed (relative to homebrew location)
     ENV.prepend_create_path "PYTHONPATH", libexec/"lib/python2.7/site-packages"
+    # run python setup.py install using recommended homebrew helper method with destination prefix of libexec
     system "python", *Language::Python.setup_install_args(libexec)
+    # copy all of the installed scripts to the homebrew bin
     bin.install Dir[libexec/"bin/*"]
+    # write stubs to bin that set PYTHONPATH and call executables, move executables back to original location
     bin.env_script_all_files(libexec/"bin", :PYTHONPATH => ENV["PYTHONPATH"])
+  end
+
+  test do
+    system "#{bin}/humann2", "--help"
   end
 end
 
