@@ -21,8 +21,7 @@ Next install the main biobakery tool dependencies:
     * `` $ brew install python ``
     * The python install includes pip.
 2. [R](https://www.r-project.org/about.html)
-    * `` $ brew tap homebrew/science ``
-    * `` $ brew install r ``
+    * `` $ brew install homebrew/science/r ``
 
 Now to install biobakery tools with HomeBrew, first tap the biobakery homebrew repository:
 
