@@ -13,8 +13,6 @@ To get started, install [HomeBrew](http://brew.sh/) for MacOS or [LinuxBrew](htt
         * `` $ brew install kneaddata ``
         * Demo databases are included with the install. To install the full databases, see the kneaddata documentation: http://huttenhower.sph.harvard.edu/kneaddata
     3. Picrust
-        * Install numpy: `` $ pip install numpy==1.5.1 ``
-        * Install BIOM: `` $ pip install biom-format==1.3.1 ``
         * `` $ brew install picrust ``
     4. Maaslin
         * `` $ brew install maaslin ``

@@ -7,6 +7,16 @@ class Picrust < Formula
   version "1.0.0-dev"
   sha256 "63e80d380296396eae7e6f39d67df438e14a8300c4016926edf7c211c77bae73"
 
+  resource "biom-format" do
+    url "https://pypi.python.org/packages/source/b/biom-format/biom-format-1.3.1.tar.gz"
+    sha256 "03e750728dc2625997aa62043adaf03643801ef34c1764213303e926766f4cef"
+  end
+
+  resource "numpy" do
+    url "https://pypi.python.org/packages/source/n/numpy/numpy-1.5.1.tar.gz"
+    sha256 "c36789ec381fec09f519249744ea36a77e5534b69446a59ee73b06cac29542eb"
+  end
+
   resource "16S_13_5" do
     url "ftp://ftp.microbio.me/pub/picrust-references/picrust-1.0.0/16S_13_5_precalculated.tab.gz"
     sha256 "ae9c25bda0bdc52db054f311e765daa1bcfc33b35261cc57b379938ef9feff3f"
@@ -20,6 +30,17 @@ class Picrust < Formula
   def install
     # set PYTHONPATH to location where package will be installed (relative to homebrew location)
     ENV.prepend 'PYTHONPATH', libexec/"lib/python2.7/site-packages", ':'
+    ENV.prepend 'PYTHONPATH', libexec/"lib64/python2.7/site-packages", ':'
+
+    # install dependencies
+    # update LDFLAGS for numpy install
+    ENV.append "LDFLAGS", "-shared" if OS.linux?
+    for python_package in ["numpy", "biom-format"]
+        resource(python_package).stage do
+            system "python", *Language::Python.setup_install_args(libexec)
+        end
+    end
+
     # run python setup.py install using recommended homebrew helper method with destination prefix of libexec
     system "python", *Language::Python.setup_install_args(libexec)
     # copy all of the installed scripts to the homebrew bin
