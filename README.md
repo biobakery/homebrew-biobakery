@@ -1,18 +1,11 @@
 # homebrew-biobakery
 Biobakery formulae for the Homebrew package manager.
 
-To get started, install [HomeBrew](http://brew.sh/) for MacOS or [LinuxBrew](http://linuxbrew.sh/) for Linux platforms.
+To get started, install [HomeBrew](http://brew.sh/) for MacOS or [LinuxBrew](http://linuxbrew.sh/) for Linux platforms. Also install [Python v2.7.3+](https://www.python.org/) and [R](https://www.r-project.org/about.html) if they are not already installed. They can be installed with HomeBrew by running `` $ brew install python `` and `` $ brew install homebrew/science/r ``.
 
-1. Install the biobakery tool dependencies (if they are not already installed)
-    1. [Python v2.7.3+](https://www.python.org/)
-        * Check if installed: `` $ python --version ``
-        * To install: `` $ brew install python ``
-    2. [R](https://www.r-project.org/about.html)
-        * Check if installed: `` $ R --version ``
-        * To install: `` $ brew install homebrew/science/r ``
-2. Tap the biobakery homebrew repository
+1. Tap the biobakery homebrew repository
     * `` $ brew tap biobakery/biobakery ``
-3. Install the biobakery tools
+2. Install the biobakery tools
     1. HUMAnN2
         * `` $ brew install humann2 ``
         * Demo databases are included with the install. To install the full databases, see the humann2 documentation: http://huttenhower.sph.harvard.edu/humann2
