@@ -16,13 +16,23 @@ To get started, install [HomeBrew](http://brew.sh/) for MacOS or [LinuxBrew](htt
         * Install numpy: `` $ pip install numpy==1.5.1 ``
         * Install BIOM: `` $ pip install biom-format==1.3.1 ``
         * `` $ brew install picrust ``
-    4. Maaslin
+    4. MaAsLin
         * `` $ brew install maaslin ``
-    5. Graphlan
-        * TDB
-    6. Metaphlan2
-        * TDB
-    7. Lefse
-        * TDB
-    8. Micropita
-        * TDB
+    5. MetaPhlAn2
+    6. ShortBRED
+    7. SparseDOSSA
+    8. PPANINI
+    9. LEfSe
+    10. PhyloPhlAn
+    11. GraPhlAn
+    12. CCREPE / BAnOCC
+    13. MicroPITA
+    14. BreadCrumbs
+        * With Randall
+    15. ARepA
+
+# Next steps
+
+Lauren: set up Github bioBakery, make sure there's a team / group etc. for users the same way as Bitbucket.
+Randall: send comments / missing formulas from Lauren's current list.
+  Revamp Bitbucket repository, don't need backwards compatibility, two targets: download+run, or Amazon AMI
