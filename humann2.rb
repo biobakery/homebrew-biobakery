@@ -7,7 +7,7 @@ class Humann2 < Formula
 
   def install
     # set PYTHONPATH to location where package will be installed (relative to homebrew location)
-    ENV.prepend 'PYTHONPATH', libexec/"lib/python2.7/site-packages", ':'
+    ENV.prepend_create_path 'PYTHONPATH', libexec/"lib/python2.7/site-packages"
     # run python setup.py install using recommended homebrew helper method with destination prefix of libexec
     system "python", *Language::Python.setup_install_args(libexec)
     # copy all of the installed scripts to the homebrew bin
