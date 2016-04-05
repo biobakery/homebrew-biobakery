@@ -17,9 +17,12 @@ To get started, install [HomeBrew](http://brew.sh/) for MacOS or [LinuxBrew](htt
     4. MaAsLin
         * `` $ brew install maaslin ``
     5. MetaPhlAn2
+        * `` $ brew install metaphlan2 ``
+        * The databases will be installed at $HOMEBREW/Cellar/metaphlan2/2.2.0/db_v20/ (with $HOMEBREW on Linux at $HOME/.linuxbrew/)
     6. ShortBRED
         * Install [USEARCH](http://www.drive5.com/usearch/)
         * `` $ brew install shortbred ``
+        * To install without blast (which can cause errors with g++ 5x), add the option "--without-blast"
     7. SparseDOSSA
     8. PPANINI
     9. LEfSe
@@ -30,12 +33,6 @@ To get started, install [HomeBrew](http://brew.sh/) for MacOS or [LinuxBrew](htt
     14. BreadCrumbs
         * With Randall
     15. ARepA
-
-## Install Errors From External Formula Dependencies
-
-  1. ShortBRED
-      * If g++ 5x is installed an error will be seen when installing homebrew/science/blast
-      * To install without blast, add the option "--without-blast"
 
 # Next steps
 
