@@ -31,7 +31,7 @@ To get started, install [HomeBrew](http://brew.sh/) for MacOS or [LinuxBrew](htt
     12. CCREPE / BAnOCC
     13. MicroPITA
     14. BreadCrumbs
-        * With Randall
+        * `` $ brew install breadcrumbs ``
     15. ARepA
 
 # Next steps
