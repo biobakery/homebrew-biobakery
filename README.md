@@ -31,10 +31,11 @@ To get started, install [HomeBrew](http://brew.sh/) for MacOS or [LinuxBrew](htt
         * With Randall
     15. ARepA
 
-# Install Errors From External Formula Dependencies
+## Install Errors From External Formula Dependencies
 
   1. ShortBRED
       * If g++ 5x is installed an error will be seen when installing homebrew/science/blast
+      * To install without blast, add the option "--without-blast"
 
 # Next steps
 
