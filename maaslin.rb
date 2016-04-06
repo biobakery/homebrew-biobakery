@@ -1,8 +1,8 @@
 class Maaslin < Formula
   desc "MaAsLin: Multivariate Association with Linear Models"
   homepage "http://huttenhower.sph.harvard.edu/maaslin"
-  url "https://bitbucket.org/biobakery/maaslin/get/tip.tar.gz"
-  version "0.0.3-dev"
+  url "https://bitbucket.org/biobakery/maaslin/get/f1d98b996028.tar.gz"
+  version "0.0.3-dev-f1d98b996028"
   sha256 "b91486103044718275f075714974644f17f2de1528d71c89b4e92c01520b4bbf"
 
   # add the option to build with r   
