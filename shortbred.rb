@@ -1,8 +1,8 @@
 class Shortbred < Formula
   desc "ShortBRED: Short, Better Representative Extract Dataset"
   homepage "https://huttenhower.sph.harvard.edu/shortbred"
-  url "https://bitbucket.org/biobakery/shortbred/get/tip.zip"
-  version "0.9.3"
+  url "https://bitbucket.org/biobakery/shortbred/get/01a17dc2f942.zip"
+  version "0.9.3-dev-01a17dc2f942"
   sha256 "c7c42db5f8133c32475476325f3155ce21724b0e7bf42a099ba32189b9b2b995"
 
   # add the option to build without python
