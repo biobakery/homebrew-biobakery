@@ -24,6 +24,7 @@ To get started, install [HomeBrew](http://brew.sh/) for MacOS or [LinuxBrew](htt
         * `` $ brew install shortbred ``
         * To install without blast (which can cause errors with g++ 5x), add the option "--without-blast"
     7. SparseDOSSA
+        * `` $ brew install sparsedossa ``
     8. PPANINI
     9. LEfSe
     10. PhyloPhlAn
