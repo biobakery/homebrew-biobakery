@@ -1,7 +1,7 @@
 # homebrew-biobakery
 Biobakery formulae for the Homebrew package manager.
 
-To get started, install [HomeBrew](http://brew.sh/) for MacOS or [LinuxBrew](http://linuxbrew.sh/) for Linux platforms. Also install [Python v2.7.3+](https://www.python.org/) and [R](https://www.r-project.org/about.html) if they are not already installed. They can be installed with HomeBrew by running `` $ brew install python `` and `` $ brew install homebrew/science/r ``.
+To get started, install [HomeBrew](http://brew.sh/) for MacOS or [LinuxBrew](http://linuxbrew.sh/) for Linux platforms. 
 
 1. Tap the biobakery homebrew repository
     * `` $ brew tap biobakery/biobakery ``

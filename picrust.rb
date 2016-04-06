@@ -7,6 +7,10 @@ class Picrust < Formula
   version "1.0.0-dev"
   sha256 "63e80d380296396eae7e6f39d67df438e14a8300c4016926edf7c211c77bae73"
 
+  # add the option to build without python
+  option "without-python", "Build without python2 support"
+  depends_on :python => :recommended if MacOS.version <= :snow_leopard
+
   resource "biom-format" do
     url "https://pypi.python.org/packages/source/b/biom-format/biom-format-1.3.1.tar.gz"
     sha256 "03e750728dc2625997aa62043adaf03643801ef34c1764213303e926766f4cef"

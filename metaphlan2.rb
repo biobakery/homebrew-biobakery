@@ -4,9 +4,12 @@ class Metaphlan2 < Formula
   url "https://bitbucket.org/biobakery/metaphlan2/get/2.2.0.tgz"
   version "2.2.0"
   sha256 "dc362b36e2b7ae13efb831c0123794f4edd54b656d5d42080ee3dcf737a5e12f"
-  
+
+  # add the option to build without python
+  option "without-python", "Build without python2 support"
+  depends_on :python => :recommended if MacOS.version <= :snow_leopard
+
   depends_on "bowtie2" => [:recommended, "without-tbb"]
-  depends_on :python if MacOS.version <= :snow_leopard
 
   resource "biom-format" do
     url "https://pypi.python.org/packages/source/b/biom-format/biom-format-1.3.1.tar.gz"

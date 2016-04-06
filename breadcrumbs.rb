@@ -4,10 +4,16 @@ class Breadcrumbs < Formula
   url "https://bitbucket.org/biobakery/breadcrumbs/get/016fa31153e6.tar.gz"
   version "016fa31153e6"
   sha256 "0fd271f87e94d205dc34324920e33e3f65e150c18431a0f4460cbfb7bceaf915"
-  
-  depends_on "bowtie2" => [:recommended, "without-tbb"]
-  depends_on :python if MacOS.version <= :snow_leopard
+
+  # add the option to build without python
+  option "without-python", "Build without python2 support"
+  depends_on :python => :recommended if MacOS.version <= :snow_leopard
+ 
+  # add the option to build with r 
+  option "with-r", "Build with R support"
   depends_on "r" => [:optional, "without-x"]
+
+  depends_on "bowtie2" => [:recommended, "without-tbb"]
 
   resource "numpy" do
     url "https://pypi.python.org/packages/source/n/numpy/numpy-1.7.1.tar.gz"

@@ -5,6 +5,10 @@ class Maaslin < Formula
   version "0.0.3-dev"
   sha256 "b91486103044718275f075714974644f17f2de1528d71c89b4e92c01520b4bbf"
 
+  # add the option to build with r   
+  option "with-r", "Build with R support"
+  depends_on "r" => [:optional, "without-x"]
+
   def install
     # set R_LIBS to location where package will be installed (relative to homebrew location)
     ENV.prepend "R_LIBS", lib

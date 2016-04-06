@@ -5,10 +5,14 @@ class Shortbred < Formula
   version "0.9.3"
   sha256 "c7c42db5f8133c32475476325f3155ce21724b0e7bf42a099ba32189b9b2b995"
 
+  # add the option to build without python
+  option "without-python", "Build without python2 support"
+  depends_on :python => :recommended if MacOS.version <= :snow_leopard
+
   # NOTE: blast install results in error for gcc 5x (to install without blast add --without-blast)
   depends_on "homebrew/science/blast" => :recommended
-  depends_on "homebrew/science/muscle"  
-  depends_on "homebrew/science/cd-hit"  
+  depends_on "homebrew/science/muscle" => :recommended
+  depends_on "homebrew/science/cd-hit" => :recommended
 
   resource "biopython" do
     url "https://pypi.python.org/packages/source/b/biopython/biopython-1.65.tar.gz"

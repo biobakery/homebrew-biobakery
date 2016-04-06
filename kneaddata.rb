@@ -5,6 +5,10 @@ class Kneaddata < Formula
   version "0.5.1"
   sha256 "ce70669d8b6bb0965cf3bc6977cac2fab7874e87e00bb0507eaed2cd51db3995"
 
+  # add the option to build without python
+  option "without-python", "Build without python2 support"
+  depends_on :python => :recommended if MacOS.version <= :snow_leopard
+
   def install
     ENV.prepend_create_path 'PYTHONPATH', libexec/"lib/python2.7/site-packages"
     system "python", *Language::Python.setup_install_args(libexec)

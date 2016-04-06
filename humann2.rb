@@ -5,6 +5,10 @@ class Humann2 < Formula
   version "0.7.0"
   sha256 "fab0438ac037a2843d2d7ffa74a8f113e3a299144c6cfdc4a100cc16eebed274"
 
+  # add the option to build without python
+  option "without-python", "Build without python2 support"
+  depends_on :python => :recommended if MacOS.version <= :snow_leopard
+
   def install
     # set PYTHONPATH to location where package will be installed (relative to homebrew location)
     ENV.prepend_create_path 'PYTHONPATH', libexec/"lib/python2.7/site-packages"
