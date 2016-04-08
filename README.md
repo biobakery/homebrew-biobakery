@@ -26,6 +26,7 @@ To get started, install [HomeBrew](http://brew.sh/) for MacOS or [LinuxBrew](htt
     7. SparseDOSSA
         * `` $ brew install sparsedossa ``
     8. PPANINI
+        * `` $ brew install ppanini ``
     9. LEfSe
     10. PhyloPhlAn
     11. GraPhlAn
