@@ -37,8 +37,3 @@ To get started, install [HomeBrew](http://brew.sh/) for MacOS or [LinuxBrew](htt
         * `` $ brew install breadcrumbs ``
     15. ARepA
 
-# Next steps
-
-Lauren: set up Github bioBakery, make sure there's a team / group etc. for users the same way as Bitbucket.
-Randall: send comments / missing formulas from Lauren's current list.
-  Revamp Bitbucket repository, don't need backwards compatibility, two targets: download+run, or Amazon AMI
