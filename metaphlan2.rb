@@ -1,9 +1,9 @@
 class Metaphlan2 < Formula
   desc "MetaPhlAn 2.0: Metagenomic Phylogenetic Analysis"
   homepage "https://bitbucket.org/biobakery/metaphlan2"
-  url "https://bitbucket.org/biobakery/metaphlan2/get/2.3.0.tar.gz"
-  version "2.3.0"
-  sha256 "af35db3ec36f409994699a011c0cc9ab1f7656646563dbb8e652b734be4ba030"
+  url "https://bitbucket.org/biobakery/metaphlan2/get/c07beded1dc3a7eb7a1f8434c6ec7325a48d1675.tar.gz"
+  version "2.3.0-c07bede"
+  sha256 "1e697b2c5fc2ad8131f7e9aa035aea19da7e31089d6b761d9555052e6119b3d4"
 
   # add the option to build without python
   option "without-python", "Build without python2 support"
@@ -38,6 +38,7 @@ class Metaphlan2 < Formula
     new_metaphlan.write_env_script(prefix/"metaphlan2.py", :PYTHONPATH => ENV["PYTHONPATH"])
     bin.install_symlink libexec/"bin/metaphlan2.py"
     new_metaphlan.chmod 0755
+    bin.install_symlink prefix/"db_v20"
   end
 
   test do
