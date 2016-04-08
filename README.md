@@ -18,7 +18,6 @@ To get started, install [HomeBrew](http://brew.sh/) for MacOS or [LinuxBrew](htt
         * `` $ brew install maaslin ``
     5. MetaPhlAn2
         * `` $ brew install metaphlan2 ``
-        * The databases will be installed at $HOMEBREW/Cellar/metaphlan2/2.2.0/db_v20/ (with $HOMEBREW on Linux at $HOME/.linuxbrew/)
     6. ShortBRED
         * Install [USEARCH](http://www.drive5.com/usearch/)
         * `` $ brew install shortbred ``
