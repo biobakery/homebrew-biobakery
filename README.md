@@ -27,6 +27,7 @@ To get started, install [HomeBrew](http://brew.sh/) for MacOS or [LinuxBrew](htt
     8. PPANINI
         * `` $ brew install ppanini ``
     9. LEfSe
+        * `` $ brew install lefse ``
     10. PhyloPhlAn
     11. GraPhlAn
         * `` $ brew install graphlan ``
