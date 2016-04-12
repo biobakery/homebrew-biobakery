@@ -54,37 +54,23 @@ class Breadcrumbs < Formula
     ENV.prepend_create_path "PYTHONPATH", libexec/"vendor/lib/python2.7/site-packages"
     ENV.prepend_create_path "PYTHONPATH", libexec/"vendor/lib64/python2.7/site-packages"
     ENV.append "LDFLAGS", "-shared" if OS.linux?
-    %w[numpy scipy matplotlib biom-format pyqi blist].each do |r|
+    %w[numpy scipy matplotlib biom-format pyqi blist cogent].each do |r|
       resource(r).stage do
         system "python", *Language::Python.setup_install_args(libexec/"vendor")
       end
     end
 
-    resource("cogent").stage do
-      ENV["CFLAGS"] += " -I./include -I" + ENV["HOMEBREW_PREFIX"]+"/lib/python2.7/site-packages/numpy/core/include "
-      system "python", *Language::Python.setup_install_args(libexec/"vendor")
-    end
+    ENV.prepend_create_path "R_LIBS", libexec/"vendor/R/library"
+    system "R", "-q", "-e", "install.packages('vegan', lib='" + libexec/"vendor/R/library" + "', repos='http://cran.r-project.org')"
+    system "R", "-q", "-e", "install.packages('r_optparse', lib='" + libexec/"vendor/R/library" + "', repos='http://cran.r-project.org')"
 
     ENV.prepend_create_path "PYTHONPATH", libexec/"lib/python2.7/site-packages"
     args = Language::Python.setup_install_args(libexec)
     args[1].gsub! "setup.py", "actually_setup.py"
     system "python", *args
     prefix.install Dir["*"]
-    bin.install Dir["#{prefix}/breadcrumbs/scripts/*.py"]
-    bin.env_script_all_files(prefix/"scripts", :PYTHONPATH => ENV["PYTHONPATH"])
-
-    ENV.prepend_create_path "R_LIBS", libexec/"vendor/R/library"
-    system "R", "-q", "-e", "install.packages('vegan', lib='" + libexec/"vendor/R/library" + "', repos='http://cran.r-project.org')"
-    system "R", "-q", "-e", "install.packages('r_optparse', lib='" + libexec/"vendor/R/library" + "', repos='http://cran.r-project.org')"
-
-    # write a new env stub script to the libexec bin folder
-    # then symlink this script to the bin folder
-    # at the end of the install homebrew symlinks the bin folder to $HOMEBREW/bin
-    # also need to change permissions as by default this new script is not executable
-    new_r_script = libexec/"bin/scriptBiplotTSV.R"
-    new_r_script.write_env_script(prefix/"breadcrumbs/scripts/scriptBiplotTSV.R", :R_LIBS => ENV["R_LIBS"])
-    bin.install_symlink libexec/"bin/scriptBiplotTSV.R"
-    new_r_script.chmod 0755
+    bin.install Dir["#{prefix}/breadcrumbs/scripts/*"]
+    bin.env_script_all_files(prefix/"scripts", { :PYTHONPATH => ENV["PYTHONPATH"] , :R_LIBS => ENV["R_LIBS"] })
   end
 
   test do
