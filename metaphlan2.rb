@@ -34,10 +34,8 @@ class Metaphlan2 < Formula
     end
 
     prefix.install Dir["*"]
-    new_metaphlan = libexec/"bin/metaphlan2.py"
-    new_metaphlan.write_env_script(prefix/"metaphlan2.py", :PYTHONPATH => ENV["PYTHONPATH"])
-    bin.install_symlink libexec/"bin/metaphlan2.py"
-    new_metaphlan.chmod 0755
+    bin.install prefix/"metaphlan2.py"
+    bin.env_script_all_files(prefix, :PYTHONPATH => ENV["PYTHONPATH"])
     bin.install_symlink prefix/"db_v20"
   end
 
