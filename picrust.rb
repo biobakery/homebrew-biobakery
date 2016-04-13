@@ -2,10 +2,11 @@
 class Picrust < Formula
   desc "PICRUSt: Phylogenetic Investigation of Communities by Reconstruction of Unobserved States"
   homepage "http://picrust.github.io/"
-  # Download the devel version of picrust before changes were made to port to biom 2.x
-  url "https://github.com/picrust/picrust/archive/ab009a35bd9a5c96140d48d673948cc1fcc872d6.zip"
-  version "1.0.0-dev"
-  sha256 "63e80d380296396eae7e6f39d67df438e14a8300c4016926edf7c211c77bae73"
+  # Download the devel version of picrust before in progress changes were made to port to biom 2.x
+  # and before error from ok_function_categories in metagenome_contributions.py
+  url "https://github.com/picrust/picrust/archive/bf8f29da0903e5d22ddb57797b7ad28c16a7aaf6.zip"
+  version "1.0.0-dev-bf8f29d"
+  sha256 "1174b4816524fca6b1ef4fca32c2b20274d6efaacc7aa0c66ddaa73fd497e9ad"
 
   # add the option to build without python
   option "without-python", "Build without python2 support"
