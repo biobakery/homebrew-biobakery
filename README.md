@@ -35,6 +35,7 @@ To get started, install [HomeBrew](http://brew.sh/) for MacOS or [LinuxBrew](htt
     12. BreadCrumbs
         * `` $ brew install breadcrumbs ``
     13. StrainPhlAn
+        * Install [Samtools v1.19](https://sourceforge.net/projects/samtools/files/samtools/0.1.19/)
         * `` $ brew install strainphlan ``
         * To install without blast (which can cause errors with g++ 5x), add the option "--without-blast"
 

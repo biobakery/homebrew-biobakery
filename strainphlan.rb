@@ -13,7 +13,6 @@ class Strainphlan < Formula
   depends_on "homebrew/science/raxml" => :recommended
   depends_on "homebrew/science/blast" => :recommended
   depends_on "homebrew/science/muscle" => :recommended
-  depends_on "homebrew/science/samtools" => :recommended
   depends_on "homebrew/science/bcftools" => :recommended
   depends_on "homebrew/science/vcftools" => :recommended
 
