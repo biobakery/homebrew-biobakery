@@ -28,12 +28,12 @@ To get started, install [HomeBrew](http://brew.sh/) for MacOS or [LinuxBrew](htt
         * `` $ brew install ppanini ``
     9. LEfSe
         * `` $ brew install lefse ``
-    10. PhyloPhlAn
-    11. GraPhlAn
+    10. GraPhlAn
         * `` $ brew install graphlan ``
-    12. CCREPE / BAnOCC
-    13. MicroPITA
-    14. BreadCrumbs
+    11. MicroPITA
+    12. BreadCrumbs
         * `` $ brew install breadcrumbs ``
-    15. ARepA
+    13. StrainPhlAn
+        * `` $ brew install strainphlan ``
+        * To install without blast (which can cause errors with g++ 5x), add the option "--without-blast"
 
