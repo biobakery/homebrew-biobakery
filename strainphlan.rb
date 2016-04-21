@@ -1,16 +1,16 @@
 class Strainphlan < Formula
   desc "StrainPhlAn"
   homepage "https://bitbucket.org/biobakery/metaphlan2"
-  url "https://bitbucket.org/biobakery/metaphlan2/get/d462d253e5a5a897e678424c961f31069fa2c931.tar.gz"
-  version "2.5.0-d462d25"
-  sha256 "d260f8c8f43c05c5d49bfc7807f0fefbf61453694a57c4f2f3eaca6d15b80cca"
+  url "https://bitbucket.org/biobakery/metaphlan2/get/e82c52bf0f427fc4926292f8f4549519441fb85d.tar.gz"
+  version "2.5.0-e82c52b"
+  sha256 "b9480aa55d948022ea31e1298802db256f03b05c8b44effde5d12e99f7b704bb"
 
   # add the option to build without python
   option "without-python", "Build without python2 support"
   depends_on :python => :recommended if MacOS.version <= :snow_leopard
 
   depends_on "bowtie2" => [:recommended, "without-tbb"]
-  depends_on "homebrew/science/raxml" => [:recommended]
+  depends_on "homebrew/science/raxml" => :recommended
   depends_on "homebrew/science/blast" => :recommended
   depends_on "homebrew/science/muscle" => :recommended
   depends_on "homebrew/science/samtools" => :recommended
