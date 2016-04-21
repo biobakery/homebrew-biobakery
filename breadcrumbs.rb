@@ -15,6 +15,9 @@ class Breadcrumbs < Formula
 
   depends_on "bowtie2" => [:recommended, "without-tbb"]
 
+  # mpi is required by mpi4py
+  depends_on "mpich" => :recommended
+
   resource "numpy" do
     url "https://pypi.python.org/packages/source/n/numpy/numpy-1.7.1.tar.gz"
     sha256 "5525019a3085c3d860e6cfe4c0a30fb65d567626aafc50cf1252a641a418084a"
@@ -49,12 +52,20 @@ class Breadcrumbs < Formula
     url "https://pypi.python.org/packages/source/b/blist/blist-1.3.6.tar.gz"
     sha256 "3a12c450b001bdf895b30ae818d4d6d3f1552096b8c995f0fe0c74bef04d1fc3"
   end
+
+  resource "mpi4py" do
+    url "https://bitbucket.org/mpi4py/mpi4py/downloads/mpi4py-1.3.1.tar.gz"
+    sha256 "e7bd2044aaac5a6ea87a87b2ecc73b310bb6efe5026031e33067ea3c2efc3507"
+  end
   
   def install
     ENV.prepend_create_path "PYTHONPATH", libexec/"vendor/lib/python2.7/site-packages"
     ENV.prepend_create_path "PYTHONPATH", libexec/"vendor/lib64/python2.7/site-packages"
+    # update LDFLAGS for numpy install
     ENV.append "LDFLAGS", "-shared" if OS.linux?
-    %w[numpy scipy matplotlib biom-format pyqi blist cogent].each do |r|
+    # update CFLAGS for scipy install
+    ENV.append "FFLAGS", "-fPIC" if OS.linux?
+    %w[numpy scipy matplotlib biom-format pyqi blist cogent mpi4py].each do |r|
       resource(r).stage do
         system "python", *Language::Python.setup_install_args(libexec/"vendor")
       end
