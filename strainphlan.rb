@@ -10,10 +10,8 @@ class Strainphlan < Formula
   depends_on :python => :recommended if MacOS.version <= :snow_leopard
 
   depends_on "bowtie2" => [:recommended, "without-tbb"]
-  depends_on "homebrew/science/raxml" => :recommended
   depends_on "homebrew/science/blast" => :recommended
   depends_on "homebrew/science/muscle" => :recommended
-  depends_on "homebrew/science/bcftools" => :recommended
   depends_on "homebrew/science/vcftools" => :recommended
 
   resource "biom-format" do
@@ -51,11 +49,34 @@ class Strainphlan < Formula
     sha256 "c3d4b2780b84fb6ad64a8350855b2d762cabe45ecffbc04318f07214ee3bdfc9"
   end
 
+  resource "raxml" do
+    url "https://github.com/stamatak/standard-RAxML/archive/v8.1.15.tar.gz"
+    sha256 "f0388f6c5577006dc13e2dc8c35a2e5046394f61009ec5b04fb09254f8ec25b2"
+  end
+
   def install
+    # install metaphlan2_strainer
     ENV.prepend "PYTHONPATH", prefix, ':'
     ENV.prepend_create_path "PYTHONPATH", libexec/"lib/python2.7/site-packages"
     ENV.prepend_create_path 'PYTHONPATH', libexec/"lib64/python2.7/site-packages"
+    
+    prefix.install Dir["*"]
+    bin.install Dir[prefix/"*.py"]
+    bin.install Dir[prefix/"strainer_src/*.py"]
+    bin.env_script_all_files(prefix, :PYTHONPATH => ENV["PYTHONPATH"])
+    bin.install_symlink prefix/"db_v20"
 
+    # install after metaphlan2_strainer files as these will be installed in
+    # bin and we do not want to env_script these files
+    # install before numpy so as to not have LDFLAGS set to shared
+    # install raxml and also SSE3, both are required
+    resource("raxml").stage do
+      system "make", "-f", "Makefile.PTHREADS.gcc"
+      rm Dir["*.o"]
+      system "make", "-f", "Makefile.SSE3.PTHREADS.gcc"
+      bin.install Dir["raxml*"]
+    end
+    
     # update LDFLAGS for numpy install
     ENV.append "LDFLAGS", "-shared" if OS.linux?
     %w[numpy pandas biom-format msgpack pysam biopython dendropy].each do |r|
@@ -63,13 +84,6 @@ class Strainphlan < Formula
         system "python", *Language::Python.setup_install_args(libexec)
       end
     end
-
-    # install metaphlan2
-    prefix.install Dir["*"]
-    bin.install Dir[prefix/"*.py"]
-    bin.install Dir[prefix/"strainer_src/*.py"]
-    bin.env_script_all_files(prefix, :PYTHONPATH => ENV["PYTHONPATH"])
-    bin.install_symlink prefix/"db_v20"
   end
 
   test do
