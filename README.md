@@ -31,6 +31,7 @@ To get started, install [HomeBrew](http://brew.sh/) for MacOS or [LinuxBrew](htt
     10. GraPhlAn
         * `` $ brew install graphlan ``
     11. MicroPITA
+        * `` $ brew install micropita ``
     12. BreadCrumbs
         * `` $ brew install breadcrumbs ``
     13. StrainPhlAn
