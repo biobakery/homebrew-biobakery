@@ -27,6 +27,11 @@ class Picrust < Formula
     sha256 "1215ac219070b7b2207b0b47b4388510f3e30ccd88160aa9f02f25d24bcbcd95"
   end
 
+  resource "pyqi" do
+    url "https://pypi.python.org/packages/source/p/pyqi/pyqi-0.3.2.tar.gz"
+    sha256 "8f1711835779704e085e62194833fed9ac2985e398b4ceac6faf6c7f40f5d15f"
+  end
+
   resource "16S_13_5" do
     url "ftp://ftp.microbio.me/pub/picrust-references/picrust-1.0.0/16S_13_5_precalculated.tab.gz"
     sha256 "ae9c25bda0bdc52db054f311e765daa1bcfc33b35261cc57b379938ef9feff3f"
@@ -45,7 +50,7 @@ class Picrust < Formula
     # install dependencies
     # update LDFLAGS for numpy install
     ENV.append "LDFLAGS", "-shared" if OS.linux?
-    for python_package in ["numpy", "biom-format", "cogent"]
+    for python_package in ["numpy", "biom-format", "cogent", "pyqi"]
         resource(python_package).stage do
             system "python", *Language::Python.setup_install_args(libexec)
         end
