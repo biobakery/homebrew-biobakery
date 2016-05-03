@@ -25,6 +25,7 @@ To get started, install [HomeBrew](http://brew.sh/) for MacOS or [LinuxBrew](htt
     7. SparseDOSSA
         * `` $ brew install sparsedossa ``
     8. PPANINI
+        * Install [USEARCH](http://www.drive5.com/usearch/)
         * `` $ brew install ppanini ``
     9. LEfSe
         * `` $ brew install lefse ``
