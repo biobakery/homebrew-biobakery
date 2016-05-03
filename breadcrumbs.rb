@@ -13,7 +13,7 @@ class Breadcrumbs < Formula
   option "with-r", "Build with R support"
   depends_on "r" => [:optional, "without-x"]
 
-  depends_on "bowtie2" => [:recommended, "without-tbb"]
+  depends_on "homebrew/science/bowtie2" => [:recommended, "without-tbb"]
 
   # mpi is required by mpi4py
   depends_on "mpich" => :recommended

@@ -9,7 +9,7 @@ class Metaphlan2 < Formula
   option "without-python", "Build without python2 support"
   depends_on :python => :recommended if MacOS.version <= :snow_leopard
 
-  depends_on "bowtie2" => [:recommended, "without-tbb"]
+  depends_on "homebrew/science/bowtie2" => [:recommended, "without-tbb"]
 
   resource "biom-format" do
     url "https://pypi.python.org/packages/source/b/biom-format/biom-format-1.3.1.tar.gz"
