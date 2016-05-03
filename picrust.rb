@@ -69,8 +69,10 @@ class Picrust < Formula
     # stage downloaded resource in temp directory and install in picrust data folder
     libexec.install resource("16S_13_5")
     system "mv", libexec/"16S_13_5_precalculated.tab", libexec/"lib/python2.7/site-packages/picrust/data/16S_13_5_precalculated.tab"
+    system "gzip", libexec/"lib/python2.7/site-packages/picrust/data/16S_13_5_precalculated.tab"
     libexec.install resource("ko_13_5")
     system "mv", libexec/"ko_13_5_precalculated.tab", libexec/"lib/python2.7/site-packages/picrust/data/ko_13_5_precalculated.tab"
+    system "gzip", libexec/"lib/python2.7/site-packages/picrust/data/ko_13_5_precalculated.tab"
   end
 
   test do
