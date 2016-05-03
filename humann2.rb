@@ -9,6 +9,9 @@ class Humann2 < Formula
   option "without-python", "Build without python2 support"
   depends_on :python => :recommended if MacOS.version <= :snow_leopard
 
+  # humann2 requires metaphlan2 as a dependency
+  depends_on "biobakery/biobakery/metaphlan2" => :recommended
+
   def install
     # set PYTHONPATH to location where package will be installed (relative to homebrew location)
     ENV.prepend_create_path 'PYTHONPATH', libexec/"lib/python2.7/site-packages"
