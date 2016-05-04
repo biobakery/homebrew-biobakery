@@ -11,7 +11,7 @@ class Maaslin < Formula
 
   def install
     # set R_LIBS to location where package will be installed (relative to homebrew location)
-    ENV.prepend "R_LIBS", lib
+    ENV.prepend_create_path "R_LIBS", libexec
 
     # copy all of the installed scripts to the homebrew bin
     bin.install Dir["R/*"]  
@@ -21,8 +21,8 @@ class Maaslin < Formula
     bin.env_script_all_files(lib/"bin", :R_LIBS => ENV["R_LIBS"])
 
     # install maaslin as an R package, also install required dependencies
-    system "Rscript", "-e", "source('https://bioconductor.org/biocLite.R');biocLite('BiocInstaller')"
-    system "Rscript", "-e", "if(!require(devtools))install.packages('devtools',repos='http://cran.us.r-project.org', lib='#{lib}');library('devtools',lib.loc='#{lib}');install_deps('.',lib='#{lib}')"
+    system "Rscript", "-e", "source('https://bioconductor.org/biocLite.R');biocLite('BiocInstaller', lib='#{libexec}')"
+    system "Rscript", "-e", "if(!require(devtools))install.packages('devtools',repos='http://cran.us.r-project.org', lib='#{libexec}');library('devtools',lib.loc='#{libexec}');install_deps('.',lib='#{libexec}')"
   end
 
   test do
