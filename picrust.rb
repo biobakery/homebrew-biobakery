@@ -45,14 +45,15 @@ class Picrust < Formula
   def install
     # set PYTHONPATH to location where package will be installed (relative to homebrew location)
     ENV.prepend_create_path 'PYTHONPATH', libexec/"lib/python2.7/site-packages"
-    ENV.prepend_create_path 'PYTHONPATH', libexec/"lib64/python2.7/site-packages"
+    ENV.prepend_create_path 'PYTHONPATH', libexec/"vendor/lib/python2.7/site-packages"
+    ENV.prepend_create_path 'PYTHONPATH', libexec/"vendor/lib64/python2.7/site-packages"
 
     # install dependencies
     # update LDFLAGS for numpy install
     ENV.append "LDFLAGS", "-shared" if OS.linux?
     for python_package in ["numpy", "biom-format", "cogent", "pyqi"]
         resource(python_package).stage do
-            system "python", *Language::Python.setup_install_args(libexec)
+            system "python", *Language::Python.setup_install_args(libexec/"vendor")
         end
     end
 
