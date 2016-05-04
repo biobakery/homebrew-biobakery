@@ -54,11 +54,17 @@ class Strainphlan < Formula
     sha256 "f0388f6c5577006dc13e2dc8c35a2e5046394f61009ec5b04fb09254f8ec25b2"
   end
 
+  resource "dateutil" do
+    url "https://pypi.python.org/packages/3e/f5/aad82824b369332a676a90a8c0d1e608b17e740bbb6aeeebca726f17b902/python-dateutil-2.5.3.tar.gz"
+    sha256 "1408fdb07c6a1fa9997567ce3fcee6a337b39a503d80699e0f213de4aa4b32ed"
+  end
+
   def install
     # install metaphlan2_strainer
     ENV.prepend "PYTHONPATH", prefix, ':'
     ENV.prepend_create_path "PYTHONPATH", libexec/"lib/python2.7/site-packages"
-    ENV.prepend_create_path 'PYTHONPATH', libexec/"lib64/python2.7/site-packages"
+    ENV.prepend_create_path "PYTHONPATH", libexec/"vendor/lib/python2.7/site-packages"
+    ENV.prepend_create_path 'PYTHONPATH', libexec/"vendor/lib64/python2.7/site-packages"
     
     prefix.install Dir["*"]
     bin.install Dir[prefix/"*.py"]
@@ -71,6 +77,8 @@ class Strainphlan < Formula
     # install before numpy so as to not have LDFLAGS set to shared
     # install raxml and also SSE3, both are required
     resource("raxml").stage do
+      system "make", "-f", "Makefile.gcc"
+      rm Dir["*.o"]
       system "make", "-f", "Makefile.PTHREADS.gcc"
       rm Dir["*.o"]
       system "make", "-f", "Makefile.SSE3.PTHREADS.gcc"
@@ -79,9 +87,9 @@ class Strainphlan < Formula
     
     # update LDFLAGS for numpy install
     ENV.append "LDFLAGS", "-shared" if OS.linux?
-    %w[numpy pandas biom-format msgpack pysam biopython dendropy].each do |r|
+    %w[numpy pandas biom-format msgpack pysam biopython dendropy dateutil].each do |r|
       resource(r).stage do
-        system "python", *Language::Python.setup_install_args(libexec)
+        system "python", *Language::Python.setup_install_args(libexec/"vendor")
       end
     end
   end
