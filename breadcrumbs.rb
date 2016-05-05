@@ -13,6 +13,9 @@ class Breadcrumbs < Formula
   option "with-r", "Build with R support"
   depends_on "r" => [:optional, "without-x"]
 
+  # matplotlib on some platforms requires homebrew freetype
+  depends_on "freetype" => :recommended
+
   depends_on "homebrew/science/bowtie2" => [:recommended, "without-tbb"]
 
   # mpi is required by mpi4py
