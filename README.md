@@ -1,11 +1,24 @@
-# homebrew-biobakery
+# homebrew-biobakery #
 Biobakery formulae for the Homebrew package manager.
 
 To get started, install [HomeBrew](http://brew.sh/) for MacOS or [LinuxBrew](http://linuxbrew.sh/) for Linux platforms. 
 
+## Install the full biobakery tool suite plus biobakery demos ##
+
+1. Install dependencies [Java Runtime Environment](http://www.oracle.com/technetwork/java/javase/downloads/jre7-downloads-1880261.html) and [USEARCH](http://www.drive5.com/usearch/)
+2. Install the tool suite
+    * `` $ brew tap biobakery/biobakery ``
+    * `` $ brew install biobakery_tool_suite ``
+3. Test the install
+    * `` $ biobakery_demos --tool all --mode test ``
+
+## Install individual biobakery tools ##
+
+If you do not want to install the full tool suite, you can select individual tools to install. 
+
 1. Tap the biobakery homebrew repository
     * `` $ brew tap biobakery/biobakery ``
-2. Install the biobakery tools
+2. Install the individual tools needed  
     1. HUMAnN2
         * `` $ brew install humann2 ``
         * Demo databases are included with the install. To install the full databases, see the humann2 documentation: http://huttenhower.sph.harvard.edu/humann2
@@ -40,4 +53,13 @@ To get started, install [HomeBrew](http://brew.sh/) for MacOS or [LinuxBrew](htt
         * Install [Samtools v1.19 and Bcftools (included)] (https://sourceforge.net/projects/samtools/files/samtools/0.1.19/)
         * `` $ brew install strainphlan ``
         * To install without blast (which can cause errors with g++ 5x), add the option "--without-blast"
+3. Test the individual installs
+    1. Install biobakery_demos
+        * `` $ brew install biobakery_demos ``
+    2. Test an individual tool install
+        * `` $ biobakery_demos --tool humann2 --mode test ``
+    3. You can also view the commands for each demo run
+        * `` $ biobakery_demos --tool humann2 --mode view ``
+    4. And you can run a demo and view the output files created
+        * `` $ biobakery_demos --tool humann2 --mode run --output humann2_demo_output ``
 
