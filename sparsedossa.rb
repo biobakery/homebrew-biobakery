@@ -19,9 +19,8 @@ class Sparsedossa < Formula
     # write stubs to bin that set R_LIBS and call executables, move executables back to original location
     bin.env_script_all_files(lib/"bin", :R_LIBS => ENV["R_LIBS"])
 
-    # install maaslin as an R package, also install required dependencies
-    system "Rscript", "-e", "source('https://bioconductor.org/biocLite.R');biocLite('BiocInstaller', lib='#{libexec}')"
-    system "Rscript", "-e", "if(!require(devtools))install.packages('devtools',repos='http://cran.us.r-project.org', lib='#{libexec}');library('devtools',lib.loc='#{libexec}');install_deps('.',lib='#{libexec}')"
+    # install required dependencies
+    system "R", "-q", "-e", "install.packages('optparse', lib='" + libexec + "', repos='http://cran.r-project.org')"
   end
 
   test do
