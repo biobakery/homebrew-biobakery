@@ -23,6 +23,7 @@ class Shortbred < Formula
     # add the install location of the libraries to the PYTHONPATH
     ENV.prepend_create_path "PYTHONPATH", libexec
     ENV.prepend_create_path "PYTHONPATH", libexec/"lib64/python2.7/site-packages"
+    ENV.prepend_create_path "PYTHONPATH", libexec/"lib/python2.7/site-packages"
 
     # install dependencies
     for python_package in ["biopython"]
