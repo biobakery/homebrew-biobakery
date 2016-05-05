@@ -9,8 +9,7 @@ class Shortbred < Formula
   option "without-python", "Build without python2 support"
   depends_on :python => :recommended if MacOS.version <= :snow_leopard
 
-  # NOTE: blast install results in error for gcc 5x (to install without blast add --without-blast)
-  depends_on "homebrew/science/blast" => :recommended
+  depends_on "biobakery/biobakery/blast" => :recommended
   depends_on "homebrew/science/muscle" => :recommended
   depends_on "homebrew/science/cd-hit" => :recommended
 

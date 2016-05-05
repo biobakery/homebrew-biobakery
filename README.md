@@ -35,7 +35,6 @@ If you do not want to install the full tool suite, you can select individual too
     6. ShortBRED
         * Install [USEARCH](http://www.drive5.com/usearch/)
         * `` $ brew install shortbred ``
-        * To install without blast (which can cause errors with g++ 5x), add the option "--without-blast"
     7. SparseDOSSA
         * `` $ brew install sparsedossa ``
     8. PPANINI
@@ -52,7 +51,6 @@ If you do not want to install the full tool suite, you can select individual too
     13. StrainPhlAn
         * Install [Samtools v1.19 and Bcftools (included)] (https://sourceforge.net/projects/samtools/files/samtools/0.1.19/)
         * `` $ brew install strainphlan ``
-        * To install without blast (which can cause errors with g++ 5x), add the option "--without-blast"
 3. Test the individual installs
     1. Install biobakery_demos
         * `` $ brew install biobakery_demos ``
