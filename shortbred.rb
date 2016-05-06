@@ -13,6 +13,19 @@ class Shortbred < Formula
   depends_on "homebrew/science/muscle" => :recommended
   depends_on "homebrew/science/cd-hit" => :recommended
 
+  # matplotlib on some platforms requires homebrew freetype
+  depends_on "freetype" => :recommended
+
+  resource "numpy" do
+    url "https://pypi.python.org/packages/source/n/numpy/numpy-1.11.0.tar.gz"
+    sha256 "a1d1268d200816bfb9727a7a27b78d8e37ecec2e4d5ebd33eb64e2789e0db43e"
+  end
+
+  resource "matplotlib" do
+    url "https://pypi.python.org/packages/source/m/matplotlib/matplotlib-1.5.1.tar.gz"
+    sha256 "3ab8d968eac602145642d0db63dd8d67c85e9a5444ce0e2ecb2a8fedc7224d40"
+  end
+
   resource "biopython" do
     url "https://pypi.python.org/packages/source/b/biopython/biopython-1.65.tar.gz"
     sha256 "6d591523ba4d07a505978f6e1d7fac57e335d6d62fb5b0bcb8c40bdde5c8998e"
@@ -25,7 +38,9 @@ class Shortbred < Formula
     ENV.prepend_create_path "PYTHONPATH", libexec/"lib/python2.7/site-packages"
 
     # install dependencies
-    for python_package in ["biopython"]
+    # update LDFLAGS for numpy install
+    ENV.append "LDFLAGS", "-shared" if OS.linux?
+    for python_package in ["numpy","matplotlib","biopython"]
         resource(python_package).stage do
             system "python", *Language::Python.setup_install_args(libexec)
         end
