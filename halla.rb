@@ -37,6 +37,11 @@ class Halla < Formula
     sha256 "9f4cf58e57d81783289fc503caaed1f210bab49b7a6f680bf3c04b1e0a96e5f0"
   end
 
+  resource "pytz" do
+    url "https://pypi.python.org/packages/ad/30/5ab2298c902ac92fdf649cc07d1b7d491a241c5cac8be84dd84464db7d8b/pytz-2016.4.tar.gz"
+    sha256 "c823de61ff40d1996fe087cec343e0503881ca641b897e0f9b86c7683a0bfee1"
+  end
+
   def install
     ENV.prepend_create_path 'PYTHONPATH', libexec/"lib/python2.7/site-packages"
     ENV.prepend_create_path 'PYTHONPATH', libexec/"vendor/lib/python2.7/site-packages"
@@ -45,7 +50,7 @@ class Halla < Formula
     # update LDFLAGS for numpy install
     ENV.append "LDFLAGS", "-shared" if OS.linux?
     # install dependencies
-    for python_package in ["numpy","scipy","matplotlib","pandas","scikit"]
+    for python_package in ["numpy","scipy","matplotlib","pandas","scikit", "pytz"]
         resource(python_package).stage do
             system "python", *Language::Python.setup_install_args(libexec/"vendor")
         end
