@@ -42,6 +42,11 @@ class Halla < Formula
     sha256 "c823de61ff40d1996fe087cec343e0503881ca641b897e0f9b86c7683a0bfee1"
   end
 
+  resource "dateutil" do
+    url "https://pypi.python.org/packages/3e/f5/aad82824b369332a676a90a8c0d1e608b17e740bbb6aeeebca726f17b902/python-dateutil-2.5.3.tar.gz"
+    sha256 "1408fdb07c6a1fa9997567ce3fcee6a337b39a503d80699e0f213de4aa4b32ed"
+  end
+
   def install
     ENV.prepend_create_path 'PYTHONPATH', libexec/"lib/python2.7/site-packages"
     ENV.prepend_create_path 'PYTHONPATH', libexec/"vendor/lib/python2.7/site-packages"
@@ -50,7 +55,7 @@ class Halla < Formula
     # update LDFLAGS for numpy install
     ENV.append "LDFLAGS", "-shared" if OS.linux?
     # install dependencies
-    for python_package in ["numpy","scipy","matplotlib","pandas","scikit", "pytz"]
+    for python_package in ["numpy","scipy","matplotlib","pandas","scikit", "pytz", "dateutil"]
         resource(python_package).stage do
             system "python", *Language::Python.setup_install_args(libexec/"vendor")
         end
