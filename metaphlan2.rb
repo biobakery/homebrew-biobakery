@@ -11,6 +11,9 @@ class Metaphlan2 < Formula
 
   depends_on "homebrew/science/bowtie2" => [:recommended, "without-tbb"]
 
+  # matplotlib on some platforms requires homebrew freetype
+  depends_on "freetype" => :recommended
+
   resource "biom-format" do
     url "https://pypi.python.org/packages/source/b/biom-format/biom-format-1.3.1.tar.gz"
     sha256 "03e750728dc2625997aa62043adaf03643801ef34c1764213303e926766f4cef"
@@ -51,13 +54,34 @@ class Metaphlan2 < Formula
     sha256 "4596de8fd0a7bb6536e9b7dfd39ca732376044c34416513cafa72918ec818038"
   end
 
+  resource "pyparsing" do
+    url "https://pypi.python.org/packages/94/51/3dd26b41be55ed05e72d1da87e4a732d8b92245b1f2f7fe2fa65a4910858/pyparsing-2.1.1.tar.gz"
+    sha256 "9bae5cd4cbee6da0d7d8d9a1647f5253a3b89652e707647eaf1961f4932ae6c6"
+  end
+
+  resource "pytz" do
+    url "https://pypi.python.org/packages/ad/30/5ab2298c902ac92fdf649cc07d1b7d491a241c5cac8be84dd84464db7d8b/pytz-2016.4.tar.gz"
+    sha256 "c823de61ff40d1996fe087cec343e0503881ca641b897e0f9b86c7683a0bfee1"
+  end
+
+  resource "dateutil" do
+    url "https://pypi.python.org/packages/3e/f5/aad82824b369332a676a90a8c0d1e608b17e740bbb6aeeebca726f17b902/python-dateutil-2.5.3.tar.gz"
+    sha256 "1408fdb07c6a1fa9997567ce3fcee6a337b39a503d80699e0f213de4aa4b32ed"
+  end
+
+  resource "cycler" do
+    url "https://pypi.python.org/packages/c2/4b/137dea450d6e1e3d474e1d873cd1d4f7d3beed7e0dc973b06e8e10d32488/cycler-0.10.0.tar.gz"
+    sha256 "cd7b2d1018258d7247a71425e9f26463dfb444d411c39569972f4ce586b0c9d8"
+  end
+
+
   def install
     ENV.prepend_create_path "PYTHONPATH", libexec/"lib/python2.7/site-packages"
     ENV.prepend_create_path 'PYTHONPATH', libexec/"lib64/python2.7/site-packages"
 
     # update LDFLAGS for numpy install
     ENV.append "LDFLAGS", "-shared" if OS.linux?
-    %w[numpy pandas scipy matplotlib biopython pyqi biom-format].each do |r|
+    %w[numpy pandas scipy matplotlib biopython pyqi biom-format pyparsing pytz dateutil cycler].each do |r|
       resource(r).stage do
         system "python", *Language::Python.setup_install_args(libexec)
       end
