@@ -11,8 +11,10 @@ class Metaphlan2 < Formula
 
   depends_on "homebrew/science/bowtie2" => [:recommended, "without-tbb"]
 
-  # matplotlib on some platforms requires homebrew freetype
+  # matplotlib on some platforms requires homebrew freetype, libpng, and pyqt5
   depends_on "freetype" => :recommended
+  depends_on "libpng" => :recommended
+  depends_on "bzip2" => :recommended
 
   resource "biom-format" do
     url "https://pypi.python.org/packages/source/b/biom-format/biom-format-1.3.1.tar.gz"
@@ -74,6 +76,10 @@ class Metaphlan2 < Formula
     sha256 "cd7b2d1018258d7247a71425e9f26463dfb444d411c39569972f4ce586b0c9d8"
   end
 
+  resource "six" do
+    url "https://pypi.python.org/packages/source/s/six/six-1.10.0.tar.gz"
+    sha256 "105f8d68616f8248e24bf0e9372ef04d3cc10104f1980f54d57b2ce73a5ad56a"
+  end
 
   def install
     ENV.prepend_create_path "PYTHONPATH", libexec/"lib/python2.7/site-packages"
@@ -81,10 +87,15 @@ class Metaphlan2 < Formula
 
     # update LDFLAGS for numpy install
     ENV.append "LDFLAGS", "-shared" if OS.linux?
-    %w[numpy pandas scipy matplotlib biopython pyqi biom-format pyparsing pytz dateutil cycler].each do |r|
+    %w[numpy pandas scipy biopython pyqi biom-format pyparsing pytz dateutil cycler six].each do |r|
       resource(r).stage do
         system "python", *Language::Python.setup_install_args(libexec)
       end
+    end
+
+    # matplotlib has to be installed without the default setup args to include the mpl_toolkit as a library
+    resource("matplotlib").stage do
+        system "python", "setup.py", "install", "--install-lib", libexec/"lib64/python2.7/site-packages/" ,"--install-scripts", libexec/"bin/"
     end
 
     # install hclust
