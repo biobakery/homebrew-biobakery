@@ -4,9 +4,9 @@ class Picrust < Formula
   homepage "http://picrust.github.io/"
   # Download the devel version of picrust before in progress changes were made to port to biom 2.x
   # and before error from ok_function_categories in metagenome_contributions.py
-  url "https://github.com/picrust/picrust/archive/bf8f29da0903e5d22ddb57797b7ad28c16a7aaf6.zip"
+  url "https://github.com/picrust/picrust/archive/bf8f29da0903e5d22ddb57797b7ad28c16a7aaf6.tar.gz"
   version "1.0.0-dev-bf8f29d"
-  sha256 "1174b4816524fca6b1ef4fca32c2b20274d6efaacc7aa0c66ddaa73fd497e9ad"
+  sha256 "b9a5ccdbd382462e38e7348e00b0b17b689a947f2a252ab1cf735d07fa4573f4"
 
   # add the option to build without python
   option "without-python", "Build without python2 support"
