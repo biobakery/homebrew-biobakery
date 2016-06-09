@@ -1,16 +1,18 @@
 class Graphlan < Formula
   desc "Graphlan"
   homepage "http://huttenhower.sph.harvard.edu/graphlan"
-  url "https://bitbucket.org/nsegata/graphlan/downloads/graphlan_commit_d2ec14e.zip"
+  url "https://bitbucket.org/nsegata/graphlan/get/d2ec14e3f75c.tar.gz"
   version "0.9.7"
-  sha256 "e00a9dc45c7b3055a52e5708eb5a114af88971e5ec2a814a9bd723e44971f4ac"
+  sha256 "475ca7b88927303c18f6babc03cab95a7b3f7a4c88417a308fed74714fc7340f"
 
   # add the option to build without python
   option "without-python", "Build without python2 support"
   depends_on :python => :recommended if MacOS.version <= :snow_leopard
 
-  # matplotlib on some platforms requires homebrew freetype
+  # matplotlib on some platforms requires homebrew freetype, libpng, and pyqt5
   depends_on "freetype" => :recommended
+  depends_on "libpng" => :recommended
+  depends_on "bzip2" => :recommended
 
   resource "numpy" do
     url "https://pypi.python.org/packages/source/n/numpy/numpy-1.11.0.tar.gz"
@@ -52,20 +54,60 @@ class Graphlan < Formula
     sha256 "1408fdb07c6a1fa9997567ce3fcee6a337b39a503d80699e0f213de4aa4b32ed"
   end
 
+  resource "export2graphlan" do
+    url "https://bitbucket.org/cibiocm/export2graphlan/get/b2e0ba667186.tar.gz"
+    sha256 "7248bc11842846c417a603bc0b866d645228222415f256c8e78b83ead0212815"
+  end
+
+  resource "hclust2" do
+    url "https://bitbucket.org/nsegata/hclust2/get/277c0d6a1d52.tar.gz"
+    sha256 "4596de8fd0a7bb6536e9b7dfd39ca732376044c34416513cafa72918ec818038"
+  end
+
+  resource "pyphlan" do
+    url "https://bitbucket.org/nsegata/pyphlan/get/eae40ebc0030.tar.gz"
+    sha256 "5f9d8e9d8ca5d6c458ba8ce7a7bb2e4a2e9944dc36c6b04850cdcfa4efa046c6"
+  end
+
   def install
     # add the install location of the libraries to the PYTHONPATH
     ENV.prepend_create_path "PYTHONPATH", libexec/"lib64/python2.7/site-packages"
     ENV.prepend_create_path "PYTHONPATH", libexec/"lib/python2.7/site-packages"
     ENV.prepend "PYTHONPATH", libexec, ':'
-    ENV.prepend "PYTHONPATH", libexec/"export2graphlan", ':'
+    ENV.prepend "PYTHONPATH", libexec/"src", ':'
+
+    # install export2graphlan
+    resource("export2graphlan").stage do
+        bin.install Dir["export2graphlan.py"]
+    end
+
+    # install hclust2
+    resource("hclust2").stage do
+        system "mkdir", libexec/"hclust2"
+        libexec.install Dir["*.py"]
+        # use single string for system call to execute in shell with variable expansion
+        system "mv #{libexec}/*.py #{libexec}/hclust2/"
+    end
+
+    # install pyphlan
+    resource("pyphlan").stage do
+        system "mkdir", libexec/"pyphlan"
+        libexec.install Dir["*.py"]
+        system "mv #{libexec}/*.py #{libexec}/pyphlan/"
+    end
 
     # update LDFLAGS for numpy install
     ENV.append "LDFLAGS", "-shared" if OS.linux?    
     # install dependencies
-    for python_package in ["numpy","matplotlib","biopython", "pandas", "biom", "pyparsing", "cycler", "dateutil"]
+    for python_package in ["numpy","biopython", "pandas", "biom", "pyparsing", "cycler", "dateutil"]
         resource(python_package).stage do
             system "python", *Language::Python.setup_install_args(libexec)
         end
+    end
+
+    # matplotlib has to be installed without the default setup args to include the mpl_toolkit as a library
+    resource("matplotlib").stage do
+        system "python", "setup.py", "install", "--install-lib", libexec/"lib64/python2.7/site-packages/" ,"--install-scripts", libexec/"bin/"
     end
 
     # copy the source to the library install location
@@ -74,7 +116,6 @@ class Graphlan < Formula
     # copy the executable scripts to the bin folder
     bin.install libexec/"graphlan.py"
     bin.install libexec/"graphlan_annotate.py"
-    bin.install libexec/"export2graphlan/export2graphlan.py"
 
     # create stubs of the scripts with the pythonpath added
     bin.env_script_all_files(libexec/"bin", :PYTHONPATH => ENV["PYTHONPATH"])
