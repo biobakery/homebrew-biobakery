@@ -39,6 +39,11 @@ class Graphlan < Formula
     sha256 "e2e8a843e7a85b6f48381e8b24b2e0809b111507efe7e1b86e8a63cb1b60a97c"
   end
 
+  resource "scipy" do
+    url "https://pypi.python.org/packages/source/s/scipy/scipy-0.12.0.tar.gz"
+    sha256 "b967e802dafe2db043cfbdf0043e1312f9ce9c1386863e1c801a08ddfccf9de6"
+  end
+
   resource "pyparsing" do
     url "https://pypi.python.org/packages/94/51/3dd26b41be55ed05e72d1da87e4a732d8b92245b1f2f7fe2fa65a4910858/pyparsing-2.1.1.tar.gz"
     sha256 "9bae5cd4cbee6da0d7d8d9a1647f5253a3b89652e707647eaf1961f4932ae6c6"
@@ -99,7 +104,7 @@ class Graphlan < Formula
     # update LDFLAGS for numpy install
     ENV.append "LDFLAGS", "-shared" if OS.linux?    
     # install dependencies
-    for python_package in ["numpy","biopython", "pandas", "biom", "pyparsing", "cycler", "dateutil"]
+    for python_package in ["numpy","biopython", "scipy", "pandas", "biom", "pyparsing", "cycler", "dateutil"]
         resource(python_package).stage do
             system "python", *Language::Python.setup_install_args(libexec)
         end
