@@ -1,25 +1,18 @@
-class Metaphlan2 < Formula
-  desc "MetaPhlAn 2.0: Metagenomic Phylogenetic Analysis"
-  homepage "https://bitbucket.org/biobakery/metaphlan2"
-  url "https://bitbucket.org/biobakery/metaphlan2/get/c07beded1dc3a7eb7a1f8434c6ec7325a48d1675.tar.gz"
-  version "2.3.0-c07bede"
-  sha256 "1e697b2c5fc2ad8131f7e9aa035aea19da7e31089d6b761d9555052e6119b3d4"
+class Hclust2 < Formula
+  desc "hclust2"
+  homepage "https://bitbucket.org/nsegata/hclust2"
+  url "https://bitbucket.org/nsegata/hclust2/get/277c0d6a1d52.tar.gz"
+  version "1.0.0-277c0d"
+  sha256 "4596de8fd0a7bb6536e9b7dfd39ca732376044c34416513cafa72918ec818038"
 
   # add the option to build without python
   option "without-python", "Build without python2 support"
   depends_on :python => :recommended if MacOS.version <= :snow_leopard
 
-  depends_on "homebrew/science/bowtie2" => [:recommended, "without-tbb"]
-
   # matplotlib on some platforms requires homebrew freetype, libpng, and pyqt5
   depends_on "freetype" => :recommended
   depends_on "libpng" => :recommended
   depends_on "bzip2" => :recommended
-
-  resource "biom-format" do
-    url "https://pypi.python.org/packages/source/b/biom-format/biom-format-1.3.1.tar.gz"
-    sha256 "03e750728dc2625997aa62043adaf03643801ef34c1764213303e926766f4cef"
-  end
 
   resource "numpy" do
     url "https://pypi.python.org/packages/source/n/numpy/numpy-1.11.0.tar.gz"
@@ -49,11 +42,6 @@ class Metaphlan2 < Formula
   resource "matplotlib" do
     url "https://pypi.python.org/packages/source/m/matplotlib/matplotlib-1.5.1.tar.gz"
     sha256 "3ab8d968eac602145642d0db63dd8d67c85e9a5444ce0e2ecb2a8fedc7224d40"
-  end
-
-  resource "hclust" do
-    url "https://bitbucket.org/nsegata/hclust2/get/277c0d6a1d52.tar.gz"
-    sha256 "4596de8fd0a7bb6536e9b7dfd39ca732376044c34416513cafa72918ec818038"
   end
 
   resource "pyparsing" do
@@ -87,20 +75,23 @@ class Metaphlan2 < Formula
 
     # update LDFLAGS for numpy install
     ENV.append "LDFLAGS", "-shared" if OS.linux?
-    %w[numpy pandas scipy biopython pyqi biom-format pyparsing pytz dateutil cycler six matplotlib].each do |r|
+    %w[numpy pandas scipy biopython pyqi pyparsing pytz dateutil cycler six].each do |r|
       resource(r).stage do
         system "python", *Language::Python.setup_install_args(libexec)
       end
     end
 
-    prefix.install Dir["*"]
-    bin.install prefix/"metaphlan2.py"
-    bin.install Dir[prefix/"utils/*"]
+    # matplotlib has to be installed without the default setup args to include the mpl_toolkit as a library
+    resource("matplotlib").stage do
+        system "python", "setup.py", "install", "--install-lib", libexec/"lib64/python2.7/site-packages/" ,"--install-scripts", libexec/"bin/"
+    end
+
+    # install hclust
+    bin.install Dir["hclust2.py"]
     bin.env_script_all_files(prefix, :PYTHONPATH => ENV["PYTHONPATH"])
-    bin.install_symlink prefix/"db_v20"
   end
 
   test do
-    system "#{bin}/metaphlan2.py", "--version"
+    system "#{bin}/hclust2.py", "--help"
   end
 end

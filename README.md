@@ -53,6 +53,8 @@ If you do not want to install the full tool suite, you can select individual too
         * `` $ brew install strainphlan ``
     14. HAllA
         * `` $ brew install halla ``
+    15. Hclust2
+        * `` $ brew install hclust2 ``
 3. Test the individual installs
     1. Install biobakery_demos
         * `` $ brew install biobakery_demos ``
