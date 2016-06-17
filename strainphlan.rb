@@ -12,7 +12,9 @@ class Strainphlan < Formula
   depends_on "biobakery/biobakery/blast" => :recommended
   depends_on "homebrew/science/bowtie2" => [:recommended, "without-tbb"]
   depends_on "homebrew/science/muscle" => :recommended
-  depends_on "homebrew/science/vcftools" => :recommended
+
+  # required by samtools
+  depends_on "homebrew/dupes/ncurses" unless OS.mac?
 
   resource "biom-format" do
     url "https://pypi.python.org/packages/source/b/biom-format/biom-format-1.3.1.tar.gz"
@@ -59,17 +61,23 @@ class Strainphlan < Formula
     sha256 "1408fdb07c6a1fa9997567ce3fcee6a337b39a503d80699e0f213de4aa4b32ed"
   end
 
+  resource "samtools.v0.1.19" do
+    url "https://github.com/samtools/samtools/archive/0.1.19.tar.gz"
+    sha256 "180c120a040ec660ebecc30ebae664772c0fd503e028173ab2496379bc208c17"
+  end
+
   def install
     # install metaphlan2_strainer
     ENV.prepend "PYTHONPATH", prefix, ':'
     ENV.prepend_create_path "PYTHONPATH", libexec/"lib/python2.7/site-packages"
     ENV.prepend_create_path "PYTHONPATH", libexec/"vendor/lib/python2.7/site-packages"
     ENV.prepend_create_path 'PYTHONPATH', libexec/"vendor/lib64/python2.7/site-packages"
+    ENV.prepend_create_path 'PATH', libexec/"vendor/bin"
     
     prefix.install Dir["*"]
     bin.install Dir[prefix/"*.py"]
     bin.install Dir[prefix/"strainer_src/*.py"]
-    bin.env_script_all_files(prefix, :PYTHONPATH => ENV["PYTHONPATH"])
+    bin.env_script_all_files(prefix, { :PYTHONPATH => ENV["PYTHONPATH"], :PATH => ENV["PATH"]})
     bin.install_symlink prefix/"db_v20"
 
     # install after metaphlan2_strainer files as these will be installed in
@@ -85,6 +93,16 @@ class Strainphlan < Formula
       bin.install Dir["raxml*"]
     end
     
+    # install specific required samtools (v0.1.19) version locally
+    # installed locally to not conflict with global newer samtools version required by panphlan
+    resource("samtools.v0.1.19").stage do
+        system "make"
+        system "make", "-C", "bcftools"
+        # copy all of the executables into the vendor bin
+        system "cp samtools bcftools/bcftools bcftools/vcfutils.pl #{libexec}/vendor/bin/"
+        system "cp misc/maq2sam-long misc/maq2sam-short misc/md5fa misc/md5sum-lite misc/wgsim #{libexec}/vendor/bin/"
+    end
+
     # update LDFLAGS for numpy install
     ENV.append "LDFLAGS", "-shared" if OS.linux?
     %w[numpy pandas biom-format msgpack pysam biopython dendropy dateutil].each do |r|
@@ -92,6 +110,7 @@ class Strainphlan < Formula
         system "python", *Language::Python.setup_install_args(libexec/"vendor")
       end
     end
+
   end
 
   test do
