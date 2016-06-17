@@ -21,6 +21,7 @@ class BiobakeryToolSuite < Formula
   depends_on "biobakery/biobakery/micropita" => :recommended
   depends_on "biobakery/biobakery/breadcrumbs" => :recommended
   depends_on "biobakery/biobakery/halla" => :recommended
+  depends_on "biobakery/biobakery/hclust2" => :recommended
 
   def install
     ENV.prepend_create_path 'PYTHONPATH', libexec/"lib/python2.7/site-packages"
