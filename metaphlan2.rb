@@ -51,11 +51,6 @@ class Metaphlan2 < Formula
     sha256 "3ab8d968eac602145642d0db63dd8d67c85e9a5444ce0e2ecb2a8fedc7224d40"
   end
 
-  resource "hclust" do
-    url "https://bitbucket.org/nsegata/hclust2/get/277c0d6a1d52.tar.gz"
-    sha256 "4596de8fd0a7bb6536e9b7dfd39ca732376044c34416513cafa72918ec818038"
-  end
-
   resource "pyparsing" do
     url "https://pypi.python.org/packages/94/51/3dd26b41be55ed05e72d1da87e4a732d8b92245b1f2f7fe2fa65a4910858/pyparsing-2.1.1.tar.gz"
     sha256 "9bae5cd4cbee6da0d7d8d9a1647f5253a3b89652e707647eaf1961f4932ae6c6"
