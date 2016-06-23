@@ -21,11 +21,11 @@ If you do not want to install the full tool suite, you can select individual too
 2. Install the individual tools needed  
     1. HUMAnN2
         * `` $ brew install humann2 ``
-        * Demo databases are included with the install. To install the full databases, see the humann2 documentation: http://huttenhower.sph.harvard.edu/humann2
+        * Demo databases are included with the install. To install the full databases, see the [humann2 documentation](http://huttenhower.sph.harvard.edu/humann2).
     2. KneadData
         * Install [Java Runtime Environment](http://www.oracle.com/technetwork/java/javase/downloads/jre7-downloads-1880261.html)
         * `` $ brew install kneaddata ``
-        * Demo databases are included with the install. To install the full databases, see the kneaddata documentation: http://huttenhower.sph.harvard.edu/kneaddata
+        * Demo databases are included with the install. To install the full databases, see the [kneaddata documentation](http://huttenhower.sph.harvard.edu/kneaddata).
     3. Picrust
         * `` $ brew install picrust ``
     4. MaAsLin
