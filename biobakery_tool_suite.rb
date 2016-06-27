@@ -1,9 +1,9 @@
 class BiobakeryToolSuite < Formula
   desc "BioBakery Tool Suite: A collection of tools for BioBakery"
   homepage "https://bitbucket.org/biobakery/biobakery/wiki/Home"
-  url "https://bitbucket.org/biobakery/biobakery/get/92ba1f64a544.tar.gz"
-  version "0.1.0-92ba1f64a544"
-  sha256 "a8c2433ba84ffe0eae988b40f788a2b9ad7ce4fbfcedb4b4ce6445c072acc140"
+  url "https://bitbucket.org/biobakery/biobakery/downloads/biobakery-v1.3.tar.gz"
+  version "1.3"
+  sha256 "889f33139b2b8eeff69617237c815677c96843fc35d248f4068633a4289bcefb"
 
   # add the option to build without python
   option "without-python", "Build without python2 support"
@@ -25,7 +25,10 @@ class BiobakeryToolSuite < Formula
 
   def install
     ENV.prepend_create_path 'PYTHONPATH', libexec/"lib/python2.7/site-packages"
-    system "python", *Language::Python.setup_install_args(libexec)
+    cd "demos" do
+      system "python", *Language::Python.setup_install_args(libexec)
+    end
+
     bin.install Dir[libexec/"bin/*"]
     bin.env_script_all_files(libexec/"bin", :PYTHONPATH => ENV["PYTHONPATH"])
   end
