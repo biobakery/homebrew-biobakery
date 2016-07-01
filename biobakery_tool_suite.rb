@@ -9,7 +9,9 @@ class BiobakeryToolSuite < Formula
   option "without-python", "Build without python2 support"
   depends_on :python => :recommended if MacOS.version <= :snow_leopard
 
-  depends_on "biobakery/biobakery/humann2" => :recommended
+  # install humann2 without metaphlan2 so we can next install metaphlan2_strainer (strainphlan)
+  depends_on "biobakery/biobakery/humann2" => [:recommended, "without-metaphlan2"]
+  depends_on "biobakery/biobakery/strainphlan" => :recommended
   depends_on "biobakery/biobakery/kneaddata" => :recommended
   depends_on "biobakery/biobakery/picrust" => :recommended
   depends_on "biobakery/biobakery/maaslin" => :recommended
@@ -22,6 +24,7 @@ class BiobakeryToolSuite < Formula
   depends_on "biobakery/biobakery/breadcrumbs" => :recommended
   depends_on "biobakery/biobakery/halla" => :recommended
   depends_on "biobakery/biobakery/hclust2" => :recommended
+  depends_on "biobakery/biobakery/panphlan" => :recommended
 
   def install
     ENV.prepend_create_path 'PYTHONPATH', libexec/"lib/python2.7/site-packages"
