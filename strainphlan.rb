@@ -21,6 +21,12 @@ class Strainphlan < Formula
     sha256 "03e750728dc2625997aa62043adaf03643801ef34c1764213303e926766f4cef"
   end
 
+  # install dependency of biom-format
+  resource "pyqi" do
+    url "https://pypi.python.org/packages/source/p/pyqi/pyqi-0.3.2.tar.gz"
+    sha256 "8f1711835779704e085e62194833fed9ac2985e398b4ceac6faf6c7f40f5d15f"
+  end
+
   resource "numpy" do
     url "https://pypi.python.org/packages/source/n/numpy/numpy-1.11.0.tar.gz"
     sha256 "a1d1268d200816bfb9727a7a27b78d8e37ecec2e4d5ebd33eb64e2789e0db43e"
@@ -105,7 +111,7 @@ class Strainphlan < Formula
 
     # update LDFLAGS for numpy install
     ENV.append "LDFLAGS", "-shared" if OS.linux?
-    %w[numpy pandas biom-format msgpack pysam biopython dendropy dateutil].each do |r|
+    %w[numpy pandas pyqi biom-format msgpack pysam biopython dendropy dateutil].each do |r|
       resource(r).stage do
         system "python", *Language::Python.setup_install_args(libexec/"vendor")
       end
