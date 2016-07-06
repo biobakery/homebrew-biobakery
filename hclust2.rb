@@ -2,7 +2,7 @@ class Hclust2 < Formula
   desc "hclust2"
   homepage "https://bitbucket.org/nsegata/hclust2"
   url "https://bitbucket.org/nsegata/hclust2/get/277c0d6a1d52.tar.gz"
-  version "1.0.0-277c0d"
+  version "1.0.0-277c0d6"
   sha256 "4596de8fd0a7bb6536e9b7dfd39ca732376044c34416513cafa72918ec818038"
 
   # add the option to build without python

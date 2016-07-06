@@ -2,7 +2,7 @@ class Lefse < Formula
   desc "Lefse"
   homepage "http://huttenhower.sph.harvard.edu/lefse"
   url "https://bitbucket.org/nsegata/lefse/get/e3cabe93a0d1.tar.gz"
-  version "1.0.0-dev-e3cabe93a0d1"
+  version "1.0.0-dev-e3cabe9"
   sha256 "9d64aac0fdfd482639a4df21fdda921aace65ce23ad61afea624138a13cea8e2"
 
   # add the option to build without python

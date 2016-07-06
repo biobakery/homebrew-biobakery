@@ -2,7 +2,7 @@ class Ppanini < Formula
   desc "Ppanini"
   homepage "https://huttenhower.sph.harvard.edu/ppanini"
   url "https://bitbucket.org/biobakery/ppanini/get/c0c74cd99a2f.tar.gz"
-  version "0.6.1-dev-c0c74cd99a2f"
+  version "0.6.1-dev-c0c74cd"
   sha256 "43d921e012ccfaacca2edf7a48fcbd93a79611002d01df763545756d504447ac"
 
   # add the option to build without python
