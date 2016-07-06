@@ -2,7 +2,7 @@ class Sparsedossa < Formula
   desc "SparseDOSSA: Sparse Data Observations for the Simulation of Synthetic Abundances"
   homepage "http://huttenhower.sph.harvard.edu/sparsedossa"
   url "https://bitbucket.org/biobakery/sparsedossa/get/3629f136849374f89ac861d1e1e9a5780e27e5b8.tar.gz"
-  version "1.0-dev-3629f136849374f89ac861d1e1e9a5780e27e5b8"
+  version "1.0-dev-3629f1368493"
   sha256 "3f688d3ef0c2cda9479f0e96b4499669b825b0f2a34dcd180f3c481fb252dc08"
 
   # add the option to build with r   
