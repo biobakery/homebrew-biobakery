@@ -1,9 +1,9 @@
 class Panphlan < Formula
   desc "Panphlan"
   homepage "https://bitbucket.org/CibioCM/panphlan/overview"
-  url "https://bitbucket.org/CibioCM/panphlan/get/77901ef96b97.tar.gz"
-  version "1.2.1.3-77901ef"
-  sha256 "4aae23bca9dd70ab27cc449c03314eddc9a796d9cfaa6c3b1b546eee8eb2289a"
+  url "https://bitbucket.org/CibioCM/panphlan/get/a25bc29ad4ec.tar.gz"
+  version "1.2.1.3-a25bc29"
+  sha256 "dbeb7b726df7bdf930e865e693493d18282f22e2d416a39ba37389a30986184a"
 
   # add the option to build without python
   option "without-python", "Build without python2 support"
