@@ -1,9 +1,9 @@
 class Halla < Formula
   desc "Halla"
   homepage "https://huttenhower.sph.harvard.edu/halla"
-  url "https://bitbucket.org/biobakery/halla/get/89b2292c453e.tar.gz"
-  version "0.6.1-dev-89b2292"
-  sha256 "7083e00b5d68657857855929d4166147d321a15043de7c71ca4709a38a27a9b7"
+  url "https://bitbucket.org/biobakery/halla/get/0.6.7.tar.gz"
+  version "0.6.7"
+  sha256 "a26deaf2cb09832840775207c61b1e3d8f749fb5d03d4fef200e099f38e4d0ef"
 
   # add the option to build without python
   option "without-python", "Build without python2 support"
@@ -57,6 +57,11 @@ class Halla < Formula
     sha256 "cd7b2d1018258d7247a71425e9f26463dfb444d411c39569972f4ce586b0c9d8"
   end
 
+  resource "minepy" do
+    url "https://pypi.python.org/packages/0d/32/bb2fde0ab408adeff55ab065d565f7c1e93738f9ddd779deda1adab79c07/minepy-1.1.0.tar.gz"
+    sha256 "04e47d21235282dab0247bfab1adc53fd5c7961e99b0ca6cc0691afef90174b0"
+  end
+
   def install
     ENV.prepend_create_path 'PYTHONPATH', libexec/"lib/python2.7/site-packages"
     ENV.prepend_create_path 'PYTHONPATH', libexec/"vendor/lib/python2.7/site-packages"
@@ -65,7 +70,7 @@ class Halla < Formula
     # update LDFLAGS for numpy install
     ENV.append "LDFLAGS", "-shared" if OS.linux?
     # install dependencies
-    for python_package in ["numpy","scipy","matplotlib","pandas","scikit", "pytz", "dateutil", "pyparsing", "cycler"]
+    for python_package in ["numpy","scipy","matplotlib","pandas","scikit", "pytz", "dateutil", "pyparsing", "cycler", "minepy"]
         resource(python_package).stage do
             system "python", *Language::Python.setup_install_args(libexec/"vendor")
         end
