@@ -58,8 +58,8 @@ class Strainphlan < Formula
   end
 
   resource "dendropy" do
-    url "https://pypi.python.org/packages/source/D/DendroPy/DendroPy-4.1.0.tar.gz"
-    sha256 "c3d4b2780b84fb6ad64a8350855b2d762cabe45ecffbc04318f07214ee3bdfc9"
+    url "https://pypi.python.org/packages/43/22/69b7713b094697f8a432abe96c44a155519ef67b3c31221de32f4c3d5fa5/DendroPy-3.12.0.tar.gz"
+    sha256 "38a0f36f2f7aae43ec5599408b0d0a4c80996b749589f025940d955a70fc82d4"
   end
 
   resource "raxml" do
