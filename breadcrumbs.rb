@@ -1,9 +1,9 @@
 class Breadcrumbs < Formula
   desc "Miscellaneous Huttenhower Lab scripts"
   homepage "https://bitbucket.org/biobakery/breadcrumbs"
-  url "https://bitbucket.org/biobakery/breadcrumbs/get/016fa31153e6.tar.gz"
-  version "0.1.0-dev-016fa31"
-  sha256 "0fd271f87e94d205dc34324920e33e3f65e150c18431a0f4460cbfb7bceaf915"
+  url "https://bitbucket.org/biobakery/breadcrumbs/downloads/breadcrumbs-v0.9.tar.gz"
+  version "0.9"
+  sha256 "1afdfa86433f98fb597a6e0dd3535f3b33cbeebea3a505b510651de4b9f942ae"
 
   # add the option to build without python
   option "without-python", "Build without python2 support"
@@ -93,6 +93,9 @@ class Breadcrumbs < Formula
     system "R", "-q", "-e", "install.packages('vegan', lib='" + libexec/"vendor/R/library" + "', repos='http://cran.r-project.org')"
     system "R", "-q", "-e", "install.packages('r_optparse', lib='" + libexec/"vendor/R/library" + "', repos='http://cran.r-project.org')"
     system "R", "-q", "-e", "install.packages('optparse', lib='" + libexec/"vendor/R/library" + "', repos='http://cran.r-project.org')"
+    system "R", "-q", "-e", "install.packages('ggplot2', lib='" + libexec/"vendor/R/library" + "', repos='http://cran.r-project.org')"
+    system "R", "-q", "-e", "install.packages('RColorBrewer', lib='" + libexec/"vendor/R/library" + "', repos='http://cran.r-project.org')"
+    system "R", "-q", "-e", "source('https://bioconductor.org/biocLite.R'); biocLite('EBImage', lib='" + libexec/"vendor/R/library" + "'); biocLite('ggtree', lib='" + libexec/"vendor/R/library" + "'); biocLite('Biostrings', lib='" + libexec/"vendor/R/library" + "');"
 
     ENV.prepend_create_path "PYTHONPATH", libexec/"lib/python2.7/site-packages"
     args = Language::Python.setup_install_args(libexec)
