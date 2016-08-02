@@ -117,7 +117,7 @@ class Strainphlan < Formula
     
     prefix.install Dir["*"]
     bin.install Dir[prefix/"*.py"]
-    bin.install Dir[prefix/"strainer_src/*.py"]
+    bin.install Dir[prefix/"strainphlan_src/*.py"]
     bin.install Dir[prefix/"utils/*"]
     bin.env_script_all_files(prefix, { :PYTHONPATH => ENV["PYTHONPATH"], :PATH => ENV["PATH"]})
     bin.install_symlink prefix/"db_v20"
