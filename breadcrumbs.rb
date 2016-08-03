@@ -1,9 +1,9 @@
 class Breadcrumbs < Formula
   desc "Miscellaneous Huttenhower Lab scripts"
   homepage "https://bitbucket.org/biobakery/breadcrumbs"
-  url "https://bitbucket.org/biobakery/breadcrumbs/downloads/breadcrumbs-v0.9.tar.gz"
-  version "0.9"
-  sha256 "1afdfa86433f98fb597a6e0dd3535f3b33cbeebea3a505b510651de4b9f942ae"
+  url "https://bitbucket.org/biobakery/breadcrumbs/downloads/breadcrumbs-v0.91.tar.gz"
+  version "0.91"
+  sha256 "5e79f2caf30a266bf0c5268f515224ef6ca654b53529aad486a68cea1b453d4b"
 
   # add the option to build without python
   option "without-python", "Build without python2 support"
@@ -15,8 +15,6 @@ class Breadcrumbs < Formula
 
   # matplotlib on some platforms requires homebrew freetype
   depends_on "freetype" => :recommended
-
-  depends_on "homebrew/science/bowtie2" => [:recommended, "without-tbb"]
 
   # mpi is required by mpi4py
   depends_on "mpich" => :recommended
