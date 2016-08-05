@@ -1,9 +1,9 @@
 class Breadcrumbs < Formula
   desc "Miscellaneous Huttenhower Lab scripts"
   homepage "https://bitbucket.org/biobakery/breadcrumbs"
-  url "https://bitbucket.org/biobakery/breadcrumbs/downloads/breadcrumbs-v0.91.tar.gz"
-  version "0.91"
-  sha256 "5e79f2caf30a266bf0c5268f515224ef6ca654b53529aad486a68cea1b453d4b"
+  url "https://bitbucket.org/biobakery/breadcrumbs/downloads/breadcrumbs-v0.92.tar.gz"
+  version "0.92"
+  sha256 "c03191eb5a5b51db2be63ef76030f8ffc52566d59254c983e63b46d0a520cab1"
 
   # add the option to build without python
   option "without-python", "Build without python2 support"
