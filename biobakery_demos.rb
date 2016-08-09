@@ -1,9 +1,9 @@
 class BiobakeryDemos < Formula
   desc "BioBakery Demos: A collection of demos for the BioBakery Tool Suite"
   homepage "https://bitbucket.org/biobakery/biobakery/src/tip/demos/biobakery_demos"
-  url "https://bitbucket.org/biobakery/biobakery/downloads/biobakery-v1.3.tar.gz"
-  version "1.3"
-  sha256 "889f33139b2b8eeff69617237c815677c96843fc35d248f4068633a4289bcefb"
+  url "https://bitbucket.org/biobakery/biobakery/downloads/biobakery-v1.5.tar.gz"
+  version "1.5"
+  sha256 "dee260a9476749c9ef0ee2ad07cdd6970cece9e2d47de42708d6427daba5a9a7"
 
   # add the option to build without python
   option "without-python", "Build without python2 support"
