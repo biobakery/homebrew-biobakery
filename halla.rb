@@ -1,9 +1,9 @@
 class Halla < Formula
   desc "Halla"
   homepage "https://huttenhower.sph.harvard.edu/halla"
-  url "https://bitbucket.org/biobakery/halla/get/0.6.7.tar.gz"
-  version "0.6.7"
-  sha256 "a26deaf2cb09832840775207c61b1e3d8f749fb5d03d4fef200e099f38e4d0ef"
+  url "https://bitbucket.org/biobakery/halla/get/0.6.10.tar.gz"
+  version "0.6.10"
+  sha256 "74dc230082a66cf9782724633f11d0d4e3d146ee5cdf21b9274ed558dd79cc50"
 
   # add the option to build without python
   option "without-python", "Build without python2 support"
