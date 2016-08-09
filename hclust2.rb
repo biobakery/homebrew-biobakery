@@ -15,8 +15,8 @@ class Hclust2 < Formula
   depends_on "bzip2" => :recommended
 
   resource "numpy" do
-    url "https://pypi.python.org/packages/source/n/numpy/numpy-1.11.0.tar.gz"
-    sha256 "a1d1268d200816bfb9727a7a27b78d8e37ecec2e4d5ebd33eb64e2789e0db43e"
+    url "https://pypi.python.org/packages/source/n/numpy/numpy-1.7.1.tar.gz"
+    sha256 "5525019a3085c3d860e6cfe4c0a30fb65d567626aafc50cf1252a641a418084a"
   end
 
   resource "pandas" do
