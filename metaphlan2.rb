@@ -16,6 +16,12 @@ class Metaphlan2 < Formula
   depends_on "libpng" => :recommended
   depends_on "bzip2" => :recommended
 
+  # download counter to track installs
+  resource "counter" do
+    url "https://bitbucket.org/biobakery/metaphlan2/downloads/metaphlan2_homebrew_counter.txt"
+    sha256 "26971c9d2fb41b9caafeaef957a530f6d192449f498553f2b0d40ad28fd39cc5"
+  end
+
   resource "biom-format" do
     url "https://pypi.python.org/packages/source/b/biom-format/biom-format-1.3.1.tar.gz"
     sha256 "03e750728dc2625997aa62043adaf03643801ef34c1764213303e926766f4cef"
@@ -79,6 +85,11 @@ class Metaphlan2 < Formula
   def install
     ENV.prepend_create_path "PYTHONPATH", libexec/"lib/python2.7/site-packages"
     ENV.prepend_create_path 'PYTHONPATH', libexec/"lib64/python2.7/site-packages"
+
+    # download counter and remove
+    resource("counter").stage do
+      system "rm *counter.txt"
+    end
 
     # update LDFLAGS for numpy install
     ENV.append "LDFLAGS", "-shared" if OS.linux?

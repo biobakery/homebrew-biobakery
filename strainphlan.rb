@@ -21,6 +21,12 @@ class Strainphlan < Formula
   depends_on "libpng" => :recommended
   depends_on "bzip2" => :recommended
 
+  # download counter to track installs
+  resource "counter" do
+    url "https://bitbucket.org/biobakery/metaphlan2/downloads/strainphlan_homebrew_counter.txt"
+    sha256 "c31ad00345a4a80fc0cdc01ceb42b0f9db3a5148adca78c00986f9c24fd0f4c0"
+   end
+
   resource "biom-format" do
     url "https://pypi.python.org/packages/source/b/biom-format/biom-format-1.3.1.tar.gz"
     sha256 "03e750728dc2625997aa62043adaf03643801ef34c1764213303e926766f4cef"
@@ -114,6 +120,11 @@ class Strainphlan < Formula
     ENV.prepend_create_path "PYTHONPATH", libexec/"vendor/lib/python2.7/site-packages"
     ENV.prepend_create_path 'PYTHONPATH', libexec/"vendor/lib64/python2.7/site-packages"
     ENV.prepend_create_path 'PATH', libexec/"vendor/bin"
+
+    # download counter and remove
+    resource("counter").stage do
+      system "rm *counter.txt"
+    end
     
     prefix.install Dir["*"]
     bin.install Dir[prefix/"*.py"]
