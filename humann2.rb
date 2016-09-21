@@ -1,9 +1,9 @@
 class Humann2 < Formula
   desc "HUMAnN2: The HMP Unified Metabolic Analysis Network 2"
   homepage "http://huttenhower.sph.harvard.edu/humann2"
-  url "https://pypi.python.org/packages/c4/bf/002cfecf7bb0529a3127b709a309fbc02ee9710448ee50353c85ecad2910/humann2-0.9.0.tar.gz"
-  version "0.9.0"
-  sha256 "edb855e5b38d2177cda7aceb7cc47b6524dd1cffc06f6069a4bf021d905937ea"
+  url "https://pypi.python.org/packages/d1/21/0c932fa8b445745f70b760ee4286eedc4f5947b5617d1fb4ca252bcc4284/humann2-0.9.3.tar.gz"
+  version "0.9.3"
+  sha256 "c758549ebaff38f2c34b64be1ef621b6715a47f195dace8da237b507cad86425"
 
   # add the option to build without python
   option "without-python", "Build without python2 support"
