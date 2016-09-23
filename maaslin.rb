@@ -9,7 +9,20 @@ class Maaslin < Formula
   option "with-r", "Build with R support"
   depends_on "r" => [:optional, "without-x"]
 
+  resource "blist" do
+    url "https://pypi.python.org/packages/source/b/blist/blist-1.3.6.tar.gz"
+    sha256 "3a12c450b001bdf895b30ae818d4d6d3f1552096b8c995f0fe0c74bef04d1fc3"
+  end
+
   def install
+    ENV.prepend_create_path "PYTHONPATH", libexec/"vendor/lib/python2.7/site-packages"
+    ENV.prepend_create_path "PYTHONPATH", libexec/"vendor/lib64/python2.7/site-packages"
+    for python_package in ["blist"]
+      resource(python_package).stage do
+        system "python", *Language::Python.setup_install_args(libexec/"vendor")
+      end
+    end
+
     # set R_LIBS to location where package will be installed (relative to homebrew location)
     ENV.prepend_create_path "R_LIBS", libexec
 
@@ -18,7 +31,7 @@ class Maaslin < Formula
     bin.install Dir["exec/*"]  
     
     # write stubs to bin that set R_LIBS and call executables, move executables back to original location
-    bin.env_script_all_files(lib/"bin", :R_LIBS => ENV["R_LIBS"])
+    bin.env_script_all_files(lib/"bin", { :PYTHONPATH => ENV["PYTHONPATH"] , :R_LIBS => ENV["R_LIBS"] })
 
     # install maaslin as an R package, also install required dependencies
     for r_package in ["agricolae","gam","gamlss","gbm","glmnet","inlinedocs","logging","MASS","nlme","optparse","outliers","penalized","pscl","robustbase","tools"]
