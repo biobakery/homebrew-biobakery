@@ -11,6 +11,9 @@ class Metaphlan2 < Formula
 
   depends_on "homebrew/science/bowtie2" => [:recommended, "without-tbb"]
 
+  # add the option to not install the numpy/scipy/matplotlib dependencies
+  option "without-dependencies", "Don't install the dependencies (numpy,scipy,matplotlib)"
+
   # matplotlib on some platforms requires homebrew freetype, libpng, and pyqt5
   depends_on "freetype" => :recommended
   depends_on "libpng" => :recommended
@@ -91,11 +94,14 @@ class Metaphlan2 < Formula
       system "rm *counter.txt"
     end
 
-    # update LDFLAGS for numpy install
-    ENV.append "LDFLAGS", "-shared" if OS.linux?
-    %w[numpy pandas scipy biopython pyqi biom-format pyparsing pytz dateutil cycler six matplotlib].each do |r|
-      resource(r).stage do
-        system "python", *Language::Python.setup_install_args(libexec)
+    # install dependencies if set
+    if build.with? "dependencies"
+      # update LDFLAGS for numpy install
+      ENV.append "LDFLAGS", "-shared" if OS.linux?
+      %w[numpy pandas scipy biopython pyqi biom-format pyparsing pytz dateutil cycler six matplotlib].each do |r|
+        resource(r).stage do
+          system "python", *Language::Python.setup_install_args(libexec)
+        end
       end
     end
 
