@@ -48,6 +48,12 @@ class Strainphlan < Formula
     sha256 "6813746caa796550969ed98069f16627f070f6d8d60686cfb3fa0e66c2e0312b"
   end
 
+  # add cython a dependency of msgpack (optional, allows for compiled extensions)
+  resource "cython" do
+    url "https://pypi.python.org/packages/2f/ae/0bb6ca970b949d97ca622641532d4a26395322172adaf645149ebef664eb/Cython-0.25.1.tar.gz"
+    sha256 "e0941455769335ec5afb17dee36dc3833b7edc2ae20a8ed5806c58215e4b6669"
+  end
+
   resource "msgpack" do
     url "https://pypi.python.org/packages/source/m/msgpack-python/msgpack-python-0.4.7.tar.gz"
     sha256 "5e001229a54180a02dcdd59db23c9978351af55b1290c27bc549e381f43acd6b"
@@ -158,7 +164,7 @@ class Strainphlan < Formula
 
     # update LDFLAGS for numpy install
     ENV.append "LDFLAGS", "-shared" if OS.linux?
-    %w[numpy pandas scipy pyparsing pytz pyqi biom-format msgpack pysam biopython dendropy dateutil cycler six matplotlib].each do |r|
+    %w[numpy pandas scipy pyparsing pytz pyqi biom-format cython msgpack pysam biopython dendropy dateutil cycler six matplotlib].each do |r|
       resource(r).stage do
         system "python", *Language::Python.setup_install_args(libexec/"vendor")
       end
