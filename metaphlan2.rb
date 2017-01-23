@@ -100,7 +100,7 @@ class Metaphlan2 < Formula
       ENV.append "LDFLAGS", "-shared" if OS.linux?
       %w[numpy pandas scipy biopython pyqi biom-format pyparsing pytz dateutil cycler six matplotlib].each do |r|
         resource(r).stage do
-          system "python", *Language::Python.setup_install_args(libexec)
+          system "python2", *Language::Python.setup_install_args(libexec)
         end
       end
     end

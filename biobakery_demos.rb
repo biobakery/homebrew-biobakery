@@ -12,7 +12,7 @@ class BiobakeryDemos < Formula
   def install
     ENV.prepend_create_path 'PYTHONPATH', libexec/"lib/python2.7/site-packages"
     cd "demos" do
-      system "python", *Language::Python.setup_install_args(libexec)
+      system "python2", *Language::Python.setup_install_args(libexec)
     end
 
     bin.install Dir[libexec/"bin/*"]

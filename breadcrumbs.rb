@@ -83,7 +83,7 @@ class Breadcrumbs < Formula
     ENV.append "FFLAGS", "-fPIC" if OS.linux?
     %w[numpy scipy matplotlib biom-format pyqi blist cogent mpi4py pyparsing cycler dateutil].each do |r|
       resource(r).stage do
-        system "python", *Language::Python.setup_install_args(libexec/"vendor")
+        system "python2", *Language::Python.setup_install_args(libexec/"vendor")
       end
     end
 
@@ -98,7 +98,7 @@ class Breadcrumbs < Formula
     ENV.prepend_create_path "PYTHONPATH", libexec/"lib/python2.7/site-packages"
     args = Language::Python.setup_install_args(libexec)
     args[1].gsub! "setup.py", "actually_setup.py"
-    system "python", *args
+    system "python2", *args
     prefix.install Dir["*"]
     bin.install Dir["#{prefix}/breadcrumbs/scripts/*"]
     bin.env_script_all_files(prefix/"scripts", { :PYTHONPATH => ENV["PYTHONPATH"] , :R_LIBS => ENV["R_LIBS"] })

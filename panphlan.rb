@@ -30,7 +30,7 @@ class Panphlan < Formula
     # install dependencies
     for python_package in ["numpy","biopython"]
         resource(python_package).stage do
-            system "python", *Language::Python.setup_install_args(libexec/"vendor")
+            system "python2", *Language::Python.setup_install_args(libexec/"vendor")
         end
     end
 

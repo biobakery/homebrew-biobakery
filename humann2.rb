@@ -71,13 +71,13 @@ class Humann2 < Formula
       ENV.append "LDFLAGS", "-shared" if OS.linux?
       %w[numpy scipy pyparsing pytz dateutil cycler six matplotlib].each do |r|
         resource(r).stage do
-          system "python", *Language::Python.setup_install_args(libexec)
+          system "python2", *Language::Python.setup_install_args(libexec)
         end
       end
     end
 
     # run python setup.py install using recommended homebrew helper method with destination prefix of libexec
-    system "python", *Language::Python.setup_install_args(libexec)
+    system "python2", *Language::Python.setup_install_args(libexec)
     # copy all of the installed scripts to the homebrew bin
     bin.install Dir[libexec/"bin/*"]
 

@@ -77,13 +77,13 @@ class Hclust2 < Formula
     ENV.append "LDFLAGS", "-shared" if OS.linux?
     %w[numpy pandas scipy biopython pyqi pyparsing pytz dateutil cycler six].each do |r|
       resource(r).stage do
-        system "python", *Language::Python.setup_install_args(libexec)
+        system "python2", *Language::Python.setup_install_args(libexec)
       end
     end
 
     # matplotlib has to be installed without the default setup args to include the mpl_toolkit as a library
     resource("matplotlib").stage do
-        system "python", "setup.py", "install", "--install-lib", libexec/"lib64/python2.7/site-packages/" ,"--install-scripts", libexec/"bin/"
+        system "python2", "setup.py", "install", "--install-lib", libexec/"lib64/python2.7/site-packages/" ,"--install-scripts", libexec/"bin/"
     end
 
     # install hclust

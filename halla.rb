@@ -72,11 +72,11 @@ class Halla < Formula
     # install dependencies
     for python_package in ["numpy","scipy","matplotlib","pandas","scikit", "pytz", "dateutil", "pyparsing", "cycler", "minepy"]
         resource(python_package).stage do
-            system "python", *Language::Python.setup_install_args(libexec/"vendor")
+            system "python2", *Language::Python.setup_install_args(libexec/"vendor")
         end
     end
 
-    system "python", *Language::Python.setup_install_args(libexec)
+    system "python2", *Language::Python.setup_install_args(libexec)
     bin.install Dir[libexec/"bin/*"]
     bin.env_script_all_files(libexec/"bin", :PYTHONPATH => ENV["PYTHONPATH"])
   end

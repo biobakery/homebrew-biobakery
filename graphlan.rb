@@ -106,13 +106,13 @@ class Graphlan < Formula
     # install dependencies
     for python_package in ["numpy","biopython", "scipy", "pandas", "biom", "pyparsing", "cycler", "dateutil"]
         resource(python_package).stage do
-            system "python", *Language::Python.setup_install_args(libexec)
+            system "python2", *Language::Python.setup_install_args(libexec)
         end
     end
 
     # matplotlib has to be installed without the default setup args to include the mpl_toolkit as a library
     resource("matplotlib").stage do
-        system "python", "setup.py", "install", "--install-lib", libexec/"lib64/python2.7/site-packages/" ,"--install-scripts", libexec/"bin/"
+        system "python2", "setup.py", "install", "--install-lib", libexec/"lib64/python2.7/site-packages/" ,"--install-scripts", libexec/"bin/"
     end
 
     # copy the source to the library install location

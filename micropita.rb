@@ -92,7 +92,7 @@ class Micropita < Formula
     ENV.append "FFLAGS", "-fPIC" if OS.linux?
     for python_package in ["numpy", "scipy", "biom-format", "cogent", "blist", "mlpy", "mpi4py", "matplotlib", "pyqi", "pyparsing", "cycler", "dateutil"]
         resource(python_package).stage do
-            system "python", *Language::Python.setup_install_args(libexec)
+            system "python2", *Language::Python.setup_install_args(libexec)
         end
     end
 

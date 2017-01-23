@@ -61,7 +61,7 @@ class Lefse < Formula
     # install dependencies
     for python_package in ["numpy","matplotlib","rpy2","singledispatch","pyparsing","cycler","dateutil"]
         resource(python_package).stage do
-            system "python", *Language::Python.setup_install_args(libexec)
+            system "python2", *Language::Python.setup_install_args(libexec)
         end
     end
 

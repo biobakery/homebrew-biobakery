@@ -166,7 +166,7 @@ class Strainphlan < Formula
     ENV.append "LDFLAGS", "-shared" if OS.linux?
     %w[numpy pandas scipy pyparsing pytz pyqi biom-format cython msgpack pysam biopython dendropy dateutil cycler six matplotlib].each do |r|
       resource(r).stage do
-        system "python", *Language::Python.setup_install_args(libexec/"vendor")
+        system "python2", *Language::Python.setup_install_args(libexec/"vendor")
       end
     end
 

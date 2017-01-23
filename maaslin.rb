@@ -19,7 +19,7 @@ class Maaslin < Formula
     ENV.prepend_create_path "PYTHONPATH", libexec/"vendor/lib64/python2.7/site-packages"
     for python_package in ["blist"]
       resource(python_package).stage do
-        system "python", *Language::Python.setup_install_args(libexec/"vendor")
+        system "python2", *Language::Python.setup_install_args(libexec/"vendor")
       end
     end
 

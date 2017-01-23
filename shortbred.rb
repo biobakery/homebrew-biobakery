@@ -42,7 +42,7 @@ class Shortbred < Formula
     ENV.append "LDFLAGS", "-shared" if OS.linux?
     for python_package in ["numpy","matplotlib","biopython"]
         resource(python_package).stage do
-            system "python", *Language::Python.setup_install_args(libexec)
+            system "python2", *Language::Python.setup_install_args(libexec)
         end
     end
 

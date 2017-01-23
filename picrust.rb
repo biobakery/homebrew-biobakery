@@ -53,12 +53,12 @@ class Picrust < Formula
     ENV.append "LDFLAGS", "-shared" if OS.linux?
     for python_package in ["numpy", "biom-format", "cogent", "pyqi"]
         resource(python_package).stage do
-            system "python", *Language::Python.setup_install_args(libexec/"vendor")
+            system "python2", *Language::Python.setup_install_args(libexec/"vendor")
         end
     end
 
     # run python setup.py install using recommended homebrew helper method with destination prefix of libexec
-    system "python", *Language::Python.setup_install_args(libexec)
+    system "python2", *Language::Python.setup_install_args(libexec)
     # copy all of the installed scripts to the homebrew bin
     bin.install Dir[libexec/"bin/*"]
     # write stubs to bin that set PYTHONPATH and call executables, move executables back to original location
