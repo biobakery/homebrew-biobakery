@@ -1,9 +1,9 @@
 class Strainphlan < Formula
   desc "StrainPhlAn"
   homepage "https://bitbucket.org/biobakery/metaphlan2"
-  url "https://bitbucket.org/biobakery/metaphlan2/get/6462147.tar.gz"
-  version "2.5.0-6462147"
-  sha256 "05ab3d204b8b6f5e9ec72d2f828cbf3d80213b101f18dcb444d354f39b1b6434"
+  url "https://bitbucket.org/biobakery/metaphlan2/get/2.6.0.tar.gz"
+  version "2.6.0"
+  sha256 "ead411f9665a5391ec333a94d0259f46dfafd6854c82e56026fb15b24c7c4a57"
 
   # add the option to build without python
   option "without-python", "Build without python2 support"
