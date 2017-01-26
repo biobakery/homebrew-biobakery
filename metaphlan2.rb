@@ -1,9 +1,9 @@
 class Metaphlan2 < Formula
   desc "MetaPhlAn 2.0: Metagenomic Phylogenetic Analysis"
   homepage "https://bitbucket.org/biobakery/metaphlan2"
-  url "https://bitbucket.org/biobakery/metaphlan2/get/c07beded1dc3a7eb7a1f8434c6ec7325a48d1675.tar.gz"
-  version "2.3.0-c07bede"
-  sha256 "1e697b2c5fc2ad8131f7e9aa035aea19da7e31089d6b761d9555052e6119b3d4"
+  url "https://bitbucket.org/biobakery/metaphlan2/get/2.6.0.tar.gz"
+  version "2.6.0"
+  sha256 "ead411f9665a5391ec333a94d0259f46dfafd6854c82e56026fb15b24c7c4a57"
 
   # add the option to build without python
   option "without-python", "Build without python2 support"
