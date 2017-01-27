@@ -1,9 +1,9 @@
 class Kneaddata < Formula
   desc "KneadData"
   homepage "http://huttenhower.sph.harvard.edu/kneaddata"
-  url "https://bitbucket.org/biobakery/kneaddata/downloads/kneaddata_v0.5.1.tar.gz"
-  version "0.5.1"
-  sha256 "ce70669d8b6bb0965cf3bc6977cac2fab7874e87e00bb0507eaed2cd51db3995"
+  url "https://pypi.python.org/packages/6d/50/dd20a862b2532a476b4837a2b1fe4f9e8131cf554751adb6fd7186ee33e3/kneaddata-0.5.4.tar.gz"
+  version "0.5.4"
+  sha256 "c76940de21d3696a6113c51307322c0ff2eadebd62dc980a9923b49d963c26a3"
 
   # add the option to build without python
   option "without-python", "Build without python2 support"
