@@ -9,9 +9,11 @@ class BiobakeryToolSuite < Formula
   option "without-python", "Build without python2 support"
   depends_on :python => :recommended if MacOS.version <= :snow_leopard
 
-  # install humann2 without metaphlan2 so we can next install metaphlan2_strainer (strainphlan)
-  depends_on "biobakery/biobakery/humann2" => [:recommended, "without-metaphlan2"]
+  # install metaphlan2_strainer (strainphlan) first which will install bowtie2
+  # initial bowtie2 install will be used by humann2/kneaddata (instead of own installs)
   depends_on "biobakery/biobakery/strainphlan" => :recommended
+  # install humann2 without metaphlan2 because metaphlan2_strainer (strainphlan) was installed
+  depends_on "biobakery/biobakery/humann2" => [:recommended, "without-metaphlan2"]
   depends_on "biobakery/biobakery/kneaddata" => :recommended
   depends_on "biobakery/biobakery/picrust" => :recommended
   depends_on "biobakery/biobakery/maaslin" => :recommended
