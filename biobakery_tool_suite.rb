@@ -1,9 +1,9 @@
 class BiobakeryToolSuite < Formula
   desc "BioBakery Tool Suite: A collection of tools for BioBakery"
   homepage "https://bitbucket.org/biobakery/biobakery/wiki/Home"
-  url "https://bitbucket.org/biobakery/biobakery/downloads/biobakery-v1.5.tar.gz"
-  version "1.5"
-  sha256 "dee260a9476749c9ef0ee2ad07cdd6970cece9e2d47de42708d6427daba5a9a7"
+  url "https://bitbucket.org/biobakery/biobakery/downloads/biobakery-v1.6.tar.gz"
+  version "1.6"
+  sha256 "22d625b8ad5815ee9c777ecd504da6e6d9eee7b72b1547c37f98cf2e5c67b28c"
 
   # add the option to build without python
   option "without-python", "Build without python2 support"
