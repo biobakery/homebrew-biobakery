@@ -5,9 +5,10 @@ class Halla < Formula
   version "0.7.4"
   sha256 "28244cd13b661333a63deb2826845e466314c973ddf5c6984bb5a37eac8edff8"
 
-  # add the option to build without python
-  option "without-python", "Build without python2 support"
+  # add the python dependencies and options
   depends_on :python => :recommended if MacOS.version <= :snow_leopard
+  option "with-python3", "Build with python3 instead of python2"
+  depends_on :python3 => :optional
 
   # matplotlib on some platforms requires homebrew freetype
   depends_on "freetype" => :recommended
@@ -62,21 +63,47 @@ class Halla < Formula
     sha256 "04e47d21235282dab0247bfab1adc53fd5c7961e99b0ca6cc0691afef90174b0"
   end
 
+  def get_python_version
+    # check the python version to install with
+    if build.with? "python3"
+        python="python3"
+    else
+        python="python2"
+    end
+
+    # get the full python version selected
+    python_full_version = `#{python} --version 2>&1`
+
+    # return an error if the python version selected is not installed
+    unless $? == 0
+     abort("Please install #{python}")
+    end
+
+    # get the major/minor python version to determine
+    # the install folder location
+    python_version = python_full_version.split(" ")[1].split(".").first(2).join(".")
+
+    return [python, python_version]
+  end
+
   def install
-    ENV.prepend_create_path 'PYTHONPATH', libexec/"lib/python2.7/site-packages"
-    ENV.prepend_create_path 'PYTHONPATH', libexec/"vendor/lib/python2.7/site-packages"
-    ENV.prepend_create_path 'PYTHONPATH', libexec/"vendor/lib64/python2.7/site-packages"
+    # get the python executable and version
+    python, python_version = get_python_version
+
+    ENV.prepend_create_path 'PYTHONPATH', libexec/"lib/python#{python_version}/site-packages"
+    ENV.prepend_create_path 'PYTHONPATH', libexec/"vendor/lib/python#{python_version}/site-packages"
+    ENV.prepend_create_path 'PYTHONPATH', libexec/"vendor/lib64/python#{python_version}/site-packages"
     
     # update LDFLAGS for numpy install
     ENV.append "LDFLAGS", "-shared" if OS.linux?
     # install dependencies
     for python_package in ["numpy","scipy","matplotlib","pandas","scikit", "pytz", "dateutil", "pyparsing", "cycler", "minepy"]
         resource(python_package).stage do
-            system "python2", *Language::Python.setup_install_args(libexec/"vendor")
+            system python, *Language::Python.setup_install_args(libexec/"vendor")
         end
     end
 
-    system "python2", *Language::Python.setup_install_args(libexec)
+    system python, *Language::Python.setup_install_args(libexec)
     bin.install Dir[libexec/"bin/*"]
     bin.env_script_all_files(libexec/"bin", :PYTHONPATH => ENV["PYTHONPATH"])
   end
