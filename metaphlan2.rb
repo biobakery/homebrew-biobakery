@@ -5,9 +5,10 @@ class Metaphlan2 < Formula
   version "2.6.0"
   sha256 "ead411f9665a5391ec333a94d0259f46dfafd6854c82e56026fb15b24c7c4a57"
 
-  # add the option to build without python
-  option "without-python", "Build without python2 support"
+  # add the python dependencies and options
   depends_on :python => :recommended if MacOS.version <= :snow_leopard
+  option "with-python3", "Build with python3 instead of python2"
+  depends_on :python3 => :optional
 
   depends_on "homebrew/science/bowtie2" => [:recommended, "without-tbb"]
 
@@ -26,8 +27,24 @@ class Metaphlan2 < Formula
   end
 
   resource "biom-format" do
-    url "https://pypi.python.org/packages/source/b/biom-format/biom-format-1.3.1.tar.gz"
-    sha256 "03e750728dc2625997aa62043adaf03643801ef34c1764213303e926766f4cef"
+    url "https://pypi.python.org/packages/e8/74/9b7e50c29ba548cd53eb97fb9cc1f05a2cf53aa179a64f36e93282b84f79/biom-format-2.1.5.tar.gz"
+    sha256 "aac0a0c8dfb06cb40e31c52dcfecf43ac7395c8032f2390e49936fce6574e374"
+  end
+
+  # download biom format dependencies (click, future, and numpy/scipy; pyqi is only required for python2 installs)
+  resource "click" do
+    url "https://pypi.python.org/packages/95/d9/c3336b6b5711c3ab9d1d3a80f1a3e2afeb9d8c02a7166462f6cc96570897/click-6.7.tar.gz"
+    sha256 "f15516df478d5a56180fbf80e68f206010e6d160fc39fa508b65e035fd75130b"
+  end
+
+  resource "future" do
+    url "https://pypi.python.org/packages/00/2b/8d082ddfed935f3608cc61140df6dcbf0edea1bc3ab52fb6c29ae3e81e85/future-0.16.0.tar.gz"
+    sha256 "e39ced1ab767b5936646cedba8bcce582398233d6a627067d4c6a454c90cfedb"
+  end
+
+  resource "pyqi" do
+    url "https://pypi.python.org/packages/source/p/pyqi/pyqi-0.3.2.tar.gz"
+    sha256 "8f1711835779704e085e62194833fed9ac2985e398b4ceac6faf6c7f40f5d15f"
   end
 
   resource "numpy" do
@@ -41,18 +58,13 @@ class Metaphlan2 < Formula
   end
 
   resource "biopython" do
-    url "https://pypi.python.org/packages/source/b/biopython/biopython-1.65.tar.gz"
-    sha256 "6d591523ba4d07a505978f6e1d7fac57e335d6d62fb5b0bcb8c40bdde5c8998e"
-  end
-
-  resource "pyqi" do
-    url "https://pypi.python.org/packages/source/p/pyqi/pyqi-0.3.2.tar.gz"
-    sha256 "8f1711835779704e085e62194833fed9ac2985e398b4ceac6faf6c7f40f5d15f"
+    url "http://biopython.org/DIST/biopython-1.66.tar.gz"
+    sha256 "5178ea3b343b1d8710f39205386093e5369ed653aa020e1b0c4b7622a59346c1"
   end
 
   resource "scipy" do
-    url "https://pypi.python.org/packages/source/s/scipy/scipy-0.12.0.tar.gz"
-    sha256 "b967e802dafe2db043cfbdf0043e1312f9ce9c1386863e1c801a08ddfccf9de6"
+    url "https://pypi.python.org/packages/34/ac/f793c8f18b6f188788b37aae02d94689ac8df317f09a681a3a61ecc466ab/scipy-0.13.0.tar.gz"
+    sha256 "e7fe93ffc4b55d8357238406b1b9e47a4f932474238e2bfdb552423bcd45dc5e"
   end
 
   resource "matplotlib" do
@@ -85,9 +97,35 @@ class Metaphlan2 < Formula
     sha256 "105f8d68616f8248e24bf0e9372ef04d3cc10104f1980f54d57b2ce73a5ad56a"
   end
 
+  def get_python_version
+    # check the python version to install with
+    if build.with? "python3"
+        python="python3"
+    else
+        python="python2"
+    end
+
+    # get the full python version selected
+    python_full_version = `#{python} --version 2>&1`
+
+    # return an error if the python version selected is not installed
+    unless $? == 0
+     abort("Please install #{python}")
+    end
+
+    # get the major/minor python version to determine
+    # the install folder location
+    python_version = python_full_version.split(" ")[1].split(".").first(2).join(".")
+
+    return [python, python_version]
+  end
+
   def install
-    ENV.prepend_create_path "PYTHONPATH", libexec/"lib/python2.7/site-packages"
-    ENV.prepend_create_path 'PYTHONPATH', libexec/"lib64/python2.7/site-packages"
+    # get the python executable and version
+    python, python_version = get_python_version
+
+    ENV.prepend_create_path "PYTHONPATH", libexec/"lib/python#{python_version}/site-packages"
+    ENV.prepend_create_path 'PYTHONPATH', libexec/"lib64/python#{python_version}/site-packages"
 
     # download counter and remove
     resource("counter").stage do
@@ -98,14 +136,39 @@ class Metaphlan2 < Formula
     if build.with? "dependencies"
       # update LDFLAGS for numpy install
       ENV.append "LDFLAGS", "-shared" if OS.linux?
-      %w[numpy pandas scipy biopython pyqi biom-format pyparsing pytz dateutil cycler six matplotlib].each do |r|
+      %w[numpy pandas scipy biopython pyparsing pytz dateutil cycler six matplotlib].each do |r|
         resource(r).stage do
-          system "python2", *Language::Python.setup_install_args(libexec)
+          system python, *Language::Python.setup_install_args(libexec)
+        end
+      end
+
+      # install biom-format with different dependencies based
+      # on the python version (pyqi does not support python3.4+ and is not required for biom with python3)
+      if build.with? "python3"
+        %w[click future biom-format].each do |r|
+          resource(r).stage do
+            system python, *Language::Python.setup_install_args(libexec)
+          end
+        end
+      else
+        %w[click future pyqi biom-format].each do |r|
+          resource(r).stage do
+            system python, *Language::Python.setup_install_args(libexec)
+          end
         end
       end
     end
 
     prefix.install Dir["*"]
+
+    # if using python3, modify the scripts (by default it uses python2)
+    # to use the latest python3 installed since they are executed directly
+    if build.with? "python3"
+      system "sed -i '1 s/python/python3/' #{prefix}/metaphlan2.py"
+      Dir[prefix/"utils/*.py"].each do |script|
+          system "sed -i '1 s/python/python3/' #{script}"
+      end
+    end
     bin.install prefix/"metaphlan2.py"
     bin.install Dir[prefix/"utils/*"]
     bin.env_script_all_files(prefix, :PYTHONPATH => ENV["PYTHONPATH"])
