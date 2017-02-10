@@ -5,9 +5,10 @@ class Humann2 < Formula
   version "0.9.9"
   sha256 "1193f799b7a976f2212df0351b1cbbd050a186485bd55da1c0a684468242c936"
 
-  # add the option to build without python
-  option "without-python", "Build without python2 support"
+  # add the python dependencies and options
   depends_on :python => :recommended if MacOS.version <= :snow_leopard
+  option "with-python3", "Build with python3 instead of python2"
+  depends_on :python3 => :optional
 
   # humann2 requires metaphlan2 as a dependency
   depends_on "biobakery/biobakery/metaphlan2" => :recommended
@@ -60,10 +61,36 @@ class Humann2 < Formula
     sha256 "105f8d68616f8248e24bf0e9372ef04d3cc10104f1980f54d57b2ce73a5ad56a"
   end
 
+  def get_python_version
+    # check the python version to install with
+    if build.with? "python3"
+        python="python3"
+    else
+        python="python2"
+    end
+
+    # get the full python version selected
+    python_full_version = `#{python} --version 2>&1`
+
+    # return an error if the python version selected is not installed
+    unless $? == 0
+     abort("Please install #{python}")
+    end
+
+    # get the major/minor python version to determine
+    # the install folder location
+    python_version = python_full_version.split(" ")[1].split(".").first(2).join(".")
+
+    return [python, python_version]
+  end
+
   def install
+    # get the python executable and version
+    python, python_version = get_python_version
+
     # set PYTHONPATH to location where package will be installed (relative to homebrew location)
-    ENV.prepend_create_path 'PYTHONPATH', libexec/"lib/python2.7/site-packages"
-    ENV.prepend_create_path 'PYTHONPATH', libexec/"lib64/python2.7/site-packages"
+    ENV.prepend_create_path 'PYTHONPATH', libexec/"lib/python#{python_version}/site-packages"
+    ENV.prepend_create_path 'PYTHONPATH', libexec/"lib64/python#{python_version}/site-packages"
 
     # install dependencies if set
     if build.with? "dependencies"
@@ -71,13 +98,13 @@ class Humann2 < Formula
       ENV.append "LDFLAGS", "-shared" if OS.linux?
       %w[numpy scipy pyparsing pytz dateutil cycler six matplotlib].each do |r|
         resource(r).stage do
-          system "python2", *Language::Python.setup_install_args(libexec)
+          system python, *Language::Python.setup_install_args(libexec)
         end
       end
     end
 
     # run python setup.py install using recommended homebrew helper method with destination prefix of libexec
-    system "python2", *Language::Python.setup_install_args(libexec)
+    system python, *Language::Python.setup_install_args(libexec)
     # copy all of the installed scripts to the homebrew bin
     bin.install Dir[libexec/"bin/*"]
 
