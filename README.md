@@ -21,10 +21,12 @@ If you do not want to install the full tool suite, you can select individual too
 2. Install the individual tools needed  
     1. HUMAnN2
         * `` $ brew install humann2 ``
+        * Add the option ``--with-python3`` to install with python3 (by default it is installed with python2).
         * Demo databases are included with the install. To install the full databases, see the [humann2 documentation](http://huttenhower.sph.harvard.edu/humann2).
     2. KneadData
         * Install [Java Runtime Environment](http://www.oracle.com/technetwork/java/javase/downloads/jre7-downloads-1880261.html)
         * `` $ brew install kneaddata ``
+        * Add the option ``--with-python3`` to install with python3 (by default it is installed with python2).
         * Demo databases are included with the install. To install the full databases, see the [kneaddata documentation](http://huttenhower.sph.harvard.edu/kneaddata).
     3. Picrust
         * `` $ brew install picrust ``
@@ -32,6 +34,7 @@ If you do not want to install the full tool suite, you can select individual too
         * `` $ brew install maaslin ``
     5. MetaPhlAn2
         * `` $ brew install metaphlan2 ``
+        * Add the option ``--with-python3`` to install with python3 (by default it is installed with python2).
     6. ShortBRED
         * Install [USEARCH](http://www.drive5.com/usearch/)
         * `` $ brew install shortbred ``
@@ -52,10 +55,12 @@ If you do not want to install the full tool suite, you can select individual too
         * `` $ brew install strainphlan ``
     14. HAllA
         * `` $ brew install halla ``
+        * Add the option ``--with-python3`` to install with python3 (by default it is installed with python2).
     15. Hclust2
         * `` $ brew install hclust2 ``
     16. PanPhlAn
         * `` $ brew install panphlan ``
+        * Add the option ``--with-python3`` to install with python3 (by default it is installed with python2).
 3. Test the individual installs
     1. Install biobakery_demos
         * `` $ brew install biobakery_demos ``
