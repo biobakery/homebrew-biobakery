@@ -1,9 +1,9 @@
 class Halla < Formula
   desc "Halla"
   homepage "https://huttenhower.sph.harvard.edu/halla"
-  url "https://pypi.python.org/packages/4e/4d/706e0afce06a0e7a586123bd8e05d989f2cf3eaa75ae60f871e1f3e8c436/halla-0.7.4.tar.gz"
-  version "0.7.4"
-  sha256 "28244cd13b661333a63deb2826845e466314c973ddf5c6984bb5a37eac8edff8"
+  url "https://pypi.python.org/packages/bc/a0/296e55b01e9a4b8bbf0b517942266e96052d4d11a422d25d506e4e6fa122/halla-0.7.7.tar.gz"
+  version "0.7.7"
+  sha256 "bb3d5b4397c78c8e4aff34fd9dac5f17fe09667faf53d308a1b6304007f006d5"
 
   # add the python dependencies and options
   depends_on :python => :recommended if MacOS.version <= :snow_leopard
