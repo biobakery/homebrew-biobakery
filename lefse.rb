@@ -51,17 +51,44 @@ class Lefse < Formula
     sha256 "1408fdb07c6a1fa9997567ce3fcee6a337b39a503d80699e0f213de4aa4b32ed"
   end
 
+  def get_python_version
+    # set the default python version
+    python="python2"
+
+    # get the full python version selected
+    python_full_version = `#{python} --version 2>&1`
+
+    # fall back to python if python2 is not available
+    unless $? == 0
+     python="python"
+     python_full_version = `#{python} --version 2>&1`
+    end
+
+    unless $? == 0
+     abort("Please install #{python}")
+    end
+
+    # get the major/minor python version to determine
+    # the install folder location
+    python_version = python_full_version.split(" ")[1].split(".").first(2).join(".")
+
+    return [python, python_version]
+  end
+
   def install
+    # check the python version
+    python, python_version = get_python_version
+
     # add the install location of the libraries to the PYTHONPATH
-    ENV.prepend_create_path "PYTHONPATH", libexec/"lib64/python2.7/site-packages"
-    ENV.prepend_create_path "PYTHONPATH", libexec/"lib/python2.7/site-packages"
+    ENV.prepend_create_path 'PYTHONPATH', libexec/"lib/python#{python_version}/site-packages"
+    ENV.prepend_create_path 'PYTHONPATH', libexec/"lib64/python#{python_version}/site-packages"
 
     # update LDFLAGS for numpy install
     ENV.append "LDFLAGS", "-shared" if OS.linux?    
     # install dependencies
     for python_package in ["numpy","matplotlib","rpy2","singledispatch","pyparsing","cycler","dateutil"]
         resource(python_package).stage do
-            system "python2", *Language::Python.setup_install_args(libexec)
+            system python, *Language::Python.setup_install_args(libexec)
         end
     end
 
