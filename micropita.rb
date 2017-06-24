@@ -16,9 +16,6 @@ class Micropita < Formula
   # mpi is required by mpi4py
   depends_on "mpich" => :recommended
 
-  # matplotlib on some platforms requires homebrew freetype
-  depends_on "freetype" => :recommended
-
   resource "biom-format" do
     url "https://pypi.python.org/packages/source/b/biom-format/biom-format-1.3.1.tar.gz"
     sha256 "03e750728dc2625997aa62043adaf03643801ef34c1764213303e926766f4cef"

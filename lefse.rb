@@ -12,9 +12,6 @@ class Lefse < Formula
   # readline required by rpy2
   depends_on "readline" => :recommended
 
-  # matplotlib on some platforms requires homebrew freetype
-  depends_on "freetype" => :recommended
-
   resource "numpy" do
     url "https://pypi.python.org/packages/source/n/numpy/numpy-1.11.0.tar.gz"
     sha256 "a1d1268d200816bfb9727a7a27b78d8e37ecec2e4d5ebd33eb64e2789e0db43e"

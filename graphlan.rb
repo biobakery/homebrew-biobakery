@@ -9,9 +9,6 @@ class Graphlan < Formula
   option "without-python", "Build without python2 support"
   depends_on :python => :recommended if MacOS.version <= :snow_leopard
 
-  # matplotlib on some platforms requires homebrew freetype, libpng, and pyqt5
-  depends_on "freetype" => :recommended
-  depends_on "libpng" => :recommended
   depends_on "bzip2" => :recommended
 
   resource "numpy" do

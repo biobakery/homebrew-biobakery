@@ -15,9 +15,6 @@ class Metaphlan2 < Formula
   # add the option to not install the numpy/scipy/matplotlib dependencies
   option "without-dependencies", "Don't install the dependencies (numpy,scipy,matplotlib)"
 
-  # matplotlib on some platforms requires homebrew freetype, libpng, and pyqt5
-  depends_on "freetype" => :recommended
-  depends_on "libpng" => :recommended
   depends_on "bzip2" => :recommended
 
   # download counter to track installs

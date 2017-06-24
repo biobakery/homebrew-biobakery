@@ -16,10 +16,6 @@ class Humann2 < Formula
   # add the option to not install the numpy/scipy/matplotlib dependencies
   option "without-dependencies", "Don't install the dependencies (numpy,scipy,matplotlib)"
 
-  # matplotlib on some platforms requires homebrew freetype, libpng, and pyqt5
-  depends_on "freetype" => :recommended
-  depends_on "libpng" => :recommended
-
   resource "numpy" do
     url "https://pypi.python.org/packages/67/ab/41e4b42e0519d868347d2cf1051a05ce0170632039c053dee8ffe8b43b0b/numpy-1.8.2.tar.gz"
     sha256 "6d487fc724780d66746bde264ea71f5cd77d3a39e52ee2b073dcaed63bc669db"
