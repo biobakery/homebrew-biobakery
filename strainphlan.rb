@@ -14,7 +14,7 @@ class Strainphlan < Formula
   depends_on "homebrew/science/muscle" => :recommended
 
   # required by samtools
-  depends_on "homebrew/dupes/ncurses" unless OS.mac?
+  depends_on ncurses unless OS.mac?
 
   depends_on "bzip2" => :recommended
 
