@@ -37,11 +37,18 @@ class Kneaddata < Formula
     # get the python executable and version
     python, python_version = get_python_version
 
+    # Add brew bin since it is no longer included in PATH
+    ENV.prepend 'PATH', File.join(HOMEBREW_PREFIX,'bin'), ':'
+
     ENV.prepend_create_path 'PYTHONPATH', libexec/"lib/python#{python_version}/site-packages"
     system python, *Language::Python.setup_install_args(libexec)
     bin.install Dir[libexec/"bin/kneaddata*"]
     bin.env_script_all_files(libexec/"bin", :PYTHONPATH => ENV["PYTHONPATH"])
     bin.install Dir[libexec/"bin/*.jar"]
+    # if bowtie2 is installed, then move to bin
+    if !Dir[libexec/"bin/bowtie2*"].empty?
+      bin.install Dir[libexec/"bin/bowtie2*"]
+    end
   end
 
   test do
