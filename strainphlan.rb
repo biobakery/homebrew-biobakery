@@ -122,6 +122,8 @@ class Strainphlan < Formula
     ENV.prepend_create_path "PYTHONPATH", libexec/"lib/python2.7/site-packages"
     ENV.prepend_create_path "PYTHONPATH", libexec/"vendor/lib/python2.7/site-packages"
     ENV.prepend_create_path 'PYTHONPATH', libexec/"vendor/lib64/python2.7/site-packages"
+    # Add brew bin since it is no longer included in PATH
+    ENV.prepend 'PATH', File.join(HOMEBREW_PREFIX,'bin'), ':'
     ENV.prepend_create_path 'PATH', libexec/"vendor/bin"
 
     # download counter and remove
