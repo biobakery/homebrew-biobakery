@@ -84,6 +84,9 @@ class Humann2 < Formula
     # get the python executable and version
     python, python_version = get_python_version
 
+    # Add brew bin since it is no longer included in PATH
+    ENV.prepend 'PATH', File.join(HOMEBREW_PREFIX,'bin'), ':'
+
     # set PYTHONPATH to location where package will be installed (relative to homebrew location)
     ENV.prepend_create_path 'PYTHONPATH', libexec/"lib/python#{python_version}/site-packages"
     ENV.prepend_create_path 'PYTHONPATH', libexec/"lib64/python#{python_version}/site-packages"
