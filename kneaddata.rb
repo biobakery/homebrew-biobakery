@@ -1,9 +1,9 @@
 class Kneaddata < Formula
   desc "KneadData"
   homepage "http://huttenhower.sph.harvard.edu/kneaddata"
-  url "https://pypi.python.org/packages/6d/50/dd20a862b2532a476b4837a2b1fe4f9e8131cf554751adb6fd7186ee33e3/kneaddata-0.5.4.tar.gz"
-  version "0.5.4"
-  sha256 "c76940de21d3696a6113c51307322c0ff2eadebd62dc980a9923b49d963c26a3"
+  url "https://pypi.python.org/packages/f8/6a/3c8f200d3088c5bc0dd2c85b74d5199e3ca1f2fb7d8baae44708f5b1b928/kneaddata-0.6.1.tar.gz"
+  version "0.6.1"
+  sha256 "46540a22bebc84919a71138c419c69f68e9f5e35404587a2e31a3a3e53c66077"
 
   # add python dependencies and options
   depends_on :python => :recommended if MacOS.version <= :snow_leopard
