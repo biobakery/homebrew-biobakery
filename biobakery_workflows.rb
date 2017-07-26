@@ -115,6 +115,9 @@ class BiobakeryWorkflows < Formula
     ENV.prepend_create_path "PYTHONPATH", libexec/"lib/python2.7/site-packages"
     ENV.prepend_create_path "PYTHONPATH", libexec/"vendor/lib/python2.7/site-packages"
     ENV.prepend_create_path "PYTHONPATH", libexec/"vendor/lib64/python2.7/site-packages"
+    # Add brew bin since it is no longer included in PATH
+    ENV.prepend 'PATH', File.join(HOMEBREW_PREFIX,'bin'), ':'
+    ENV.prepend_create_path 'PATH', libexec/"vendor/bin"
 
     # install core dependencies
     %w[anadama2 leveldb cloudpickle pweave markdown subprocess32 six decorator networkx].each do |r|
@@ -151,7 +154,7 @@ class BiobakeryWorkflows < Formula
 
     # copy the tutorial databases to the install folder
     system "cp","-r", libexec/"tutorial", libexec/"lib/python2.7/site-packages/"
-    bin.env_script_all_files(prefix/"scripts", { :PYTHONPATH => ENV["PYTHONPATH"] , :R_LIBS => ENV["R_LIBS"] })
+    bin.env_script_all_files(prefix/"scripts", { :PYTHONPATH => ENV["PYTHONPATH"] , :R_LIBS => ENV["R_LIBS"] , :PATH => ENV["PATH"]})
   end
 
   test do
