@@ -1,9 +1,9 @@
 class Humann2 < Formula
   desc "HUMAnN2: The HMP Unified Metabolic Analysis Network 2"
   homepage "http://huttenhower.sph.harvard.edu/humann2"
-  url "https://pypi.python.org/packages/71/70/9c45436b6dab38706826a822411d6386376205d9c9fa53972e2ff3b7dda8/humann2-0.9.9.tar.gz"
-  version "0.9.9"
-  sha256 "1193f799b7a976f2212df0351b1cbbd050a186485bd55da1c0a684468242c936"
+  url "https://pypi.python.org/packages/43/07/ec41577c3c1f9b578875ade8ed549d14fc2944c13cb7504579d542b62a69/humann2-0.11.1.tar.gz"
+  version "0.11.1"
+  sha256 "be439ce3b4149f4dff900d2005a5951f99c4edc798c123f264549eb6d2b9bee3"
 
   # add the python dependencies and options
   depends_on :python => :recommended if MacOS.version <= :snow_leopard
