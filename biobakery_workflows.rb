@@ -106,6 +106,11 @@ class BiobakeryWorkflows < Formula
     sha256 "c20b404cbb7ee5cebd506688e0114e3cd76f5ce233805a51f36e1a7988d9d783"
   end
 
+  resource "functools32" do
+    url "https://pypi.python.org/packages/c5/60/6ac26ad05857c601308d8fb9e87fa36d0ebf889423f47c3502ef034365db/functools32-3.2.3-2.tar.gz"
+    sha256sum "f6253dfbe0538ad2e387bd8fdfd9293c925d63553f5813c4e587745416501e6d"
+  end
+
   def install
     ENV.prepend_create_path "PYTHONPATH", libexec/"lib/python2.7/site-packages"
     ENV.prepend_create_path "PYTHONPATH", libexec/"vendor/lib/python2.7/site-packages"
@@ -129,7 +134,7 @@ class BiobakeryWorkflows < Formula
     end
 
     if build.with? "matplotlib"
-      %w[pyparsing cycler dateutil matplotlib].each do |r|
+      %w[functools32 pyparsing cycler dateutil matplotlib].each do |r|
         resource(r).stage do
           system "python2", *Language::Python.setup_install_args(libexec/"vendor")
         end
