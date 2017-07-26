@@ -64,6 +64,7 @@ If you do not want to install the full tool suite, you can select individual too
     17. bioBakery workflows
         * `` $ brew install biobakery_workflows ``
         * Install [Pandoc](http://pandoc.org/) (only required for the visualization workflows)
+        * Install LaTeX package with pdflatex, like TeXLive (only required for the visualization workflows)
 3. Test the individual installs
     1. Install biobakery_demos
         * `` $ brew install biobakery_demos ``
