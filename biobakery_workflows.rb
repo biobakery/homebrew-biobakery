@@ -101,13 +101,18 @@ class BiobakeryWorkflows < Formula
     sha256 "105f8d68616f8248e24bf0e9372ef04d3cc10104f1980f54d57b2ce73a5ad56a"
   end
 
+  resource "decorator" do
+    url "https://pypi.python.org/packages/f3/26/876d492f2394f29401eb652ddfa53dec2bc8721861c7fe0dce1b5d0d2b6a/decorator-3.4.0.tar.gz"
+    sha256 "c20b404cbb7ee5cebd506688e0114e3cd76f5ce233805a51f36e1a7988d9d783"
+  end
+
   def install
     ENV.prepend_create_path "PYTHONPATH", libexec/"lib/python2.7/site-packages"
     ENV.prepend_create_path "PYTHONPATH", libexec/"vendor/lib/python2.7/site-packages"
     ENV.prepend_create_path "PYTHONPATH", libexec/"vendor/lib64/python2.7/site-packages"
 
     # install core dependencies
-    %w[anadama2 leveldb cloudpickle pweave markdown subprocess32 six networkx].each do |r|
+    %w[anadama2 leveldb cloudpickle pweave markdown subprocess32 six decorator networkx].each do |r|
       resource(r).stage do
         system "python2", *Language::Python.setup_install_args(libexec/"vendor")
       end
