@@ -107,7 +107,7 @@ class BiobakeryWorkflows < Formula
     ENV.prepend_create_path "PYTHONPATH", libexec/"vendor/lib64/python2.7/site-packages"
 
     # install core dependencies
-    %w[anadama2 leveldb cloudpickle pweave markdown subprocess32 six].each do |r|
+    %w[anadama2 leveldb cloudpickle pweave markdown subprocess32 six networkx].each do |r|
       resource(r).stage do
         system "python2", *Language::Python.setup_install_args(libexec/"vendor")
       end
