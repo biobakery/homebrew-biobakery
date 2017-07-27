@@ -1,9 +1,9 @@
 class BiobakeryWorkflows < Formula
   desc "bioBakery workflows: A collection of meta'omic workflows"
   homepage "https://bitbucket.org/biobakery/biobakery_workflows"
-  url "https://pypi.python.org/packages/1c/b8/2d49305112ddce416e9f37d6bbd9cdd50eeda669d91954e9b4188b00aa9c/biobakery_workflows-0.3.0.tar.gz"
-  version "0.3.0"
-  sha256 "40fb7921f8bf721b0179672ea42220e43627e2fbf2cc9ec71225f1b405406e05"
+  url "https://pypi.python.org/packages/70/7c/64769accee73cfba802fd536ca6b19990bfd444dc429038a0b0e970d4707/biobakery_workflows-0.3.1.tar.gz"
+  version "0.3.1"
+  sha256 "8ffadeb2c57595a33a01a3f1d341191eff0dcc1acd33280496fe220ceb02ebe9"
 
   # add the option to build without python
   option "without-python", "Build without python2 support"
