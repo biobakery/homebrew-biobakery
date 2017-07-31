@@ -10,6 +10,9 @@ class Picrust < Formula
   option "without-python", "Build without python2 support"
   depends_on :python => :recommended if MacOS.version <= :snow_leopard
 
+  # add the biom h5py requirement
+  depends_on "hdf5" => :recommended
+
   # add the option to install without biom dependencies
   option "without-biom", "Don't install the biom dependencies (ie biom, h5py, pqyi)"
 
