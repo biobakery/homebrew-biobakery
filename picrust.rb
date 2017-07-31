@@ -67,6 +67,11 @@ class Picrust < Formula
     sha256 "6813746caa796550969ed98069f16627f070f6d8d60686cfb3fa0e66c2e0312b"
   end
 
+  resource "dateutil" do
+    url "https://pypi.python.org/packages/3e/f5/aad82824b369332a676a90a8c0d1e608b17e740bbb6aeeebca726f17b902/python-dateutil-2.5.3.tar.gz"
+    sha256 "1408fdb07c6a1fa9997567ce3fcee6a337b39a503d80699e0f213de4aa4b32ed"
+  end
+
   resource "16S_13_5" do
     url "ftp://ftp.microbio.me/pub/picrust-references/picrust-1.0.0/16S_13_5_precalculated.tab.gz"
     sha256 "ae9c25bda0bdc52db054f311e765daa1bcfc33b35261cc57b379938ef9feff3f"
@@ -93,7 +98,7 @@ class Picrust < Formula
     end
 
     if build.with? "biom"
-    for python_package in ["scipy", "pandas", "future", "six", "click", "pyqi", "h5py", "biom-format"]
+    for python_package in ["scipy", "pandas", "future", "six", "click", "pyqi", "h5py", "biom-format", "dateutil"]
             resource(python_package).stage do
                 system "python2", *Language::Python.setup_install_args(libexec/"vendor")
             end
