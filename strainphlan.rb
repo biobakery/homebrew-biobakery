@@ -1,7 +1,7 @@
 class Strainphlan < Formula
   desc "StrainPhlAn"
   homepage "https://bitbucket.org/biobakery/metaphlan2"
-  url "https://bitbucket.org/biobakery/metaphlan2/get/2.6.0.tar.gz"
+  url "http://huttenhower.sph.harvard.edu/metaphlan2_downloads/strainphlan-2.6.0.tar.gz"
   version "2.6.0"
   sha256 "ead411f9665a5391ec333a94d0259f46dfafd6854c82e56026fb15b24c7c4a57"
 
