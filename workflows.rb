@@ -1,4 +1,4 @@
-class BiobakeryWorkflows < Formula
+class Workflows < Formula
   desc "bioBakery workflows: A collection of meta'omic workflows"
   homepage "https://bitbucket.org/biobakery/biobakery_workflows"
   url "https://pypi.python.org/packages/70/7c/64769accee73cfba802fd536ca6b19990bfd444dc429038a0b0e970d4707/biobakery_workflows-0.3.1.tar.gz"
