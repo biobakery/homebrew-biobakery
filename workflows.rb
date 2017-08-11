@@ -112,17 +112,17 @@ class Workflows < Formula
   end
 
   def install
-    ENV.prepend_create_path "PYTHONPATH", libexec/"lib/python2.7/site-packages"
-    ENV.prepend_create_path "PYTHONPATH", libexec/"vendor/lib/python2.7/site-packages"
-    ENV.prepend_create_path "PYTHONPATH", libexec/"vendor/lib64/python2.7/site-packages"
     # Add brew bin since it is no longer included in PATH
     ENV.prepend 'PATH', File.join(HOMEBREW_PREFIX,'bin'), ':'
-    ENV.prepend_create_path 'PATH', libexec/"vendor/bin"
 
-    # install core dependencies
+    # set PYTHONPATH to location where package will be installed (relative to homebrew location)
+    ENV.prepend_create_path 'PYTHONPATH', File.join(HOMEBREW_PREFIX,"lib/python2.7/site-packages")
+    ENV.prepend_create_path 'PYTHONPATH', File.join(HOMEBREW_PREFIX,"lib64/python2.7/site-packages")
+
+    # install core dependencies into shared python lib and bin folders
     %w[anadama2 leveldb cloudpickle pweave markdown subprocess32 six decorator networkx].each do |r|
       resource(r).stage do
-        system "python2", *Language::Python.setup_install_args(libexec/"vendor")
+        system "python2", *Language::Python.setup_install_args(HOMEBREW_PREFIX)
       end
     end 
 
@@ -132,29 +132,31 @@ class Workflows < Formula
     ENV.append "FFLAGS", "-fPIC" if OS.linux?
     %w[numpy scipy].each do |r|
       resource(r).stage do
-        system "python2", *Language::Python.setup_install_args(libexec/"vendor")
+        system "python2", *Language::Python.setup_install_args(HOMEBREW_PREFIX)
       end
     end
 
     if build.with? "matplotlib"
       %w[functools32 pyparsing cycler dateutil matplotlib].each do |r|
         resource(r).stage do
-          system "python2", *Language::Python.setup_install_args(libexec/"vendor")
+          system "python2", *Language::Python.setup_install_args(HOMEBREW_PREFIX)
         end
       end
     end
 
-    ENV.prepend_create_path "R_LIBS", libexec/"vendor/R/library"
-    system "R", "-q", "-e", "install.packages('vegan', lib='" + libexec/"vendor/R/library" + "', repos='http://cran.r-project.org')"
+    ENV.prepend_create_path "R_LIBS", File.join(HOMEBREW_PREFIX, "R/library")
+    system "R", "-q", "-e", "install.packages('vegan', lib='" + File.join(HOMEBREW_PREFIX, "R/library") + "', repos='http://cran.r-project.org')"
 
-    # run python setup.py install using recommended homebrew helper method with destination prefix of libexec
+    # run python setup.py install, installing into local folder first
     system "python2", *Language::Python.setup_install_args(libexec)
+
     # copy all of the installed scripts to the homebrew bin
     bin.install Dir[libexec/"bin/*"]
 
-    # copy the tutorial databases to the install folder
-    system "cp","-r", libexec/"tutorial", libexec/"lib/python2.7/site-packages/"
-    bin.env_script_all_files(prefix/"scripts", { :PYTHONPATH => ENV["PYTHONPATH"] , :R_LIBS => ENV["R_LIBS"] , :PATH => ENV["PATH"]})
+    # copy the tutorial databases and libraries to the install folder
+    system "cp","-r", libexec/"tutorial", File.join(HOMEBREW_PREFIX,"lib/python2.7/site-packages/")
+    system "cp -r #{libexec}/lib/python2.7/site-packages/biobakery_work* " + File.join(HOMEBREW_PREFIX,"lib/python2.7/site-packages/")
+    bin.env_script_all_files(libexec/"bin", { :PYTHONPATH => ENV["PYTHONPATH"] , :R_LIBS => ENV["R_LIBS"] , :PATH => ENV["PATH"]})
   end
 
   test do
