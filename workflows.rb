@@ -117,6 +117,7 @@ class Workflows < Formula
 
     # set PYTHONPATH to location where package will be installed (relative to homebrew location)
     ENV.prepend_create_path 'PYTHONPATH', File.join(HOMEBREW_PREFIX,"lib/python2.7/site-packages")
+    ENV.prepend_create_path 'PYTHONPATH', File.join(HOMEBREW_PREFIX,"lib/python2.7/dist-packages")
     ENV.prepend_create_path 'PYTHONPATH', File.join(HOMEBREW_PREFIX,"lib64/python2.7/site-packages")
 
     # install core dependencies into shared python lib and bin folders
