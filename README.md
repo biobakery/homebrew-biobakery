@@ -65,6 +65,12 @@ If you do not want to install the full tool suite, you can select individual too
         * `` $ brew install workflows ``
         * Install [Pandoc](http://pandoc.org/) (only required for the visualization workflows)
         * Install LaTeX package with pdflatex, like TeXLive (only required for the visualization workflows)
+        * Add the following to your PYTHONPATH to use this tool as a python library (export HOMBREW_PREFIX=$(brew --prefix))
+            * $HOMEBREW_PREFIX/lib/python2.7/site-packages
+            * $HOMEBREW_PREFIX/lib/python2.7/dist-packages
+            * $HOMEBREW_PREFIX/lib64/python2.7/site-packages
+        * Add the following to your R_LIBS to use this tool as a python library (if you require auto-doc features)
+            * $HOMEBREW_PREFIX/R/library
 3. Test the individual installs
     1. Install biobakery_demos
         * `` $ brew install biobakery_demos ``
