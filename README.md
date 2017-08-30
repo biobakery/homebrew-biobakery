@@ -5,12 +5,14 @@ To get started, install [HomeBrew](http://brew.sh/) for MacOS or [LinuxBrew](htt
 
 ## Install the full biobakery tool suite plus biobakery demos ##
 
-1. Install dependencies [Java Runtime Environment](http://www.oracle.com/technetwork/java/javase/downloads/jre7-downloads-1880261.html) and [USEARCH](http://www.drive5.com/usearch/)
+1. Install dependencies [Java Runtime Environment](http://www.oracle.com/technetwork/java/javase/downloads/jre7-downloads-1880261.html), [USEARCH](http://www.drive5.com/usearch/), and freetype/lapack/blas (required by matplotlib; available through brew depending on your operating system (ie "brew install freetype"))
 2. Install the tool suite
     * `` $ brew tap biobakery/biobakery ``
     * `` $ brew install biobakery_tool_suite ``
 3. Test the install
     * `` $ biobakery_demos --tool all --mode test ``
+
+If you have any issues installing dependencies of the tool suite and you have root permissions, install the [bioBakery Docker images](https://hub.docker.com/u/biobakery/).
 
 ## Install individual biobakery tools ##
 
