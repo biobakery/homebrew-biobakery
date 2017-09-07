@@ -11,6 +11,7 @@ To get started, install [HomeBrew](http://brew.sh/) for MacOS or [LinuxBrew](htt
     * `` $ brew install biobakery_tool_suite ``
 3. Test the install
     * `` $ biobakery_demos --tool all --mode test ``
+    * Testing all tools takes about 45 minutes.
 
 If you have any issues installing dependencies of the tool suite and you have root permissions, install the [bioBakery Docker images](https://hub.docker.com/u/biobakery/).
 
@@ -83,3 +84,22 @@ If you do not want to install the full tool suite, you can select individual too
     4. And you can run a demo and view the output files created
         * `` $ biobakery_demos --tool humann2 --mode run --output humann2_demo_output ``
 
+## FAQs ##
+
+1. How do I get the latest formulas?
+  To get the latest formulas run, ``$ brew update``.
+
+2. I have installed a lot of tools and my brew install folder takes up a lot of space. How can I free up space?
+  Downloads for formulas are automatically installed in the brew cache. This way you only have to download something once but
+  it also can use up disk space. To remove the cache run, ``$ rm -rf $(brew --cache)``. 
+
+3. How do I list the names of the brew tools and versions installed?
+  Run the following command to list all of the tools and their versions, ``$ brew list --versions``.
+
+4. What should I do if I see an error during install that freetype is not installed but I have already installed freetype?
+  Matplotlib is required by some of the tools and it depends on freetype. Matplotlib expects a specific freetype header to be installed
+  in a specific folder and brew (and other package managers) don't always install the headers in this folder. If you are seeing
+  this issue run the command ``$ locate freetype | grep ft2build.h`` to find where the header file is located. Then run the
+  command ``$ ln -s /usr/include/freetype2/ft2build.h /usr/include/`` (replacing the initial location with the one from
+  the first command) to link this file to the location where matplotlib expects it. This should resolve the issue.
+ 
