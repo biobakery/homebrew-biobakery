@@ -10,7 +10,7 @@ class Metaphlan2 < Formula
   option "with-python3", "Build with python3 instead of python2"
   depends_on :python3 => :optional
 
-  depends_on "homebrew/science/bowtie2" => [:recommended, "without-tbb"]
+  depends_on "homebrew/core/bowtie2" => [:recommended, "without-tbb"]
 
   # add the option to not install the numpy/scipy/matplotlib dependencies
   option "without-dependencies", "Don't install the dependencies (numpy,scipy,matplotlib)"
