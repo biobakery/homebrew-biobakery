@@ -10,8 +10,8 @@ class Strainphlan < Formula
   depends_on :python => :recommended if MacOS.version <= :snow_leopard
 
   depends_on "biobakery/biobakery/blast" => :recommended
-  depends_on "homebrew/science/bowtie2" => [:recommended, "without-tbb"]
-  depends_on "homebrew/science/muscle" => :recommended
+  depends_on "homebrew/core/bowtie2" => [:recommended, "without-tbb"]
+  depends_on "brewsci/science/muscle" => :recommended
 
   # required by samtools
   depends_on "ncurses" unless OS.mac?
