@@ -7,7 +7,7 @@ class BiobakeryToolSuite < Formula
 
   # add the option to build without python
   option "without-python", "Build without python2 support"
-  depends_on :python => :recommended if MacOS.version <= :snow_leopard
+  depends_on "python" => :recommended if MacOS.version <= :snow_leopard
 
   # install metaphlan2_strainer (strainphlan) first which will install bowtie2
   # initial bowtie2 install will be used by humann2/kneaddata (instead of own installs)

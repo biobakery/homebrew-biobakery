@@ -6,9 +6,9 @@ class Humann2 < Formula
   sha256 "be439ce3b4149f4dff900d2005a5951f99c4edc798c123f264549eb6d2b9bee3"
 
   # add the python dependencies and options
-  depends_on :python => :recommended if MacOS.version <= :snow_leopard
+  depends_on "python" => :recommended if MacOS.version <= :snow_leopard
   option "with-python3", "Build with python3 instead of python2"
-  depends_on :python3 => :optional
+  depends_on "python3" => :optional
 
   # humann2 requires metaphlan2 as a dependency
   depends_on "biobakery/biobakery/metaphlan2" => :recommended

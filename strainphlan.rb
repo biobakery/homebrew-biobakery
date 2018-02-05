@@ -7,7 +7,7 @@ class Strainphlan < Formula
 
   # add the option to build without python
   option "without-python", "Build without python2 support"
-  depends_on :python => :recommended if MacOS.version <= :snow_leopard
+  depends_on "python" => :recommended if MacOS.version <= :snow_leopard
 
   depends_on "biobakery/biobakery/blast" => :recommended
   depends_on "homebrew/core/bowtie2" => [:recommended, "without-tbb"]

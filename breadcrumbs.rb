@@ -7,7 +7,7 @@ class Breadcrumbs < Formula
 
   # add the option to build without python
   option "without-python", "Build without python2 support"
-  depends_on :python => :recommended if MacOS.version <= :snow_leopard
+  depends_on "python" => :recommended if MacOS.version <= :snow_leopard
  
   # add the option to build with r 
   option "with-r", "Build with R support"

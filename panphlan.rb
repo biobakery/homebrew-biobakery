@@ -6,9 +6,9 @@ class Panphlan < Formula
   sha256 "dbeb7b726df7bdf930e865e693493d18282f22e2d416a39ba37389a30986184a"
 
   # add the python dependencies and options
-  depends_on :python => :recommended if MacOS.version <= :snow_leopard
+  depends_on "python" => :recommended if MacOS.version <= :snow_leopard
   option "with-python3", "Build with python3 instead of python2"
-  depends_on :python3 => :optional
+  depends_on "python3" => :optional
 
   depends_on "homebrew/core/bowtie2" => [:recommended, "without-tbb"]
   depends_on "homebrew/core/samtools" => :recommended

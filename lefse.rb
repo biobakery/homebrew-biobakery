@@ -7,7 +7,7 @@ class Lefse < Formula
 
   # add the option to build without python
   option "without-python", "Build without python2 support"
-  depends_on :python => :recommended if MacOS.version <= :snow_leopard
+  depends_on "python" => :recommended if MacOS.version <= :snow_leopard
 
   # readline required by rpy2
   depends_on "readline" => :recommended

@@ -6,9 +6,9 @@ class Kneaddata < Formula
   sha256 "46540a22bebc84919a71138c419c69f68e9f5e35404587a2e31a3a3e53c66077"
 
   # add python dependencies and options
-  depends_on :python => :recommended if MacOS.version <= :snow_leopard
+  depends_on "python" => :recommended if MacOS.version <= :snow_leopard
   option "with-python3", "Build with python3 instead of python2"
-  depends_on :python3 => :optional
+  depends_on "python3" => :optional
 
   def get_python_version
     # check the python version to install with

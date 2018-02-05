@@ -6,9 +6,9 @@ class Halla < Formula
   sha256 "ddbbf5e9e871b287e05123425e800c9cbdc1aaa837c8500144e3943e9506ff1a"
 
   # add the python dependencies and options
-  depends_on :python => :recommended if MacOS.version <= :snow_leopard
+  depends_on "python" => :recommended if MacOS.version <= :snow_leopard
   option "with-python3", "Build with python3 instead of python2"
-  depends_on :python3 => :optional
+  depends_on "python3" => :optional
 
   resource "numpy" do
     url "https://pypi.python.org/packages/source/n/numpy/numpy-1.11.0.tar.gz"

@@ -6,9 +6,9 @@ class Metaphlan2 < Formula
   sha256 "ead411f9665a5391ec333a94d0259f46dfafd6854c82e56026fb15b24c7c4a57"
 
   # add the python dependencies and options
-  depends_on :python => :recommended if MacOS.version <= :snow_leopard
+  depends_on "python" => :recommended if MacOS.version <= :snow_leopard
   option "with-python3", "Build with python3 instead of python2"
-  depends_on :python3 => :optional
+  depends_on "python3" => :optional
 
   depends_on "homebrew/core/bowtie2" => [:recommended, "without-tbb"]
 
