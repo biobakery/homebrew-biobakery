@@ -10,8 +10,8 @@ class Workflows < Formula
   depends_on :python => :recommended if MacOS.version <= :snow_leopard
  
   # install 16s workflow dependencies
-  depends_on "homebrew/homebrew-science/clustal-omega" => :recommended
-  depends_on "homebrew/homebrew-science/ea-utils" => :recommended
+  depends_on "brewsci/science/clustal-omega" => :recommended
+  depends_on "brewsci/science/ea-utils" => :recommended
 
   # install shotgun workflow dependencies
   # install metaphlan2_strainer (strainphlan) first which will install bowtie2
