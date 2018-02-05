@@ -10,8 +10,8 @@ class Panphlan < Formula
   option "with-python3", "Build with python3 instead of python2"
   depends_on :python3 => :optional
 
-  depends_on "homebrew/science/bowtie2" => [:recommended, "without-tbb"]
-  depends_on "homebrew/science/samtools" => :recommended
+  depends_on "homebrew/core/bowtie2" => [:recommended, "without-tbb"]
+  depends_on "homebrew/core/samtools" => :recommended
 
   resource "numpy" do
     url "https://pypi.python.org/packages/source/n/numpy/numpy-1.11.0.tar.gz"
