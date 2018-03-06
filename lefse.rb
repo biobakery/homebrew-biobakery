@@ -56,12 +56,12 @@ class Lefse < Formula
     python_full_version = `#{python} --version 2>&1`
 
     # fall back to python if python2 is not available
-    unless $? == 0
+    unless $?.exitstatus == 0
      python="python"
      python_full_version = `#{python} --version 2>&1`
     end
 
-    unless $? == 0
+    unless $?.exitstatus == 0
      abort("Please install #{python}")
     end
 

@@ -35,7 +35,7 @@ class Panphlan < Formula
     python_full_version = `#{python} --version 2>&1`
 
     # return an error if the python version selected is not installed
-    unless $? == 0
+    unless $?.exitstatus == 0
      abort("Please install #{python}")
     end
 
