@@ -18,6 +18,9 @@ class Strainphlan < Formula
 
   depends_on "bzip2" => :recommended
 
+  # add the option to not install the numpy/scipy/matplotlib dependencies
+  option "without-dependencies", "Don't install the python dependencies (numpy,scipy,matplotlib)"
+
   # download counter to track installs
   resource "counter" do
     url "https://bitbucket.org/biobakery/metaphlan2/downloads/strainphlan_homebrew_counter.txt"
@@ -161,11 +164,14 @@ class Strainphlan < Formula
         system "cp misc/maq2sam-long misc/maq2sam-short misc/md5fa misc/md5sum-lite misc/wgsim #{libexec}/vendor/bin/"
     end
 
-    # update LDFLAGS for numpy install
-    ENV.append "LDFLAGS", "-shared" if OS.linux?
-    %w[numpy pandas scipy pyparsing pytz pyqi biom-format cython msgpack pysam biopython dendropy dateutil cycler six matplotlib].each do |r|
-      resource(r).stage do
-        system "python2", *Language::Python.setup_install_args(libexec/"vendor")
+    # install dependencies if set
+    if build.with? "dependencies"
+      # update LDFLAGS for numpy install
+      ENV.append "LDFLAGS", "-shared" if OS.linux?
+      %w[numpy pandas scipy pyparsing pytz pyqi biom-format cython msgpack pysam biopython dendropy dateutil cycler six matplotlib].each do |r|
+        resource(r).stage do
+          system "python2", *Language::Python.setup_install_args(libexec/"vendor")
+        end
       end
     end
 
