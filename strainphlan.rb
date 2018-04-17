@@ -11,7 +11,7 @@ class Strainphlan < Formula
 
   depends_on "biobakery/biobakery/blast" => :recommended
   depends_on "homebrew/core/bowtie2" => [:recommended, "without-tbb"]
-  depends_on "brewsci/science/muscle" => :recommended
+  depends_on "brewsci/bio/muscle" => :recommended
 
   # required by samtools
   depends_on "ncurses" unless OS.mac?

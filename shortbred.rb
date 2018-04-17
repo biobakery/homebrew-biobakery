@@ -10,7 +10,7 @@ class Shortbred < Formula
   depends_on "python" => :recommended if MacOS.version <= :snow_leopard
 
   depends_on "biobakery/biobakery/blast" => :recommended
-  depends_on "brewsci/science/muscle" => :recommended
+  depends_on "brewsci/bio/muscle" => :recommended
   depends_on "brewsci/science/cd-hit" => :recommended
 
   resource "numpy" do

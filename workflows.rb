@@ -10,7 +10,7 @@ class Workflows < Formula
   depends_on "python" => :recommended if MacOS.version <= :snow_leopard
  
   # install 16s workflow dependencies
-  depends_on "brewsci/science/clustal-omega" => :recommended
+  depends_on "brewsci/bio/clustal-omega" => :recommended
   depends_on "brewsci/science/ea-utils" => :recommended
 
   # install shotgun workflow dependencies
