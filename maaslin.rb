@@ -9,6 +9,9 @@ class Maaslin < Formula
   option "with-r", "Build with R support"
   depends_on "r" => [:optional, "without-x"]
 
+  # add the option to not install the python dependencies
+  option "without-dependencies", "Don't install the python dependencies (blist)"
+
   resource "blist" do
     url "https://pypi.python.org/packages/source/b/blist/blist-1.3.6.tar.gz"
     sha256 "3a12c450b001bdf895b30ae818d4d6d3f1552096b8c995f0fe0c74bef04d1fc3"
@@ -22,9 +25,12 @@ class Maaslin < Formula
   def install
     ENV.prepend_create_path "PYTHONPATH", libexec/"vendor/lib/python2.7/site-packages"
     ENV.prepend_create_path "PYTHONPATH", libexec/"vendor/lib64/python2.7/site-packages"
-    for python_package in ["blist"]
-      resource(python_package).stage do
-        system "python2", *Language::Python.setup_install_args(libexec/"vendor")
+    # install dependencies if set
+    if build.with? "dependencies"
+      for python_package in ["blist"]
+        resource(python_package).stage do
+          system "python2", *Language::Python.setup_install_args(libexec/"vendor")
+        end
       end
     end
 
