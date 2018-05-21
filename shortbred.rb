@@ -11,7 +11,7 @@ class Shortbred < Formula
 
   depends_on "biobakery/biobakery/blast" => :recommended
   depends_on "brewsci/bio/muscle" => :recommended
-  depends_on "brewsci/science/cd-hit" => :recommended
+  depends_on "brewsci/bio/cd-hit" => :recommended
 
   resource "numpy" do
     url "https://pypi.python.org/packages/source/n/numpy/numpy-1.11.0.tar.gz"
