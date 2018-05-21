@@ -13,6 +13,9 @@ class Shortbred < Formula
   depends_on "brewsci/bio/muscle" => :recommended
   depends_on "brewsci/bio/cd-hit" => :recommended
 
+  # add the option to not install the numpy/biopython/matplotlib dependencies
+  option "without-dependencies", "Don't install the dependencies (numpy,biopython,matplotlib)"
+
   resource "numpy" do
     url "https://pypi.python.org/packages/source/n/numpy/numpy-1.11.0.tar.gz"
     sha256 "a1d1268d200816bfb9727a7a27b78d8e37ecec2e4d5ebd33eb64e2789e0db43e"
@@ -34,13 +37,16 @@ class Shortbred < Formula
     ENV.prepend_create_path "PYTHONPATH", libexec/"lib64/python2.7/site-packages"
     ENV.prepend_create_path "PYTHONPATH", libexec/"lib/python2.7/site-packages"
 
-    # install dependencies
-    # update LDFLAGS for numpy install
-    ENV.append "LDFLAGS", "-shared" if OS.linux?
-    for python_package in ["numpy","matplotlib","biopython"]
-        resource(python_package).stage do
-            system "python2", *Language::Python.setup_install_args(libexec)
-        end
+    # install dependencies if set
+    if build.with? "dependencies"
+      # install dependencies
+      # update LDFLAGS for numpy install
+      ENV.append "LDFLAGS", "-shared" if OS.linux?
+      for python_package in ["numpy","matplotlib","biopython"]
+          resource(python_package).stage do
+              system "python2", *Language::Python.setup_install_args(libexec)
+          end
+      end
     end
 
     # copy the source to the library install location
