@@ -13,7 +13,10 @@ class Metaphlan2 < Formula
   depends_on "homebrew/core/bowtie2" => [:recommended, "without-tbb"]
 
   # add the option to not install the numpy/scipy/matplotlib dependencies
-  option "without-dependencies", "Don't install the dependencies (numpy,scipy,matplotlib)"
+  option "without-python-packages", "Don't install the required python packages (numpy/scipy/matplotlib/biom)"
+  option "without-numpy", "Don't install numpy"
+  option "without-scipy", "Don't install scipy"
+  option "without-matplotlib", "Don't install matplotlib"
 
   depends_on "bzip2" => :recommended
 
@@ -130,10 +133,29 @@ class Metaphlan2 < Formula
     end
 
     # install dependencies if set
-    if build.with? "dependencies"
-      # update LDFLAGS for numpy install
-      ENV.append "LDFLAGS", "-shared" if OS.linux?
-      %w[numpy pandas scipy biopython pyparsing pytz dateutil cycler six matplotlib].each do |r|
+    if build.with? "python-packages"
+      if build.with? "numpy"
+        # update LDFLAGS for numpy install
+        ENV.append "LDFLAGS", "-shared" if OS.linux?
+        resource("numpy").stage do
+          system python, *Language::Python.setup_install_args(libexec)
+        end
+      end
+      if build.with? "scipy"
+        resource("scipy").stage do
+          system python, *Language::Python.setup_install_args(libexec)
+        end
+      end
+
+      if build.with? "matplotlib"
+        %w[pyparsing pytz dateutil cycler six matplotlib].each do |r|
+          resource(r).stage do
+            system python, *Language::Python.setup_install_args(libexec)
+          end
+        end
+      end
+
+      %w[pandas biopython].each do |r|
         resource(r).stage do
           system python, *Language::Python.setup_install_args(libexec)
         end
