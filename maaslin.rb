@@ -9,8 +9,9 @@ class Maaslin < Formula
   option "with-r", "Build with R support"
   depends_on "r" => [:optional, "without-x"]
 
-  # add the option to not install the python dependencies
-  option "without-dependencies", "Don't install the python dependencies (blist)"
+  # add the option to not install the python/r dependencies
+  option "without-python-packages", "Don't install the python packages (blist)"
+  option "without-r-packages", "Don't install the R packages"
 
   resource "blist" do
     url "https://pypi.python.org/packages/source/b/blist/blist-1.3.6.tar.gz"
@@ -26,7 +27,7 @@ class Maaslin < Formula
     ENV.prepend_create_path "PYTHONPATH", libexec/"vendor/lib/python2.7/site-packages"
     ENV.prepend_create_path "PYTHONPATH", libexec/"vendor/lib64/python2.7/site-packages"
     # install dependencies if set
-    if build.with? "dependencies"
+    if build.with? "python-packages"
       for python_package in ["blist"]
         resource(python_package).stage do
           system "python2", *Language::Python.setup_install_args(libexec/"vendor")
@@ -44,21 +45,23 @@ class Maaslin < Formula
     # write stubs to bin that set R_LIBS and call executables, move executables back to original location
     bin.env_script_all_files(lib/"bin", { :PYTHONPATH => ENV["PYTHONPATH"] , :R_LIBS => ENV["R_LIBS"] })
 
-    # install gam required dependencies
-    for r_package in ["foreach"]
-        system "R", "-q", "-e", "install.packages('" + r_package + "', lib='" + libexec + "', repos='http://cran.r-project.org')"
-    end
-
-    # install older gam package prior to bug being introduced that results in argument of length zero error
-    for r_package in ["gam"]
-      resource(r_package).stage do
-        system "R", "CMD", "INSTALL", "."
+    if build.with? "r-packages"
+      # install gam required dependencies
+      for r_package in ["foreach"]
+          system "R", "-q", "-e", "install.packages('" + r_package + "', lib='" + libexec + "', repos='http://cran.r-project.org')"
       end
-    end
 
-    # install maaslin as an R package, also install required dependencies
-    for r_package in ["agricolae","gamlss","gbm","glmnet","inlinedocs","logging","MASS","nlme","optparse","outliers","penalized","pscl","robustbase","tools"]
-        system "R", "-q", "-e", "install.packages('" + r_package + "', lib='" + libexec + "', repos='http://cran.r-project.org')"
+      # install older gam package prior to bug being introduced that results in argument of length zero error
+      for r_package in ["gam"]
+        resource(r_package).stage do
+          system "R", "CMD", "INSTALL", "."
+        end
+      end
+
+      # install maaslin as an R package, also install required dependencies
+      for r_package in ["agricolae","gamlss","gbm","glmnet","inlinedocs","logging","MASS","nlme","optparse","outliers","penalized","pscl","robustbase","tools"]
+          system "R", "-q", "-e", "install.packages('" + r_package + "', lib='" + libexec + "', repos='http://cran.r-project.org')"
+      end
     end
   end
 
