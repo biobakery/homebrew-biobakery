@@ -16,6 +16,11 @@ class Picrust < Formula
   # add the option to install without biom dependencies
   option "without-biom", "Don't install the biom dependencies (ie biom, h5py, pqyi)"
 
+  # add the option to not install the numpy/scipy dependencies
+  option "without-python-packages", "Don't install the required python packages (numpy/scipy/biom)"
+  option "without-numpy", "Don't install numpy"
+  option "without-scipy", "Don't install scipy"
+
   resource "biom-format" do
     url "https://pypi.python.org/packages/46/a6/fccc2f5db587d7d896b52054aa5a9f0f7fd8fb6ad23ab9a02934d4cb1739/biom-format-2.1.6.tar.gz"
     sha256 "8eefc275a85cc937f6d6f408d91b7b45eae854cd5d1cbda411a3af51f5b49b0d"
@@ -88,22 +93,35 @@ class Picrust < Formula
     ENV.prepend_create_path 'PYTHONPATH', libexec/"vendor/lib/python2.7/site-packages"
     ENV.prepend_create_path 'PYTHONPATH', libexec/"vendor/lib64/python2.7/site-packages"
 
-    # install dependencies
-    # update LDFLAGS for numpy install
-    ENV.append "LDFLAGS", "-shared" if OS.linux?
-    for python_package in ["numpy", "cogent"]
-        resource(python_package).stage do
-            system "python2", *Language::Python.setup_install_args(libexec/"vendor")
-        end
-    end
-
-    if build.with? "biom"
-    for python_package in ["scipy", "pandas", "future", "six", "click", "pyqi", "h5py", "biom-format", "dateutil"]
+    if build.without? "python-packages"
+        puts("Not installing python packages numpy/scipy/matplotlib")
+    else
+      # install dependencies
+      if build.with? "numpy"
+        # update LDFLAGS for numpy install
+        ENV.append "LDFLAGS", "-shared" if OS.linux?
+        for python_package in ["numpy", "cogent"]
             resource(python_package).stage do
                 system "python2", *Language::Python.setup_install_args(libexec/"vendor")
             end
         end
+      end
+
+      if build.with? "scipy"
+        resource("scipy").stage do
+          system "python2", *Language::Python.setup_install_args(libexec/"vendor")
+        end
+      end
+
+      if build.with? "biom"
+        for python_package in ["pandas", "future", "six", "click", "pyqi", "h5py", "biom-format", "dateutil"]
+          resource(python_package).stage do
+            system "python2", *Language::Python.setup_install_args(libexec/"vendor")
+          end
+        end
+      end
     end
+
     # run python setup.py install using recommended homebrew helper method with destination prefix of libexec
     system "python2", *Language::Python.setup_install_args(libexec)
     # copy all of the installed scripts to the homebrew bin
