@@ -11,6 +11,12 @@ class Graphlan < Formula
 
   depends_on "bzip2" => :recommended
 
+  # add the option to not install the numpy/scipy/matplotlib dependencies
+  option "without-python-packages", "Don't install the required python packages (numpy/scipy/matplotlib/biopython/biom)"
+  option "without-numpy", "Don't install numpy"
+  option "without-scipy", "Don't install scipy"
+  option "without-matplotlib", "Don't install matplotlib"
+
   resource "numpy" do
     url "https://pypi.python.org/packages/source/n/numpy/numpy-1.11.0.tar.gz"
     sha256 "a1d1268d200816bfb9727a7a27b78d8e37ecec2e4d5ebd33eb64e2789e0db43e"
@@ -98,20 +104,40 @@ class Graphlan < Formula
         system "mv #{libexec}/*.py #{libexec}/pyphlan/"
     end
 
-    # update LDFLAGS for numpy install
-    ENV.append "LDFLAGS", "-shared" if OS.linux?    
-    # install dependencies
-    for python_package in ["numpy","biopython", "scipy", "pandas", "biom", "pyparsing", "cycler", "dateutil"]
-        resource(python_package).stage do
-            system "python2", *Language::Python.setup_install_args(libexec)
+    if build.with? "python-packages"
+      if build.with? "numpy"
+        # update LDFLAGS for numpy install
+        ENV.append "LDFLAGS", "-shared" if OS.linux?   
+        resource("numpy").stage do
+          system "python2", *Language::Python.setup_install_args(libexec)
         end
-    end
+      end 
+      if build.with? "scipy"
+        resource("scipy").stage do
+          system "python2", *Language::Python.setup_install_args(libexec)
+        end
+      end
+      if build.with? "matplotlib"
+        for python_package in ["pyparsing", "cycler", "dateutil"]
+          resource(python_package).stage do
+              system "python2", *Language::Python.setup_install_args(libexec)
+          end
+        end
 
-    # matplotlib has to be installed without the default setup args to include the mpl_toolkit as a library
-    resource("matplotlib").stage do
-        system "python2", "setup.py", "install", "--install-lib", libexec/"lib64/python2.7/site-packages/" ,"--install-scripts", libexec/"bin/"
+        # matplotlib has to be installed without the default setup args to include the mpl_toolkit as a library
+        resource("matplotlib").stage do
+            system "python2", "setup.py", "install", "--install-lib", libexec/"lib64/python2.7/site-packages/" ,"--install-scripts", libexec/"bin/"
+        end
+      end
+          
+      # install dependencies
+      for python_package in ["biopython", "pandas", "biom"]
+          resource(python_package).stage do
+              system "python2", *Language::Python.setup_install_args(libexec)
+          end
+      end
     end
-
+ 
     # copy the source to the library install location
     libexec.install Dir["*"]
 
