@@ -94,9 +94,7 @@ class Humann2 < Formula
     ENV.prepend_create_path 'PYTHONPATH', libexec/"lib/python#{python_version}/site-packages"
     ENV.prepend_create_path 'PYTHONPATH', libexec/"lib64/python#{python_version}/site-packages"
 
-    if build.without? "python-packages"
-        puts("Not installing python packages numpy/scipy/matplotlib")
-    else
+    if build.with? "python-packages"
       # install dependencies if set
       if build.with? "numpy"
         # update LDFLAGS for numpy install
