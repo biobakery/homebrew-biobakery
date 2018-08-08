@@ -14,7 +14,10 @@ class Humann2 < Formula
   depends_on "biobakery/biobakery/metaphlan2" => :recommended
 
   # add the option to not install the numpy/scipy/matplotlib dependencies
-  option "without-dependencies", "Don't install the dependencies (numpy,scipy,matplotlib)"
+  option "without-python-packages", "Don't install the required python packages (numpy/scipy/matplotlib)"
+  option "without-numpy", "Don't install numpy"
+  option "without-scipy", "Don't install scipy"
+  option "without-matplotlib", "Don't install matplotlib"
 
   resource "numpy" do
     url "https://pypi.python.org/packages/67/ab/41e4b42e0519d868347d2cf1051a05ce0170632039c053dee8ffe8b43b0b/numpy-1.8.2.tar.gz"
@@ -91,13 +94,29 @@ class Humann2 < Formula
     ENV.prepend_create_path 'PYTHONPATH', libexec/"lib/python#{python_version}/site-packages"
     ENV.prepend_create_path 'PYTHONPATH', libexec/"lib64/python#{python_version}/site-packages"
 
-    # install dependencies if set
-    if build.with? "dependencies"
-      # update LDFLAGS for numpy install
-      ENV.append "LDFLAGS", "-shared" if OS.linux?
-      %w[numpy scipy pyparsing pytz dateutil cycler six matplotlib].each do |r|
-        resource(r).stage do
+    if build.without? "python-packages"
+        puts("Not installing python packages numpy/scipy/matplotlib")
+    else
+      # install dependencies if set
+      if build.with? "numpy"
+        # update LDFLAGS for numpy install
+        ENV.append "LDFLAGS", "-shared" if OS.linux?
+        resource("numpy").stage do
           system python, *Language::Python.setup_install_args(libexec)
+        end
+      end
+    
+      if build.with? "scipy"
+        resource("scipy").stage do
+          system python, *Language::Python.setup_install_args(libexec)
+        end
+      end
+
+      if build.with? "matplotlib"
+        %w[matplotlib pyparsing pytz dateutil cycler six].each do |r|
+          resource(r).stage do
+            system python, *Language::Python.setup_install_args(libexec)
+          end
         end
       end
     end
