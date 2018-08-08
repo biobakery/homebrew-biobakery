@@ -9,6 +9,12 @@ class Ppanini < Formula
   option "without-python", "Build without python2 support"
   depends_on "python" => :recommended if MacOS.version <= :snow_leopard
 
+  # add the option to not install the numpy/scipy/matplotlib dependencies
+  option "without-python-packages", "Don't install the required python packages (numpy/scipy/matplotlib)"
+  option "without-numpy", "Don't install numpy"
+  option "without-scipy", "Don't install scipy"
+  option "without-matplotlib", "Don't install matplotlib"
+
   resource "numpy" do
     url "https://pypi.python.org/packages/source/n/numpy/numpy-1.11.0.tar.gz"
     sha256 "a1d1268d200816bfb9727a7a27b78d8e37ecec2e4d5ebd33eb64e2789e0db43e"
@@ -33,14 +39,32 @@ class Ppanini < Formula
     ENV.prepend_create_path 'PYTHONPATH', libexec/"lib/python2.7/site-packages"
     ENV.prepend_create_path 'PYTHONPATH', libexec/"vendor/lib/python2.7/site-packages"
     ENV.prepend_create_path 'PYTHONPATH', libexec/"vendor/lib64/python2.7/site-packages"
-    
-    # update LDFLAGS for numpy install
-    ENV.append "LDFLAGS", "-shared" if OS.linux?
-    # install dependencies
-    for python_package in ["numpy","scipy","matplotlib","biopython"]
-        resource(python_package).stage do
-            system "python2", *Language::Python.setup_install_args(libexec/"vendor")
+   
+    if build.with? "python-packages" 
+      if build.with? "numpy"
+        # update LDFLAGS for numpy install
+        ENV.append "LDFLAGS", "-shared" if OS.linux?
+        # install dependencies
+        resource("numpy").stage do
+          system "python2", *Language::Python.setup_install_args(libexec/"vendor")
         end
+      end
+      if build.with? "scipy"
+        resource("scipy").stage do
+          system "python2", *Language::Python.setup_install_args(libexec/"vendor")
+        end
+      end
+      if build.with? "matplotlib"
+        resource("matplotlib").stage do
+          system "python2", *Language::Python.setup_install_args(libexec/"vendor")
+        end
+      end
+ 
+     for python_package in ["biopython"]
+       resource(python_package).stage do
+         system "python2", *Language::Python.setup_install_args(libexec/"vendor")
+       end
+     end
     end
 
     system "python2", *Language::Python.setup_install_args(libexec)
