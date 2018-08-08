@@ -11,6 +11,12 @@ class Hclust2 < Formula
 
   depends_on "bzip2" => :recommended
 
+  # add the option to not install the numpy/scipy/matplotlib dependencies
+  option "without-python-packages", "Don't install the required python packages (numpy/scipy/matplotlib)"
+  option "without-numpy", "Don't install numpy"
+  option "without-scipy", "Don't install scipy"
+  option "without-matplotlib", "Don't install matplotlib"
+
   resource "numpy" do
     url "https://pypi.python.org/packages/source/n/numpy/numpy-1.7.1.tar.gz"
     sha256 "5525019a3085c3d860e6cfe4c0a30fb65d567626aafc50cf1252a641a418084a"
@@ -70,17 +76,37 @@ class Hclust2 < Formula
     ENV.prepend_create_path "PYTHONPATH", libexec/"lib/python2.7/site-packages"
     ENV.prepend_create_path 'PYTHONPATH', libexec/"lib64/python2.7/site-packages"
 
-    # update LDFLAGS for numpy install
-    ENV.append "LDFLAGS", "-shared" if OS.linux?
-    %w[numpy pandas scipy biopython pyqi pyparsing pytz dateutil cycler six].each do |r|
-      resource(r).stage do
-        system "python2", *Language::Python.setup_install_args(libexec)
+    if build.with? "python-packages"
+      if build.with? "numpy"
+        # update LDFLAGS for numpy install
+        ENV.append "LDFLAGS", "-shared" if OS.linux?
+        resource("numpy").stage do
+          system "python2", *Language::Python.setup_install_args(libexec)
+        end
       end
-    end
+      if build.with? "scipy"
+        resource("scipy").stage do
+          system "python2", *Language::Python.setup_install_args(libexec)
+        end
+      end
+      if build.with? "matplotlib"
+        for python_package in ["pyparsing", "cycler", "dateutil", "six"]
+          resource(python_package).stage do
+              system "python2", *Language::Python.setup_install_args(libexec)
+          end
+        end
 
-    # matplotlib has to be installed without the default setup args to include the mpl_toolkit as a library
-    resource("matplotlib").stage do
-        system "python2", "setup.py", "install", "--install-lib", libexec/"lib64/python2.7/site-packages/" ,"--install-scripts", libexec/"bin/"
+        # matplotlib has to be installed without the default setup args to include the mpl_toolkit as a library
+        resource("matplotlib").stage do
+            system "python2", "setup.py", "install", "--install-lib", libexec/"lib64/python2.7/site-packages/" ,"--install-scripts", libexec/"bin/"
+        end
+      end
+
+      %w[pandas biopython pyqi pytz].each do |r|
+        resource(r).stage do
+          system "python2", *Language::Python.setup_install_args(libexec)
+        end
+      end
     end
 
     # install hclust
