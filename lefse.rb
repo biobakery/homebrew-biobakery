@@ -12,8 +12,11 @@ class Lefse < Formula
   # readline required by rpy2
   depends_on "readline" => :recommended
 
-  # add the option to not install the numpy/scipy/matplotlib dependencies
-  option "without-dependencies", "Don't install the python dependencies (numpy,scipy,matplotlib)"
+  # add the option to not install the numpy/matplotlib dependencies
+  option "without-python-packages", "Don't install the required python packages (numpy/matplotlib/rpy2)"
+  option "without-numpy", "Don't install numpy"
+  option "without-matplotlib", "Don't install matplotlib"
+  option "without-r-packages", "Don't install the required R packages"
 
   resource "numpy" do
     url "https://pypi.python.org/packages/source/n/numpy/numpy-1.11.0.tar.gz"
@@ -84,11 +87,24 @@ class Lefse < Formula
     ENV.prepend_create_path 'PYTHONPATH', libexec/"lib64/python#{python_version}/site-packages"
 
     # install dependencies if set
-    if build.with? "dependencies"
-      # update LDFLAGS for numpy install
-      ENV.append "LDFLAGS", "-shared" if OS.linux?    
-      # install dependencies
-      for python_package in ["numpy","matplotlib","rpy2","singledispatch","pyparsing","cycler","dateutil"]
+    if build.with? "python-packages"
+      if build.with? "numpy"
+        # update LDFLAGS for numpy install
+        ENV.append "LDFLAGS", "-shared" if OS.linux?
+        resource("numpy").stage do
+          system python, *Language::Python.setup_install_args(libexec)
+        end
+      end    
+      if build.with? "matplotlib"
+        for python_package in ["matplotlib","pyparsing","cycler","dateutil"]
+          resource(python_package).stage do
+            system python, *Language::Python.setup_install_args(libexec)
+          end
+        end
+      end
+
+      # install dependencies for rpy2
+      for python_package in ["rpy2","singledispatch"]
           resource(python_package).stage do
               system python, *Language::Python.setup_install_args(libexec)
           end
@@ -96,9 +112,11 @@ class Lefse < Formula
     end
 
     # install the R packages
-    ENV.prepend_create_path "R_LIBS", libexec/"R/library"
-    for r_package in ['splines', 'stats4', 'survival','mvtnorm', 'modeltools', 'coin', 'MASS']
-        system "R", "-q", "-e", "install.packages('" +  r_package + "', lib='" + libexec/"R/library" + "', repos='http://cran.r-project.org')"
+    if build.with? "r-packages"
+      ENV.prepend_create_path "R_LIBS", libexec/"R/library"
+      for r_package in ['splines', 'stats4', 'survival','mvtnorm', 'modeltools', 'coin', 'MASS']
+          system "R", "-q", "-e", "install.packages('" +  r_package + "', lib='" + libexec/"R/library" + "', repos='http://cran.r-project.org')"
+      end
     end
 
     # copy the source to the library install location
