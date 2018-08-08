@@ -102,4 +102,9 @@ If you do not want to install the full tool suite, you can select individual too
   this issue run the command ``$ locate freetype | grep ft2build.h`` to find where the header file is located. Then run the
   command ``$ ln -s /usr/include/freetype2/ft2build.h /usr/include/`` (replacing the initial location with the one from
   the first command) to link this file to the location where matplotlib expects it. This should resolve the issue.
- 
+
+5. What should I do if I see errors about python2?
+  The tools by default are installed with the python2 executable. For most environments on Linux and MacOS, you should have a
+  python2 executable. If you run ``$ which python2`` and python2 is not found you are likely in a python3 conda environment.
+  If this is the case, then search for python3. If python3 is found add the option ``--with-python3`` to install the tool
+  with python3. The python3 install is available for all tools that are python2/3 compatible. 
