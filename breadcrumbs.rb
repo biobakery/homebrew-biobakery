@@ -16,6 +16,13 @@ class Breadcrumbs < Formula
   # mpi is required by mpi4py
   depends_on "mpich" => :recommended
 
+  # add the option to not install the numpy/scipy/matplotlib dependencies
+  option "without-python-packages", "Don't install the required python packages (numpy/scipy/matplotlib)"
+  option "without-numpy", "Don't install numpy"
+  option "without-scipy", "Don't install scipy"
+  option "without-matplotlib", "Don't install matplotlib"
+  option "without-r-packages", "Don't install the required R packages"
+
   resource "numpy" do
     url "https://pypi.python.org/packages/source/n/numpy/numpy-1.7.1.tar.gz"
     sha256 "5525019a3085c3d860e6cfe4c0a30fb65d567626aafc50cf1252a641a418084a"
@@ -74,24 +81,46 @@ class Breadcrumbs < Formula
   def install
     ENV.prepend_create_path "PYTHONPATH", libexec/"vendor/lib/python2.7/site-packages"
     ENV.prepend_create_path "PYTHONPATH", libexec/"vendor/lib64/python2.7/site-packages"
-    # update LDFLAGS for numpy install
-    ENV.append "LDFLAGS", "-shared" if OS.linux?
-    # update CFLAGS for scipy install
-    ENV.append "FFLAGS", "-fPIC" if OS.linux?
-    %w[numpy scipy matplotlib biom-format pyqi blist cogent mpi4py pyparsing cycler dateutil].each do |r|
-      resource(r).stage do
-        system "python2", *Language::Python.setup_install_args(libexec/"vendor")
+
+    if build.with? "python-packages"
+      if build.with? "numpy"
+        # update LDFLAGS for numpy install
+        ENV.append "LDFLAGS", "-shared" if OS.linux?
+        resource("numpy").stage do
+            system "python2", *Language::Python.setup_install_args(libexec)
+        end
+      end
+      if build.with? "scipy"
+        # update CFLAGS for scipy install
+        ENV.append "FFLAGS", "-fPIC" if OS.linux?
+        resource("scipy").stage do
+          system "python2", *Language::Python.setup_install_args(libexec)
+        end
+      end
+      if build.with? "matplotlib"
+        for python_package in ["matplotlib", "pyparsing", "cycler", "dateutil"]
+          resource(python_package).stage do
+            system "python2", *Language::Python.setup_install_args(libexec)
+          end
+        end
+      end
+
+      %w[biom-format pyqi blist cogent mpi4py].each do |r|
+        resource(r).stage do
+          system "python2", *Language::Python.setup_install_args(libexec/"vendor")
+        end
       end
     end
 
-    ENV.prepend_create_path "R_LIBS", libexec/"vendor/R/library"
-    system "R", "-q", "-e", "install.packages('vegan', lib='" + libexec/"vendor/R/library" + "', repos='http://cran.r-project.org')"
-    system "R", "-q", "-e", "install.packages('r_optparse', lib='" + libexec/"vendor/R/library" + "', repos='http://cran.r-project.org')"
-    system "R", "-q", "-e", "install.packages('optparse', lib='" + libexec/"vendor/R/library" + "', repos='http://cran.r-project.org')"
-    system "R", "-q", "-e", "install.packages('ggplot2', lib='" + libexec/"vendor/R/library" + "', repos='http://cran.r-project.org')"
-    system "R", "-q", "-e", "install.packages('RColorBrewer', lib='" + libexec/"vendor/R/library" + "', repos='http://cran.r-project.org')"
-    system "R", "-q", "-e", "source('https://bioconductor.org/biocLite.R'); biocLite('EBImage', lib='" + libexec/"vendor/R/library" + "'); biocLite('ggtree', lib='" + libexec/"vendor/R/library" + "'); biocLite('Biostrings', lib='" + libexec/"vendor/R/library" + "');"
-
+    if build.with? "r-packages"
+      ENV.prepend_create_path "R_LIBS", libexec/"vendor/R/library"
+      system "R", "-q", "-e", "install.packages('vegan', lib='" + libexec/"vendor/R/library" + "', repos='http://cran.r-project.org')"
+      system "R", "-q", "-e", "install.packages('r_optparse', lib='" + libexec/"vendor/R/library" + "', repos='http://cran.r-project.org')"
+      system "R", "-q", "-e", "install.packages('optparse', lib='" + libexec/"vendor/R/library" + "', repos='http://cran.r-project.org')"
+      system "R", "-q", "-e", "install.packages('ggplot2', lib='" + libexec/"vendor/R/library" + "', repos='http://cran.r-project.org')"
+      system "R", "-q", "-e", "install.packages('RColorBrewer', lib='" + libexec/"vendor/R/library" + "', repos='http://cran.r-project.org')"
+      system "R", "-q", "-e", "source('https://bioconductor.org/biocLite.R'); biocLite('EBImage', lib='" + libexec/"vendor/R/library" + "'); biocLite('ggtree', lib='" + libexec/"vendor/R/library" + "'); biocLite('Biostrings', lib='" + libexec/"vendor/R/library" + "');"
+    end
     ENV.prepend_create_path "PYTHONPATH", libexec/"lib/python2.7/site-packages"
     args = Language::Python.setup_install_args(libexec)
     args[1].gsub! "setup.py", "actually_setup.py"
