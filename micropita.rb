@@ -16,6 +16,12 @@ class Micropita < Formula
   # mpi is required by mpi4py
   depends_on "mpich" => :recommended
 
+  # add the option to not install the numpy/scipy/matplotlib dependencies
+  option "without-python-packages", "Don't install the required python packages (numpy/scipy/matplotlib/biom)"
+  option "without-numpy", "Don't install numpy"
+  option "without-scipy", "Don't install scipy"
+  option "without-matplotlib", "Don't install matplotlib"
+
   resource "biom-format" do
     url "https://pypi.python.org/packages/source/b/biom-format/biom-format-1.3.1.tar.gz"
     sha256 "03e750728dc2625997aa62043adaf03643801ef34c1764213303e926766f4cef"
@@ -83,14 +89,34 @@ class Micropita < Formula
     ENV.prepend_create_path 'PYTHONPATH', libexec/"lib64/python2.7/site-packages"
 
     # install dependencies
-    # update LDFLAGS for numpy install
-    ENV.append "LDFLAGS", "-shared" if OS.linux?
-    # update CFLAGS for scipy install
-    ENV.append "FFLAGS", "-fPIC" if OS.linux?
-    for python_package in ["numpy", "scipy", "biom-format", "cogent", "blist", "mlpy", "mpi4py", "matplotlib", "pyqi", "pyparsing", "cycler", "dateutil"]
+    if build.with? "python-packages"
+      if build.with? "numpy"
+        # update LDFLAGS for numpy install
+        ENV.append "LDFLAGS", "-shared" if OS.linux?
+        resource("numpy").stage do
+            system "python2", *Language::Python.setup_install_args(libexec)
+        end
+      end
+      if build.with? "scipy"
+        # update CFLAGS for scipy install
+        ENV.append "FFLAGS", "-fPIC" if OS.linux?
+        resource("scipy").stage do
+          system "python2", *Language::Python.setup_install_args(libexec)
+        end
+      end
+      if build.with? "matplotlib"
+        for python_package in ["matplotlib", "pyparsing", "cycler", "dateutil"]
+          resource(python_package).stage do
+            system "python2", *Language::Python.setup_install_args(libexec)
+          end
+        end
+      end
+    
+      for python_package in ["biom-format", "cogent", "blist", "mlpy", "mpi4py", "pyqi"]
         resource(python_package).stage do
             system "python2", *Language::Python.setup_install_args(libexec)
         end
+      end
     end
 
     prefix.install Dir["*"]
