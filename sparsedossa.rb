@@ -9,6 +9,9 @@ class Sparsedossa < Formula
   option "with-r", "Build with R support"
   depends_on "r" => [:optional, "without-x"]
 
+  # add the option to install without r dependencies
+  option "without-r-packages", "Don't install the R packages"
+
   def install
     # set R_LIBS to location where package will be installed (relative to homebrew location)
     ENV.prepend_create_path "R_LIBS", libexec
@@ -20,7 +23,9 @@ class Sparsedossa < Formula
     bin.env_script_all_files(lib/"bin", :R_LIBS => ENV["R_LIBS"])
 
     # install required dependencies
-    system "R", "-q", "-e", "install.packages('optparse', lib='" + libexec + "', repos='http://cran.r-project.org')"
+    if build.with? "r-packages"
+      system "R", "-q", "-e", "install.packages('optparse', lib='" + libexec + "', repos='http://cran.r-project.org')"
+    end
   end
 
   test do
