@@ -19,7 +19,12 @@ class Strainphlan < Formula
   depends_on "bzip2" => :recommended
 
   # add the option to not install the numpy/scipy/matplotlib dependencies
-  option "without-dependencies", "Don't install the python dependencies (numpy,scipy,matplotlib)"
+  option "without-python-packages", "Don't install the required python packages (numpy/scipy/matplotlib/biom/pandas/biopython)"
+  option "without-numpy", "Don't install numpy"
+  option "without-scipy", "Don't install scipy"
+  option "without-matplotlib", "Don't install matplotlib"
+  option "without-samtools", "Don't install samtools"
+  option "without-raxml", "Don't install raxml"
 
   # download counter to track installs
   resource "counter" do
@@ -145,30 +150,52 @@ class Strainphlan < Formula
     # bin and we do not want to env_script these files
     # install before numpy so as to not have LDFLAGS set to shared
     # install raxml and also SSE3, both are required
-    resource("raxml").stage do
-      system "make", "-f", "Makefile.gcc"
-      rm Dir["*.o"]
-      system "make", "-f", "Makefile.PTHREADS.gcc"
-      rm Dir["*.o"]
-      system "make", "-f", "Makefile.SSE3.PTHREADS.gcc"
-      bin.install Dir["raxml*"]
+    if build.with? "raxml"
+      resource("raxml").stage do
+        system "make", "-f", "Makefile.gcc"
+        rm Dir["*.o"]
+        system "make", "-f", "Makefile.PTHREADS.gcc"
+        rm Dir["*.o"]
+        system "make", "-f", "Makefile.SSE3.PTHREADS.gcc"
+        bin.install Dir["raxml*"]
+      end
     end
     
     # install specific required samtools (v0.1.19) version locally
     # installed locally to not conflict with global newer samtools version required by panphlan
-    resource("samtools.v0.1.19").stage do
-        system "make"
-        system "make", "-C", "bcftools"
-        # copy all of the executables into the vendor bin
-        system "cp samtools bcftools/bcftools bcftools/vcfutils.pl #{libexec}/vendor/bin/"
-        system "cp misc/maq2sam-long misc/maq2sam-short misc/md5fa misc/md5sum-lite misc/wgsim #{libexec}/vendor/bin/"
+    if build.with? "samtools"
+      resource("samtools.v0.1.19").stage do
+          system "make"
+          system "make", "-C", "bcftools"
+          # copy all of the executables into the vendor bin
+          system "cp samtools bcftools/bcftools bcftools/vcfutils.pl #{libexec}/vendor/bin/"
+          system "cp misc/maq2sam-long misc/maq2sam-short misc/md5fa misc/md5sum-lite misc/wgsim #{libexec}/vendor/bin/"
+      end
     end
 
-    # install dependencies if set
-    if build.with? "dependencies"
-      # update LDFLAGS for numpy install
-      ENV.append "LDFLAGS", "-shared" if OS.linux?
-      %w[numpy pandas scipy pyparsing pytz pyqi biom-format cython msgpack pysam biopython dendropy dateutil cycler six matplotlib].each do |r|
+    if build.with? "python-packages"
+      if build.with? "numpy"
+        # update LDFLAGS for numpy install
+        ENV.append "LDFLAGS", "-shared" if OS.linux?
+        resource("numpy").stage do
+          system "python2", *Language::Python.setup_install_args(libexec)
+        end
+      end
+      if build.with? "scipy"
+        resource("scipy").stage do
+          system "python2", *Language::Python.setup_install_args(libexec)
+        end
+      end
+
+      if build.with? "matplotlib"
+        %w[pyparsing pytz dateutil cycler six matplotlib].each do |r|
+          resource(r).stage do
+            system "python2", *Language::Python.setup_install_args(libexec)
+          end
+        end
+      end
+ 
+      %w[pandas pyqi biom-format cython msgpack pysam biopython dendropy].each do |r|
         resource(r).stage do
           system "python2", *Language::Python.setup_install_args(libexec/"vendor")
         end
