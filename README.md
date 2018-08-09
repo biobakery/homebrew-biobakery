@@ -108,3 +108,15 @@ If you do not want to install the full tool suite, you can select individual too
   python2 executable. If you run ``$ which python2`` and python2 is not found you are likely in a python3 conda environment.
   If this is the case, then search for python3. If python3 is found add the option ``--with-python3`` to install the tool
   with python3. The python3 install is available for all tools that are python2/3 compatible. 
+
+6. What should I do if I am seeing errors installing dependencies?
+  The tools install some dependencies (like numpy/scipy/matplotlib) from source to get the exact version the tool
+  has been developed and tested with. If you have issues, you can try installing the formula without the dependency. For example,
+  tools with numpy as a dependency have the option ``--without-numpy`` which will allow you to bypass the numpy
+  install step. Options exist to bypass installing may specific dependencies. For a complete list of options, run
+  ``$ brew info FORMLUA``, replacing FORMULA with that for which you would like to know the available options.
+  Alternatively, you can choose to not install all of the python packages by using the flag
+  ``--without-python-packages``. If you do not install these dependencies, please install them with a different
+  package manager like pip or apt-get depending on your platform. A flag also exists to bypass installing
+  the R packages for those formulas that have R dependencies (``--bypass-r-packages``).
+
