@@ -26,8 +26,12 @@ class Workflows < Formula
   # install visualization workflow dependencies
   depends_on "biobakery/biobakery/hclust2" => :recommended
 
-  # install without matplotlib
-  option "without-matplotlib", "Do not install matplotlib and dependencies"
+  # add the option to not install the numpy/scipy/matplotlib dependencies
+  option "without-python-packages", "Don't install the required python packages (numpy/scipy/matplotlib)"
+  option "without-numpy", "Don't install numpy"
+  option "without-scipy", "Don't install scipy"
+  option "without-matplotlib", "Don't install matplotlib"
+  option "without-r-packages", "Don't install the required R packages"
 
   resource "numpy" do
     url "https://pypi.python.org/packages/source/n/numpy/numpy-1.7.1.tar.gz"
@@ -120,33 +124,43 @@ class Workflows < Formula
     ENV.prepend_create_path 'PYTHONPATH', File.join(HOMEBREW_PREFIX,"lib/python2.7/dist-packages")
     ENV.prepend_create_path 'PYTHONPATH', File.join(HOMEBREW_PREFIX,"lib64/python2.7/site-packages")
 
-    # install core dependencies into shared python lib and bin folders
-    %w[anadama2 leveldb cloudpickle pweave markdown subprocess32 six decorator networkx].each do |r|
-      resource(r).stage do
-        system "python2", *Language::Python.setup_install_args(HOMEBREW_PREFIX)
+    if build.with? "python-packages"
+      if build.with? "numpy"
+        # update LDFLAGS for numpy install
+        ENV.append "LDFLAGS", "-shared" if OS.linux?
+        resource("numpy").stage do
+          system "python2", *Language::Python.setup_install_args(HOMEBREW_PREFIX)
+        end
       end
-    end 
-
-    # update LDFLAGS for numpy install
-    ENV.append "LDFLAGS", "-shared" if OS.linux?
-    # update CFLAGS for scipy install
-    ENV.append "FFLAGS", "-fPIC" if OS.linux?
-    %w[numpy scipy].each do |r|
-      resource(r).stage do
-        system "python2", *Language::Python.setup_install_args(HOMEBREW_PREFIX)
+    
+      if build.with? "scipy"
+        # update CFLAGS for scipy install
+        ENV.append "FFLAGS", "-fPIC" if OS.linux?
+        resource("scipy").stage do
+          system "python2", *Language::Python.setup_install_args(HOMEBREW_PREFIX)
+        end
       end
-    end
 
-    if build.with? "matplotlib"
-      %w[functools32 pyparsing cycler dateutil matplotlib].each do |r|
+      if build.with? "matplotlib"
+        %w[functools32 pyparsing cycler dateutil matplotlib].each do |r|
+          resource(r).stage do
+            system "python2", *Language::Python.setup_install_args(HOMEBREW_PREFIX)
+          end
+        end
+      end
+
+      # install core dependencies into shared python lib and bin folders
+      %w[anadama2 leveldb cloudpickle pweave markdown subprocess32 six decorator networkx].each do |r|
         resource(r).stage do
           system "python2", *Language::Python.setup_install_args(HOMEBREW_PREFIX)
         end
       end
-    end
+    end 
 
-    ENV.prepend_create_path "R_LIBS", File.join(HOMEBREW_PREFIX, "R/library")
-    system "R", "-q", "-e", "install.packages('vegan', lib='" + File.join(HOMEBREW_PREFIX, "R/library") + "', repos='http://cran.r-project.org')"
+    if build.with? "r-packages"
+      ENV.prepend_create_path "R_LIBS", File.join(HOMEBREW_PREFIX, "R/library")
+      system "R", "-q", "-e", "install.packages('vegan', lib='" + File.join(HOMEBREW_PREFIX, "R/library") + "', repos='http://cran.r-project.org')"
+    end
 
     # run python setup.py install, installing into local folder first
     system "python2", *Language::Python.setup_install_args(libexec)
