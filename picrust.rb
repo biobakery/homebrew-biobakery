@@ -93,9 +93,7 @@ class Picrust < Formula
     ENV.prepend_create_path 'PYTHONPATH', libexec/"vendor/lib/python2.7/site-packages"
     ENV.prepend_create_path 'PYTHONPATH', libexec/"vendor/lib64/python2.7/site-packages"
 
-    if build.without? "python-packages"
-        puts("Not installing python packages numpy/scipy/matplotlib")
-    else
+    if build.with? "python-packages"
       # install dependencies
       if build.with? "numpy"
         # update LDFLAGS for numpy install
