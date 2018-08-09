@@ -13,6 +13,10 @@ class Panphlan < Formula
   depends_on "homebrew/core/bowtie2" => [:recommended, "without-tbb"]
   depends_on "homebrew/core/samtools" => :recommended
 
+  # add the option to not install the numpy/biopython dependencies
+  option "without-python-packages", "Don't install the required python packages (numpy/biopython)"
+  option "without-numpy", "Don't install numpy"
+
   resource "numpy" do
     url "https://pypi.python.org/packages/source/n/numpy/numpy-1.11.0.tar.gz"
     sha256 "a1d1268d200816bfb9727a7a27b78d8e37ecec2e4d5ebd33eb64e2789e0db43e"
@@ -52,14 +56,22 @@ class Panphlan < Formula
 
     ENV.prepend_create_path 'PYTHONPATH', libexec/"vendor/lib/python#{python_version}/site-packages"
     ENV.prepend_create_path 'PYTHONPATH', libexec/"vendor/lib64/python#{python_version}/site-packages"
-    
-    # update LDFLAGS for numpy install
-    ENV.append "LDFLAGS", "-shared" if OS.linux?
-    # install dependencies
-    for python_package in ["numpy","biopython"]
+   
+    if build.with? "python-packages" 
+      if build.with? "numpy"
+        # update LDFLAGS for numpy install
+        ENV.append "LDFLAGS", "-shared" if OS.linux?
+        resource("numpy").stage do
+            system python, *Language::Python.setup_install_args(libexec/"vendor")
+        end
+      end
+
+      # install dependencies
+      for python_package in ["biopython"]
         resource(python_package).stage do
             system python, *Language::Python.setup_install_args(libexec/"vendor")
         end
+      end
     end
 
     # if using python3, modify the scripts (by default it uses python2)
