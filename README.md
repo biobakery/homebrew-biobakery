@@ -1,6 +1,8 @@
 # homebrew-biobakery #
 
-**The bioBakery Homebrew packages are no longer supported. They have been replaced with Conda packages and Docker images.** Please see the [bioBakery documentation](https://bitbucket.org/biobakery/biobakery/wiki/biobakery_wiki) for information about how to install the tools with these two new methods.
+**The bioBakery Homebrew packages are no longer supported. We now provide Conda packages and Docker images.** Please see the [bioBakery documentation](https://bitbucket.org/biobakery/biobakery/wiki/biobakery_wiki) for information about how to install the tools with these two new methods.
+
+-------------------------------------------------------------------------------------------------------------------------
 
 Biobakery formulae for the Homebrew package manager.
 
